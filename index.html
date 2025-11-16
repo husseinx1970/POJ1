@@ -214,7 +214,7 @@
 
   <script>
     // ------------ EmailJS init: (استبدل القيم) ------------
-    emailjs.init("YOUR_PUBLIC_KEY"); // مثال: user_xxx
+    emailjs.init("vt_iAWB9MVGz6iT_X"); // مثال: user_xxx
 
     const form = document.getElementById('bookingForm');
     const statusEl = document.getElementById('status');
@@ -228,7 +228,7 @@
       statusEl.style.color = 'var(--muted)';
       statusEl.textContent = '';
 
-      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+      emailjs.sendForm('service_6fai64h', 'template_7tccbsi', this)
         .then(function(resp){
           sendBtn.disabled = false;
           sendBtn.textContent = 'Skicka meddelande';
