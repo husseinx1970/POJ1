@@ -1,70 +1,253 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <title>EmailJS Test</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Utby Snabb Bilservice — Boka tid</title>
+
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <style>
+    /* ---------- Fonts (system) ---------- */
+    :root{
+      --bg:#0f0f10;
+      --card:#131314;
+      --input:#1b1b1c;
+      --muted:#bdbdbd;
+      --text:#f4f4f4;
+      --accent:#e7c85a; /* زر أصفر */
+      --accent-dark:#d6b84a;
+      --radius:12px;
+      --gap:16px;
+      font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      background:linear-gradient(180deg,#0a0a0a 0%, #0f0f10 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* container center */
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      box-sizing:border-box;
+    }
+
+    /* card like screenshot narrow mobile */
+    .card{
+      width:380px;                /* approximate mobile width */
+      max-width:96%;
+      background:var(--card);
+      border-radius:16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      padding:22px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    h1.title{
+      text-align:center;
+      margin:0 0 18px 0;
+      font-size:24px;
+      font-weight:700;
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:8px;
+      margin-top:10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="time"],
+    textarea,
+    select {
+      width:100%;
+      background:var(--input);
+      border:1px solid rgba(255,255,255,0.03);
+      color:var(--text);
+      padding:14px 14px;
+      border-radius:12px;
+      box-sizing:border-box;
+      font-size:15px;
+      outline:none;
+      transition: box-shadow .12s, border-color .12s;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255,255,255,0.35);
+    }
+    input:focus,
+    textarea:focus,
+    select:focus{
+      box-shadow: 0 0 0 4px rgba(231,200,90,0.06);
+      border-color: rgba(231,200,90,0.22);
+    }
+
+    textarea {
+      min-height:110px;
+      resize:vertical;
+    }
+
+    /* big yellow button */
+    .btn{
+      display:inline-block;
+      background: linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
+      color:#111;
+      padding:14px 22px;
+      border-radius:28px;
+      font-weight:700;
+      font-size:16px;
+      border:none;
+      cursor:pointer;
+      margin-top:18px;
+      width:220px;
+      box-shadow: 0 6px 16px rgba(214,184,74,0.18);
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    /* left aligned container for button like screenshot (with margin) */
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    /* small status text */
+    #status{
+      margin-left:10px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    /* floating chat icon bottom-right */
+    .chat-fab{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      background:var(--accent);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      border: 4px solid rgba(0,0,0,0.15);
+      cursor:pointer;
+    }
+    .chat-fab svg{ width:22px; height:22px; }
+
+    /* responsive: smaller screens */
+    @media (max-width:420px){
+      .card{ width:92%; padding:18px; border-radius:12px; }
+      .btn{ width:180px; }
+    }
+  </style>
 </head>
 <body>
 
-  <h2>Testa EmailJS</h2>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Boka tid">
+      <h1 class="title">Boka tid</h1>
 
-  <form id="testForm">
-    <label>Namn:</label><br>
-    <input type="text" name="from_name" required><br><br>
+      <form id="bookingForm" autocomplete="on">
+        <label for="from_name">Namn</label>
+        <input id="from_name" name="from_name" type="text" placeholder="För- och efternamn" required>
 
-    <label>Telefon:</label><br>
-    <input type="text" name="phone"><br><br>
+        <label for="phone">Telefon (valfritt)</label>
+        <input id="phone" name="phone" type="text" placeholder="072-123 45 67">
 
-    <label>E-post:</label><br>
-    <input type="email" name="email" required><br><br>
+        <label for="email">E-post</label>
+        <input id="email" name="email" type="email" placeholder="din@epost.se" required>
 
-    <label>Bil/Regnr:</label><br>
-    <input type="text" name="regnr"><br><br>
+        <label for="regnr">Bil/Regnr</label>
+        <input id="regnr" name="regnr" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
 
-    <label>Problem/Tjänst:</label><br>
-    <input type="text" name="problem"><br><br>
+        <label for="problem">Problem / Tjänst</label>
+        <select id="problem" name="problem">
+          <option value="" disabled selected>Välj eller sök tjänst...</option>
+          <option value="Service">Service</option>
+          <option value="Däckbyte">Däckbyte</option>
+          <option value="Motorproblem">Motorproblem</option>
+          <option value="Besiktning">Besiktning</option>
+        </select>
 
-    <label>Önskat datum:</label><br>
-    <input type="date" name="date"><br><br>
+        <label for="date">Önskat datum *</label>
+        <input id="date" name="date" type="date" required>
 
-    <label>Önskad tid:</label><br>
-    <input type="time" name="time"><br><br>
+        <label for="time">Önskad tid</label>
+        <input id="time" name="time" type="time">
 
-    <label>Meddelande:</label><br>
-    <textarea name="message"></textarea><br><br>
+        <label for="message">Meddelande</label>
+        <textarea id="message" name="message" placeholder="Berätta vad du behöver hjälp med..."></textarea>
 
-    <button type="submit">Skicka</button>
-  </form>
+        <div class="actions">
+          <button class="btn" type="submit" id="sendBtn">Skicka meddelande</button>
+          <div id="status" aria-live="polite"></div>
+        </div>
+      </form>
+    </div>
+  </div>
 
-  <p id="status"></p>
+  <!-- chat floating button (samma look) -->
+  <div class="chat-fab" title="Chatta med oss" onclick="openChat()">
+    <!-- small chat icon -->
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" fill="#111"/>
+      <path d="M7 9h10M7 13h6" stroke="#111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
 
   <script>
-    // ⚠️ ضع ال PUBLIC KEY الذي حصلت عليه من EmailJS
-    emailjs.init("vt_iAWB9MVGz6iT_X");
+    // ------------ EmailJS init: (استبدل القيم) ------------
+    emailjs.init("YOUR_PUBLIC_KEY"); // مثال: user_xxx
 
-    document.getElementById("testForm").addEventListener("submit", function(event){
-      event.preventDefault();
+    const form = document.getElementById('bookingForm');
+    const statusEl = document.getElementById('status');
+    const sendBtn = document.getElementById('sendBtn');
 
-      const status = document.getElementById("status");
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
 
-      emailjs.sendForm(
-        "service_6fai64h",   // مثال: service_xxxx
-        "template_7tccbsi",  // مثال: template_yyyy
-        this
-      )
-      .then(() => {
-        status.style.color = "green";
-        status.textContent = "تم الإرسال بنجاح!";
-        this.reset();
-      })
-      .catch((error) => {
-        status.style.color = "red";
-        status.textContent = "خطأ أثناء الإرسال.";
-        console.error(error);
-      });
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Skickar...';
+      statusEl.style.color = 'var(--muted)';
+      statusEl.textContent = '';
+
+      emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+        .then(function(resp){
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Skicka meddelande';
+          statusEl.style.color = 'lightgreen';
+          statusEl.textContent = 'Meddelandet skickades! Tack.';
+          form.reset();
+        }, function(err){
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Skicka meddelande';
+          statusEl.style.color = 'salmon';
+          statusEl.textContent = 'Fel: Kunde inte skicka. Försök igen.';
+          console.error('EmailJS error', err);
+        });
     });
-  </script>
 
+    function openChat(){
+      // سلوك افتراضي لزر الدردشة: يمكنك تغييره لفتح نافذة دردشة، واتساب، إلخ.
+      alert('Öppna chat — här kan du koppla till din livechatt eller WhatsApp.');
+    }
+  </script>
 </body>
 </html>
