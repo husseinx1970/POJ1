@@ -1,430 +1,597 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="color-scheme" content="dark only" />
-  <title>Utby Snabb Bilservice — Boka tid (Test)</title>
-  <meta name="description" content="Boka tid — Utby Snabb Bilservice" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="color-scheme" content="dark only"/>
+  <title>Utby Snabb Bilservice — Pålitlig bilservice i Göteborg</title>
+  <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer. Drop-in, vardagar 09:00–18:00, däckhotell."/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <!-- Favicons / app icons (ändra sökvägar vid behov) -->
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="assets/site.webmanifest">
   <meta name="theme-color" content="#DABD66">
 
   <style>
-    /* ---------- Reset & base ---------- */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:#0b0c10;color:#eef;font-family:Inter,system-ui,Segoe UI,Roboto,Arial; -webkit-font-smoothing:antialiased}
-    a{color:inherit}
-    .container{width:min(1100px,100%);margin:0 auto;padding:0 18px}
+    html,body{margin:0;padding:0;height:100%;background:#0b0c10;color:#f6f7fb;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;-webkit-font-smoothing:antialiased}
+    html,body{overflow-x:hidden}
+    img{max-width:100%;display:block}
+    a{color:#DABD66;text-decoration:none}
+    .container{width:min(1100px,100%);margin:auto;padding:0 18px}
 
-    /* ---------- Header ---------- */
-    .header{position:sticky;top:0;z-index:40;background:rgba(12,13,18,.75);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.04)}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0}
+    /* Header */
+    .header{position:sticky;top:0;z-index:50;background:rgba(12,13,18,.78);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
     .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:56px;height:56px;border-radius:12px;object-fit:cover;filter:drop-shadow(0 10px 30px rgba(218,189,102,.15))}
+    .brand img{width:56px;height:56px;border-radius:12px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(218,189,102,.18))}
     .brand-name{font-weight:800;font-family:"Space Grotesk",Inter;font-size:18px;color:#fff}
     .nav{display:flex;gap:8px;align-items:center}
-    .nav a{padding:8px 12px;border-radius:12px;font-weight:700;font-size:13px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:#dbe6f1;text-decoration:none}
+    .nav a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:#dbe6f1}
     .nav a.primary{background:#DABD66;color:#111;border:none}
 
-    /* ---------- Hero ---------- */
-    .hero{padding:28px 0;text-align:center}
-    .hero h1{font-family:"Space Grotesk",Inter;font-size:clamp(24px,5vw,36px);font-weight:800;margin:6px 0;background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent}
-    .lead{color:#c9d2de;max-width:70ch;margin:0 auto 14px}
+    /* Hero */
+    .hero{text-align:center;padding:28px 0}
+    h1{font-family:"Space Grotesk",Inter;font-weight:800;font-size:clamp(26px,6vw,40px);background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent;margin:.3em 0}
+    .lead{color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
+    .cta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+    .btn{padding:9px 14px;border-radius:12px;font-weight:800;font-size:14px;border:1px solid rgba(255,255,255,.08);transition:.18s}
+    .btn.primary{background:#DABD66;color:#111}
+    .btn.ghost{background:rgba(255,255,255,.04);color:#fff}
+    .hero-logo{width:min(300px,60vw);margin:20px auto 0;filter:drop-shadow(0 10px 30px rgba(218,189,102,.35))}
 
-    /* ---------- Main layout ---------- */
-    main{padding:18px 0 56px}
+    /* Sections */
+    .section{padding:30px 0}
+    .section h2{text-align:center;font:800 22px/1.3 "Space Grotesk",Inter;margin:0 0 10px}
+    .section p.muted{text-align:center;color:#C9D2DE;margin:0 0 18px}
 
-    /* ---------- Booking card ---------- */
-    .card{max-width:760px;margin:18px auto;padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);box-shadow:0 14px 40px rgba(0,0,0,.6)}
-    .card h2{margin:0 0 12px;text-align:center;font-size:20px}
-    label{display:block;font-weight:700;font-size:13px;color:#e6e8ef;margin:8px 0 6px}
+    /* Services */
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:14px}
+    .card h3{margin:.1em 0 .2em;font:700 17px/1.2 Inter}
+    .card p{margin:0 0 6px}
+    .card img{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-top:8px}
+
+    /* Booking & Contact Forms */
+    .contact-form{display:grid;gap:10px;max-width:760px;margin:20px auto;padding:20px;background:rgba(255,255,255,.02);border-radius:14px;border:1px solid rgba(255,255,255,.04)}
+    .contact-form h3{text-align:center;font:800 20px/1.3 "Space Grotesk",Inter;margin:0 0 12px;color:#fff}
+    label{font-weight:600;font-size:13px;color:#e6e8ef;display:block;margin-top:8px}
     input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea {
-      width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;font-size:15px;outline:none;
+      width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;font-size:15px;outline:none;margin-top:6px;
     }
     textarea{min-height:120px;resize:vertical}
-    .inline-dt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .inline-dt .field{display:flex;flex-direction:column}
-    .btn{padding:12px 16px;border-radius:999px;font-weight:900;border:none;cursor:pointer}
-    .btn.primary{background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111}
-    .btn.ghost{background:rgba(255,255,255,0.04);color:#fff;border:1px solid rgba(255,255,255,0.06)}
+    input:focus, textarea:focus { border-color:#d9b954; box-shadow:0 0 0 4px rgba(218,189,102,0.06) }
+    button[type="submit"]{margin-top:12px;padding:12px 18px;border-radius:999px;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;font-weight:800;font-size:15px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(218,189,102,.18)}
+    button[disabled]{opacity:.6;cursor:not-allowed}
 
-    /* ---------- Dropdown (searchable) ---------- */
-    .custom-dropdown{position:relative;margin-bottom:6px}
+    /* Dropdown (searchable) */
+    .custom-dropdown{position:relative;margin-top:6px}
     .custom-dropdown input{cursor:text}
     .custom-dropdown::after{content:"▾";position:absolute;right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.45);pointer-events:none;font-size:14px}
-    .dropdown-list{position:absolute;left:0;right:0;top:calc(100% + 8px);max-height:240px;overflow:auto;background:#0d0e11;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:6px;display:none;z-index:80}
+    .dropdown-list{position:absolute;left:0;right:0;top:calc(100% + 8px);max-height:260px;overflow:auto;background:#0d0e11;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:6px;display:none;z-index:120}
     .dropdown-list li{padding:10px 12px;color:#dbe6f1;border-radius:8px;cursor:pointer}
     .dropdown-list li:hover{background:rgba(218,189,102,0.12);color:#fff}
 
-    /* ---------- Status messages (strong) ---------- */
-    #contactStatus{display:none;margin-top:14px;border-radius:12px;padding:12px 14px;font-weight:800;text-align:center}
-    #contactStatus.success{display:block;background:rgba(34,197,94,0.10);color:#4ade80;border:1px solid rgba(34,197,94,0.25)}
-    #contactStatus.error{display:block;background:rgba(239,68,68,0.10);color:#ffb3b3;border:1px solid rgba(239,68,68,0.25)}
-    /* full-bleed strong error like screenshot */
-    #contactStatus.bigError{display:block;background:linear-gradient(180deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#ffd6d6;border:1px solid rgba(220,38,38,0.28);box-shadow:0 10px 30px rgba(0,0,0,.6)}
+    /* Status messages */
+    #contactStatus{margin-top:12px;padding:12px;border-radius:10px;text-align:center;display:none;font-weight:800}
+    #contactStatus.success{display:block;background:rgba(34,197,94,.09);color:#4ade80;border:1px solid rgba(34,197,94,.28)}
+    #contactStatus.error{display:block;background:rgba(239,68,68,.08);color:#f87171;border:1px solid rgba(239,68,68,.28)}
+    #contactStatus.bigError{display:block;background:linear-gradient(180deg,rgba(220,38,38,0.12),rgba(220,38,38,0.06));color:#ffd6d6;border:1px solid rgba(220,38,38,0.28);box-shadow:0 10px 30px rgba(0,0,0,.5)}
 
-    /* ---------- SMS FAB ---------- */
-    .sms-fab{position:fixed;right:14px;bottom:14px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;border:1px solid rgba(0,0,0,.12);z-index:120;cursor:grab}
-    .sms-fab:active{cursor:grabbing}
-    .sms-fab svg{width:22px;height:22px}
+    /* Map */
+    .map-container{text-align:center;margin-top:22px}
+    iframe{width:100%;height:240px;border:0;border-radius:12px}
 
-    /* ---------- Modals ---------- */
-    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(8,10,14,.6);z-index:150}
+    /* Footer */
+    .site-footer{margin-top:32px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border-top:1px solid rgba(255,255,255,.04)}
+    .footer-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;padding:22px 0 12px}
+    .site-footer h4{font:800 16px/1.2 Inter;color:#fff;margin:.2em 0 .5em}
+    .site-footer p,.site-footer a,.site-footer li{color:#C9D2DE;font-size:14px;line-height:1.6}
+    .footer-divider{height:2px;background:linear-gradient(90deg,transparent,rgba(218,189,102,.6),transparent);margin:8px 0 12px}
+    .copyright-bar{text-align:center;padding:10px 0 16px;font-size:13px;color:#BFC7D4;border-top:1px solid rgba(255,255,255,.06)}
+    .copyright-bar a{color:#DABD66;font-weight:700}
+    .copyright-bar a:hover{color:#fff}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;z-index:200;background:rgba(8,10,14,.6);backdrop-filter:blur(10px)}
     .modal.show{display:grid}
-    .modal-card{width:min(620px,92vw);background:#0f1113;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.06)}
-    .modal-card h3{margin:0 0 6px}
-    .modal-card p{color:#cbd5e1;margin:0 0 12px}
-    .modal-card .action{display:block;padding:12px;border-radius:10px;text-align:center;margin-top:8px;font-weight:800;text-decoration:none}
-    .modal-close{display:block;margin-top:10px;text-align:center;color:#9fb0c0;cursor:pointer}
+    .modal-card{width:min(620px,92vw);background:#0f1113;border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,.06);box-shadow:0 32px 90px rgba(0,0,0,.6)}
+    .modal-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .modal-header img{width:44px;height:44px;border-radius:10px;object-fit:contain;filter:drop-shadow(0 6px 18px rgba(218,189,102,.25))}
+    .modal-card h3{margin:0 0 4px}
+    .modal-card p{color:#c9d2de;margin:0}
+    .action{display:block;width:100%;text-align:center;font-weight:900;border-radius:10px;padding:12px;margin-top:10px;text-decoration:none}
+    .action.call{background:#111;color:#DABD66;border:1px solid rgba(255,255,255,.04)}
+    .action.mail{background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;border:none}
+    .modal-close{display:block;margin:12px auto 0;text-align:center;color:#9fb0c0;cursor:pointer}
 
-    @media(max-width:640px){ .inline-dt{grid-template-columns:1fr} .brand img{width:48px;height:48px} .card{margin:10px} }
+    /* SMS FAB draggable */
+    .sms-fab{
+      position:fixed;right:14px;bottom:14px;width:56px;height:56px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;
+      border:1px solid rgba(0,0,0,.12);text-decoration:none;transition:.15s;z-index:240;touch-action:none;
+    }
+    .sms-fab svg{width:24px;height:24px}
+
+    @media(max-width:720px){
+      .footer-top{grid-template-columns:1fr}
+      .brand img{width:48px;height:48px}
+      .contact-form{padding:14px}
+    }
+
+    /* small layout helpers */
+    .inline-dt{display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:8px;align-items:end;margin-top:4px}
+    .inline-dt .field{display:flex;flex-direction:column;gap:4px}
+    .inline-dt label{font-size:12px}
+    .inline-dt input{height:40px;font-size:14px;padding:8px}
+    @media(max-width:520px){.inline-dt{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-  <header class="header">
+  <!-- Header -->
+  <header class="header" role="banner">
     <div class="container header-inner">
-      <div class="brand">
-        <img src="assets/logo.png" alt="Utby Snabb Bilservice logo" />
-        <div class="brand-name">Utby Snabb Bilservice</div>
-      </div>
-
-      <nav class="nav" aria-label="Huvudnavigation">
-        <a href="#tjanster">Tjänster</a>
-        <a href="#kontakt">Kontakt</a>
-        <a class="primary" href="#boka">Boka tid</a>
+      <a class="brand" href="#start" aria-label="Gå till start"><img src="assets/logo.png" alt="logo"/><span class="brand-name">Utby Snabb Bilservice</span></a>
+      <nav class="nav" role="navigation" aria-label="Huvudmeny">
+        <a class="secondary" href="#tjanster" aria-label="Tjänster">Tjänster</a>
+        <a class="secondary" href="#kontakt" aria-label="Kontakt">Kontakt</a>
+        <a class="primary" href="#boka" aria-label="Boka tid">Boka tid</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1>Professionell bilservice i Göteborg</h1>
-        <p class="lead">Komplett service, reparation och diagnos för alla bilmärken. Drop-in & bokning.</p>
+  <!-- Hero -->
+  <section class="hero" id="start" role="region" aria-label="Huvud">
+    <div class="container">
+      <h1>Professionell bilservice i Göteborg</h1>
+      <p class="lead">Komplett service, reparation och diagnos för alla bilmärken. Drop-in välkommen — vardagar 09:00–18:00. Vi erbjuder däckhotell och full bilservice.</p>
+      <div class="cta">
+        <a class="btn primary" href="#boka">Boka tid</a>
+        <a class="btn ghost" href="tel:+46720040936">Ring 072-004 09 36</a>
       </div>
-    </section>
+      <img class="hero-logo" src="assets/logo.png" alt="Utby Snabb Bilservice logotyp">
+    </div>
+  </section>
 
-    <section id="boka">
-      <div class="container">
-        <div class="card" role="region" aria-labelledby="bookingTitle">
-          <h2 id="bookingTitle">Boka tid</h2>
+  <!-- Services -->
+  <section class="section" id="tjanster" role="region" aria-label="Tjänster">
+    <div class="container">
+      <h2>Våra tjänster</h2>
+      <p class="muted">Vi hanterar allt från motor och växellåda till minsta komponent. Du får alltid prisförslag innan åtgärd och tydlig återkoppling när arbetet är klart.</p>
 
-          <!-- ---- Booking form (EmailJS by default, fallback POST) ---- -->
-          <form id="contactForm" autocomplete="on" novalidate>
-            <!-- honeypot -->
-            <input type="text" name="_honey" style="display:none" autocomplete="off">
+      <div class="services" role="list">
+        <div class="card" role="listitem">
+          <h3>Service</h3>
+          <p>Planerad service enligt tillverkarens intervall: byte av motorolja och filter, kontroll av vätskor, bromsar, batteri, belysning och drivlina.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>30–40 punkters säkerhetskontroll</li>
+            <li>Provkörning och felkodsavläsning</li>
+            <li>Serviceunderlag & tydlig återkoppling</li>
+          </ul>
+          <img src="assets/photo1.jpg" alt="Service och oljebyte">
+        </div>
 
-            <label for="name">Namn</label>
-            <input id="name" name="name" type="text" placeholder="För- och efternamn" required>
+        <div class="card" role="listitem">
+          <h3>Däck & hjul</h3>
+          <p>Skifte sommar/vinter, balansering och kontroll av mönsterdjup och lufttryck. Vi programmerar och kalibrerar även TPMS vid behov.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>Däckhotell: torrt, säkert och försäkrat</li>
+            <li>Snabbt skifte med momentkontroll</li>
+            <li>Rådgivning om rätt dimension och lastindex</li>
+          </ul>
+          <img src="assets/photo3.jpg" alt="Däckhotell och hjulservice">
+        </div>
 
-            <label for="phone">Telefon</label>
-            <input id="phone" name="phone" type="tel" placeholder="072-123 45 67">
-
-            <label for="email">E-post</label>
-            <input id="email" name="email" type="email" placeholder="din@epost.se" required>
-
-            <label for="car">Bil / Regnr</label>
-            <input id="car" name="car" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
-
-            <label for="issueInput">Problem / Tjänst</label>
-            <div class="custom-dropdown" id="issueDropdown">
-              <input id="issueInput" name="issue" type="text" placeholder="Välj eller sök tjänst..." autocomplete="off" required aria-haspopup="listbox" aria-expanded="false" />
-              <ul class="dropdown-list" role="listbox" aria-labelledby="issueInput">
-                <li>Annat – beskriv i meddelandet</li>
-                <li>Service & olja</li>
-                <li>Bromsar och bromsbelägg</li>
-                <li>Däck & hjul</li>
-                <li>TPMS – sensor / kalibrering</li>
-                <li>AC / klimatanläggning</li>
-                <li>El / elektronik</li>
-                <li>Diagnos / OBD – felkoder</li>
-                <li>Motor</li>
-                <li>Avgassystem</li>
-                <li>Fjädring & stötdämpare</li>
-                <li>Växellåda / koppling</li>
-                <li>Besiktning / kontroll</li>
-                <li>Batteri / laddningssystem</li>
-                <li>Kylsystem – vattenpump / slangar</li>
-                <li>Kamrem / kedja</li>
-                <li>Startproblem</li>
-                <li>Bil drar snett</li>
-                <li>Vibrationer i bilen</li>
-                <li>Service-reset / nollställning</li>
-                <li>Ratt / styrning problem</li>
-                <li>Ljus / strålkastare</li>
-                <li>Fönster / elhiss</li>
-                <li>Ljud / stereo</li>
-                <li>Lukter / bränsleläckage</li>
-                <li>AC lukt / mögel</li>
-                <li>Inspektion efter krock / rostskydd</li>
-              </ul>
-            </div>
-
-            <div class="inline-dt" style="margin-top:6px;">
-              <div class="field">
-                <label for="date">Önskat datum</label>
-                <input id="date" name="date" type="date" required>
-              </div>
-              <div class="field">
-                <label for="time">Önskad tid</label>
-                <input id="time" name="time" type="time">
-              </div>
-            </div>
-
-            <label for="message">Meddelande</label>
-            <textarea id="message" name="message" placeholder="Berätta vad du behöver hjälp med..." required></textarea>
-
-            <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
-              <button id="submitBtn" class="btn primary" type="submit">Skicka meddelande</button>
-              <button id="clearBtn" type="button" class="btn ghost">Rensa</button>
-            </div>
-
-            <div id="contactStatus" role="status" aria-live="polite" style="margin-top:8px"></div>
-          </form>
+        <div class="card" role="listitem">
+          <h3>Kompletta reparationer</h3>
+          <p>Från bromsar, avgassystem och fjädring till motor, koppling/växellåda och el. Vi felsöker systematiskt med moderna diagnosverktyg.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>Kamrem/kedja, vattenpump och packningar</li>
+            <li>Bromsskivor/-belägg, ok & handbroms</li>
+            <li>AC-service: läcktest & påfyllning</li>
+          </ul>
+          <img src="assets/photo2.jpg" alt="Kompletta reparationer">
         </div>
       </div>
-    </section>
 
-  </main>
+      <div class="card" style="margin-top:14px">
+        <h3>Vanliga frågor (FAQ)</h3>
+        <p><strong>Behöver jag boka tid?</strong> Drop-in vardagar 09:00–18:00. För större jobb rekommenderar vi bokning.</p>
+        <p><strong>Uppdaterar ni servicehistorik?</strong> Ja, där digital bok finns uppdaterar vi den. Annars får du underlag/stämpel.</p>
+        <p><strong>Vilka delar använder ni?</strong> Original eller OEM-kvalitet enligt tillverkarens specifikationer.</p>
+        <p><strong>Garanti på arbete?</strong> Ja, vi lämnar garanti på både delar och arbete enligt branschpraxis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section class="section" id="boka" role="region" aria-label="Boka tid">
+    <div class="container">
+      <h2>Kontakt oss & Boka tid</h2>
+
+      <div class="contact-form" role="form" aria-labelledby="bookingTitle">
+        <h3 id="bookingTitle">Boka tid</h3>
+
+        <!-- Form handled by EmailJS if configured; fallback provided in script -->
+        <form id="contactForm" autocomplete="on" novalidate>
+          <input type="text" name="_honey" style="display:none" autocomplete="off">
+
+          <label for="name">Namn</label>
+          <input id="name" name="name" type="text" placeholder="För- och efternamn" required>
+
+          <label for="contactPhone">Telefon (valfritt)</label>
+          <input id="contactPhone" name="phone" type="tel" placeholder="072-123 45 67">
+
+          <label for="email">E-post</label>
+          <input id="email" name="email" type="email" placeholder="din@epost.se" required>
+
+          <label for="car">Bil/Regnr</label>
+          <input id="car" name="car" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017" required>
+
+          <label for="issueInput">Problem / Tjänst</label>
+          <div class="custom-dropdown" id="issueDropdown">
+            <input type="text" id="issueInput" name="issue" placeholder="Välj eller sök tjänst..." required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+            <ul class="dropdown-list" role="listbox" aria-labelledby="issueInput">
+              <li role="option">Annat – beskriv i meddelandet</li>
+              <li role="option">Service & olja</li>
+              <li role="option">Bromsar och bromsbelägg</li>
+              <li role="option">Däck & hjul</li>
+              <li role="option">TPMS – sensor / kalibrering</li>
+              <li role="option">AC / klimatanläggning</li>
+              <li role="option">El / elektronik</li>
+              <li role="option">Diagnos / OBD – felkoder</li>
+              <li role="option">Motor</li>
+              <li role="option">Avgassystem</li>
+              <li role="option">Fjädring & stötdämpare</li>
+              <li role="option">Växellåda / koppling</li>
+              <li role="option">Besiktning / kontroll</li>
+            </ul>
+          </div>
+
+          <div class="inline-dt">
+            <div class="field">
+              <label for="date">Önskat datum *</label>
+              <input id="date" name="date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="time">Önskad tid</label>
+              <input id="time" name="time" type="time">
+            </div>
+          </div>
+
+          <label for="contactMessage">Meddelande</label>
+          <textarea id="contactMessage" name="message" placeholder="Berätta vad du behöver hjälp med..." required></textarea>
+
+          <button type="submit" id="submitBtn">Skicka meddelande</button>
+
+          <div id="contactStatus" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div class="map-container" id="kontakt" aria-label="Karta">
+        <h3>Här hittar du oss</h3>
+        <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
+        <iframe src="https://www.google.com/maps?q=57.74025,12.07864&hl=sv&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer" title="Karta"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-top">
+      <div>
+        <h4>Kontakt</h4>
+        <p><strong>Utby Snabb Bilservice</strong></p>
+        <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
+        <p>Telefon: <a href="tel:+46720040936">072-004 09 36</a></p>
+        <p>E-post: <a href="mailto:info@utbysnabbbilservice.se">info@utbysnabbbilservice.se</a></p>
+      </div>
+      <div>
+        <h4>Öppettider</h4>
+        <ul>
+          <li><strong>Vardagar:</strong> 09:00 – 18:00</li>
+          <li>Lördag: enligt överenskommelse</li>
+        </ul>
+        <p style="margin-top:6px">Drop-in välkommen · <strong>Däckhotell</strong></p>
+      </div>
+      <div>
+        <h4>Om verkstaden</h4>
+        <ul>
+          <li>Service, diagnos, bromsar, däck, AC och el</li>
+          <li>Kompletta reparationer — motor & växellåda</li>
+          <li>Tydliga besked och arbete som håller över tid</li>
+        </ul>
+        <p style="margin-top:6px"><a href="https://maps.google.com/?q=57.74025,12.07864" target="_blank" rel="noopener">Hitta oss på Google Maps</a></p>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="container copyright-bar">
+      <span>© 2023 Utby Snabb Bilservice</span> |
+      <span>Design by <a href="#" id="openCreator">Hussein</a></span>
+    </div>
+  </footer>
+
+  <!-- Modals -->
+  <div class="modal" id="creatorModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <img src="assets/logo.png" alt="Logotyp">
+        <div>
+          <h3>Kontakta Hussein</h3>
+          <p>Via denna hemsida kan du nå mig direkt — via e-post eller mobil. Jag återkommer så snart som möjligt.</p>
+        </div>
+      </div>
+      <a class="action call" href="tel:+46790574975">Ring: 0790574975</a>
+      <a class="action mail" href="mailto:hussein.alsamli02@gmail.com">Skicka e-post</a>
+      <div class="meta">
+        <strong>Vill du ha en professionell hemsida?</strong>
+        <p>Jag bygger snabba, säkra och mobilanpassade webbplatser för företag och privatpersoner. Från idé till färdig sida — enkelt, tydligt och snyggt.</p>
+      </div>
+      <div class="modal-close" id="closeCreator" role="button" tabindex="0">Stäng</div>
+    </div>
+  </div>
+
+  <div class="modal" id="thanksModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <img src="assets/logo.png" alt="Logotyp">
+        <div>
+          <h3>Tack!</h3>
+          <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
+        </div>
+      </div>
+      <div class="modal-close" id="thanksClose" role="button" tabindex="0">Stäng</div>
+    </div>
+  </div>
+
+  <div class="modal" id="chooserModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <img src="assets/logo.png" alt="Logotyp">
+        <div>
+          <h3>Välj kontaktmetod</h3>
+          <p>Vill du skicka SMS eller E-post?</p>
+        </div>
+      </div>
+      <a class="action call" id="chooserSms" href="#" target="_blank" rel="noopener">Skicka SMS</a>
+      <a class="action mail" id="chooserMail" href="mailto:info@utbysnabbbilservice.se?subject=Bokningsförfrågan">Skicka e-post</a>
+      <div class="modal-close" id="chooserClose" role="button" tabindex="0">Stäng</div>
+    </div>
+  </div>
 
   <!-- SMS floating button -->
-  <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post" title="Skicka SMS eller e-post">
+  <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post" title="Kontakt">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 01-2-2zM6 9h8v2H6V9zm0-4h12v2H6V5z"/></svg>
   </a>
 
-  <!-- chooser modal -->
-  <div class="modal" id="chooserModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
-      <h3 id="chooserTitle">Välj kontaktmetod</h3>
-      <p>Skicka SMS från din telefon eller öppna e-postklienten.</p>
-      <a id="chooserSms" class="action" href="#" target="_blank" rel="noopener" style="background:#0b1112;color:#DABD66;border:1px solid rgba(255,255,255,0.04);">Skicka SMS</a>
-      <a id="chooserMail" class="action" href="mailto:info@utbysnabbbilservice.se?subject=Bokningsförfrågan" style="background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;">Skicka e-post</a>
-      <div class="modal-close" id="chooserClose">Stäng</div>
-    </div>
-  </div>
-
-  <!-- thanks modal (simple) -->
-  <div class="modal" id="thanksModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true">
-      <h3>Tack!</h3>
-      <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
-      <div class="modal-close" id="thanksClose">Stäng</div>
-    </div>
-  </div>
-
-  <!-- creator modal (open from footer link if present) -->
-  <div class="modal" id="creatorModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true">
-      <h3>Kontakta Hussein</h3>
-      <p>Via denna hemsida kan du nå mig direkt — via e-post eller mobil.</p>
-      <a class="action" href="tel:+46790574975" style="background:#111;color:#DABD66;border:1px solid rgba(255,255,255,0.04);">Ring: 0790574975</a>
-      <a class="action" href="mailto:hussein.alsamli02@gmail.com" style="background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;">Skicka e-post</a>
-      <div class="modal-close" id="closeCreator">Stäng</div>
-    </div>
-  </div>
-
-  <!-- EmailJS lib -->
+  <!-- EmailJS library -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <script>
   (function(){
-    /* ----------------- Config ----------------- */
-    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X"; // replace with yours
-    const EMAILJS_SERVICE_ID  = "service_6fai64h";    // replace with yours
-    const EMAILJS_TEMPLATE_ID = "template_7tccbsi";   // replace with yours
-
-    // init emailjs (safe)
-    if (window.emailjs && typeof emailjs.init === 'function') {
-      try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e){ console.warn('emailjs.init failed', e); }
-    }
-
-    /* ---------- Utility: status box ---------- */
-    const statusEl = document.getElementById('contactStatus');
-    function clearStatus(){ statusEl.textContent=''; statusEl.className=''; statusEl.style.display='none'; }
-    function showStatus(text, type='info', strong=false){
-      if(!statusEl) return;
-      statusEl.textContent = text || '';
-      statusEl.className = '';
-      if(type === 'ok') statusEl.classList.add('success');
-      else if(type === 'error') statusEl.classList.add(strong ? 'bigError' : 'error');
-      statusEl.style.display = 'block';
-    }
-
-    /* ---------- Dropdown behaviour (searchable & accessible) ---------- */
+    /* ================= Dropdown (searchable + accessible) ================= */
     (function(){
-      const dd = document.getElementById('issueDropdown');
-      if(!dd) return;
-      const input = dd.querySelector('input');
-      const list = dd.querySelector('.dropdown-list');
+      const dropdown = document.getElementById("issueDropdown");
+      if (!dropdown) return;
+      const input = dropdown.querySelector("input");
+      const list = dropdown.querySelector(".dropdown-list");
       const items = Array.from(list.querySelectorAll('li'));
-      function open(){ list.style.display='block'; input.setAttribute('aria-expanded','true'); position(); }
-      function close(){ list.style.display='none'; input.setAttribute('aria-expanded','false'); }
-      function position(){ list.style.top='calc(100% + 8px)'; list.style.bottom='auto'; const rect=list.getBoundingClientRect(); const vh=Math.max(document.documentElement.clientHeight, window.innerHeight||0); const bottom = dd.getBoundingClientRect().bottom + rect.height + 12; if(bottom>vh){ list.style.top='auto'; list.style.bottom='calc(100% + 8px)'; } }
-      input.addEventListener('focus', open);
-      input.addEventListener('input', ()=>{ const v=input.value.trim().toLowerCase(); items.forEach(li=> li.style.display = li.textContent.toLowerCase().includes(v) ? 'block' : 'none'); open(); });
-      items.forEach(li=>{
-        li.tabIndex = 0;
-        li.addEventListener('click', ()=>{ input.value = li.textContent; close(); input.dispatchEvent(new Event('change',{bubbles:true})); });
-        li.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); li.click(); } });
+
+      function openList(){ list.style.display='block'; input.setAttribute('aria-expanded','true'); positionList(); }
+      function closeList(){ list.style.display='none'; input.setAttribute('aria-expanded','false'); }
+      function positionList(){
+        list.style.top = 'calc(100% + 8px)'; list.style.bottom = 'auto';
+        const rect = list.getBoundingClientRect();
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const bottom = dropdown.getBoundingClientRect().bottom + rect.height + 12;
+        if (bottom > vh) { list.style.top = 'auto'; list.style.bottom = 'calc(100% + 8px)'; }
+      }
+
+      input.addEventListener('focus', openList);
+      input.addEventListener('input', () => {
+        const v = input.value.trim().toLowerCase();
+        items.forEach(li => li.style.display = li.textContent.toLowerCase().includes(v) ? 'block' : 'none');
+        openList();
       });
-      input.addEventListener('keydown', (e)=>{ const visible = items.filter(i => i.style.display !== 'none'); if(e.key==='ArrowDown'){ e.preventDefault(); if(visible[0]) visible[0].focus(); } else if(e.key==='Escape'){ close(); input.blur(); } });
-      document.addEventListener('click', (e)=>{ if(!dd.contains(e.target)) close(); });
-      window.addEventListener('resize', position); window.addEventListener('scroll', position, true);
+      items.forEach(li => {
+        li.tabIndex = 0;
+        li.addEventListener('click', ()=> { input.value = li.textContent; closeList(); input.dispatchEvent(new Event('change',{bubbles:true})); });
+        li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); }});
+      });
+      input.addEventListener('keydown', e => {
+        const visible = items.filter(i => i.style.display !== 'none');
+        if (e.key === 'ArrowDown'){ e.preventDefault(); if (visible[0]) visible[0].focus(); }
+        else if (e.key === 'Escape'){ closeList(); input.blur(); }
+      });
+      document.addEventListener('click', e => { if (!dropdown.contains(e.target)) closeList(); });
+      window.addEventListener('resize', positionList);
+      window.addEventListener('scroll', positionList, true);
     })();
 
-    /* ---------- SMS FAB & chooser modal (draggable) ---------- */
-    (function(){
-      const smsFab = document.getElementById('smsFab');
-      const chooser = document.getElementById('chooserModal');
-      const chooserSms = document.getElementById('chooserSms');
-      const chooserClose = document.getElementById('chooserClose');
+    /* ================= Modals wiring ================= */
+    const creatorModal = document.getElementById('creatorModal');
+    const openCreator = document.getElementById('openCreator');
+    const closeCreator = document.getElementById('closeCreator');
+    const chooserModal = document.getElementById('chooserModal');
+    const chooserClose = document.getElementById('chooserClose');
+    const thanksModal = document.getElementById('thanksModal');
+    const thanksClose = document.getElementById('thanksClose');
 
-      if(!smsFab) return;
+    if (openCreator && creatorModal) {
+      openCreator.addEventListener('click', function(e){ e.preventDefault(); creatorModal.classList.add('show'); document.body.classList.add('scroll-lock'); creatorModal.removeAttribute('aria-hidden'); });
+    }
+    closeCreator?.addEventListener('click', function(e){ e.preventDefault(); creatorModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); creatorModal.setAttribute('aria-hidden','true'); });
+    chooserClose?.addEventListener('click', function(e){ e.preventDefault(); chooserModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); chooserModal.setAttribute('aria-hidden','true'); });
+    thanksClose?.addEventListener('click', function(e){ e.preventDefault(); thanksModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); thanksModal.setAttribute('aria-hidden','true'); });
+
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function(ev){ if (ev.target === modal) { modal.classList.remove('show'); document.body.classList.remove('scroll-lock'); modal.setAttribute('aria-hidden','true'); }});
+    });
+
+    /* ================= SMS FAB (draggable) & chooser ================= */
+    function initSmsFab(){
+      const smsFab = document.getElementById('smsFab');
+      if (!smsFab) return;
+      const chooserSms = document.getElementById('chooserSms');
+      const chooserModalEl = document.getElementById('chooserModal');
+
       function getSmsHref(){
         const base = 'sms:+46720040936';
         const body = encodeURIComponent('Hej! Jag skulle vilja be om hjälp med min bil, den verkar ha ett problem och jag behöver rådgivning.');
         const ua = navigator.userAgent.toLowerCase();
         return (ua.includes('iphone') || ua.includes('ipad')) ? `${base}&body=${body}` : `${base}?body=${body}`;
       }
-      smsFab.addEventListener('click', (e)=>{ e.preventDefault(); if(chooser){ chooser.classList.add('show'); chooser.removeAttribute('aria-hidden'); } if(chooserSms) chooserSms.href = getSmsHref(); });
 
-      if(chooserClose) chooserClose.addEventListener('click', ()=>{ chooser.classList.remove('show'); chooser.setAttribute('aria-hidden','true'); });
-      if(chooser) chooser.addEventListener('click', (e)=>{ if(e.target === chooser) { chooser.classList.remove('show'); chooser.setAttribute('aria-hidden','true'); } });
+      smsFab.addEventListener('click', function(e){
+        e.preventDefault();
+        if (chooserModalEl) { chooserModalEl.classList.add('show'); chooserModalEl.removeAttribute('aria-hidden'); document.body.classList.add('scroll-lock'); }
+        if (chooserSms) chooserSms.href = getSmsHref();
+      });
 
-      // draggable behavior (preserve side+top in localStorage)
-      (function(draggableEl){
+      // draggable implementation (persists to localStorage)
+      (function(el){
         const MARGIN_X = 14, MARGIN_Y = 8, CLICK_TOL = 6;
         let dragging=false, startX=0, startY=0, startLeft=0, startTop=0, pointerId=null;
-        function restore(){ try { const s = JSON.parse(localStorage.getItem('smsFabPosition')||'null'); if(s && (s.side==='left' || s.side==='right') && Number.isFinite(s.top)){ draggableEl.style.top = Math.max(MARGIN_Y, s.top) + 'px'; if(s.side==='left'){ draggableEl.style.left = MARGIN_X + 'px'; draggableEl.style.right = 'auto'; } else { draggableEl.style.right = MARGIN_X + 'px'; draggableEl.style.left = 'auto'; } } } catch(_){} }
-        function ensureLeftTop(){ const r = draggableEl.getBoundingClientRect(); draggableEl.style.left = r.left + 'px'; draggableEl.style.top = r.top + 'px'; draggableEl.style.right = 'auto'; draggableEl.style.bottom = 'auto'; }
-        function clampTop(top){ const r = draggableEl.getBoundingClientRect(); const vh = Math.max(document.documentElement.clientHeight, window.innerHeight||0); return Math.min(vh - r.height - MARGIN_Y, Math.max(MARGIN_Y, top)); }
-        function onDown(e){ if(pointerId !== null && e.pointerId !== pointerId) return; pointerId = e.pointerId; try { e.target.setPointerCapture(pointerId); } catch(_){} dragging=true; startX = e.clientX; startY = e.clientY; ensureLeftTop(); startLeft = parseFloat(draggableEl.style.left || draggableEl.getBoundingClientRect().left); startTop = parseFloat(draggableEl.style.top || draggableEl.getBoundingClientRect().top); draggableEl.style.transition = 'none'; e.preventDefault(); }
-        function onMove(e){ if(!dragging || e.pointerId !== pointerId) return; const dx = e.clientX - startX, dy = e.clientY - startY; draggableEl.style.left = Math.round(startLeft + dx) + 'px'; draggableEl.style.top = Math.round(startTop + dy) + 'px'; e.preventDefault(); }
-        function onUp(e){ if(e.pointerId !== pointerId) return; try{ e.target.releasePointerCapture(pointerId); }catch(_){} const dx = e.clientX - startX, dy = e.clientY - startY; const moved = Math.hypot(dx, dy); dragging = false; pointerId = null; const rect = draggableEl.getBoundingClientRect(); const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); const side = (rect.left + rect.width / 2 < vw / 2) ? 'left' : 'right'; const top = clampTop(parseFloat(draggableEl.style.top || rect.top)); draggableEl.style.top = Math.round(top) + 'px'; if(side === 'left'){ draggableEl.style.left = MARGIN_X + 'px'; draggableEl.style.right = 'auto'; } else { draggableEl.style.right = MARGIN_X + 'px'; draggableEl.style.left = 'auto'; } try { localStorage.setItem('smsFabPosition', JSON.stringify({ side, top })); } catch(_){} if(moved > CLICK_TOL){ draggableEl.addEventListener('click', function once(ev){ ev.stopImmediatePropagation(); ev.preventDefault(); }, { once: true, capture: true }); } }
+        function restore(){
+          try {
+            const saved = JSON.parse(localStorage.getItem('smsFabPosition') || 'null');
+            if (saved && (saved.side === 'left' || saved.side === 'right') && Number.isFinite(saved.top)) {
+              el.style.top = Math.max(MARGIN_Y, saved.top) + 'px';
+              if (saved.side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
+              else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
+            }
+          } catch(_){}
+        }
+        function ensureLeftTop(){ const r = el.getBoundingClientRect(); el.style.left = r.left + 'px'; el.style.top = r.top + 'px'; el.style.right = 'auto'; el.style.bottom = 'auto'; }
+        function clampTop(top){ const r = el.getBoundingClientRect(); const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0); return Math.min(vh - r.height - MARGIN_Y, Math.max(MARGIN_Y, top)); }
+        function onDown(e){ if (pointerId !== null && e.pointerId !== pointerId) return; pointerId = e.pointerId; try{ e.target.setPointerCapture(pointerId); }catch(_){ } dragging = true; startX = e.clientX; startY = e.clientY; ensureLeftTop(); startLeft = parseFloat(el.style.left || el.getBoundingClientRect().left); startTop = parseFloat(el.style.top || el.getBoundingClientRect().top); el.style.transition = 'none'; e.preventDefault(); }
+        function onMove(e){ if (!dragging || e.pointerId !== pointerId) return; const dx = e.clientX - startX, dy = e.clientY - startY; el.style.left = Math.round(startLeft + dx) + 'px'; el.style.top = Math.round(startTop + dy) + 'px'; e.preventDefault(); }
+        function onUp(e){ if (e.pointerId !== pointerId) return; try{ e.target.releasePointerCapture(pointerId); }catch(_){ } const dx = e.clientX - startX, dy = e.clientY - startY; const moved = Math.hypot(dx, dy); dragging = false; pointerId = null; const rect = el.getBoundingClientRect(); const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0); const side = (rect.left + rect.width/2 < vw/2) ? 'left' : 'right'; const top = clampTop(parseFloat(el.style.top || rect.top)); el.style.top = Math.round(top) + 'px'; if (side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; } else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; } try{ localStorage.setItem('smsFabPosition', JSON.stringify({ side, top })); }catch(_){ } if (moved > CLICK_TOL) { el.addEventListener('click', function once(ev){ ev.stopImmediatePropagation(); ev.preventDefault(); }, { once:true, capture:true }); } }
         restore();
-        draggableEl.addEventListener('pointerdown', onDown, { passive:false });
+        el.addEventListener('pointerdown', onDown, { passive:false });
         window.addEventListener('pointermove', onMove, { passive:false });
         window.addEventListener('pointerup', onUp, { passive:false });
         window.addEventListener('pointercancel', onUp, { passive:false });
       })(smsFab);
-    })();
+    }
 
-    /* ---------- Form submit: EmailJS primary, fallback explicit POST to formsubmit.co ---------- */
+    document.addEventListener('DOMContentLoaded', function(){
+      // set min date to today
+      const dateInput = document.getElementById('date');
+      if (dateInput) {
+        const t = new Date(); const y = t.getFullYear(); const m = String(t.getMonth()+1).padStart(2,'0'); const d = String(t.getDate()).padStart(2,'0');
+        dateInput.min = `${y}-${m}-${d}`;
+      }
+      initSmsFab();
+    });
+
+    /* ================= EmailJS sendForm with fallback POST =================
+       - Replace EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID and EMAILJS_TEMPLATE_ID with your own keys.
+       - If EmailJS is not configured will show a clear error and keep the fallback path available.
+       - Fallback uses POST to formsubmit.co (no GET-with-body issue).
+    ======================================================================= */
     (function(){
+      // ======= Put your keys here =======
+      const EMAILJS_PUBLIC_KEY  = "VT_PUBLIC_KEY_REPLACE_ME";  // <-- replace with your EmailJS public key
+      const EMAILJS_SERVICE_ID  = "SERVICE_ID_REPLACE_ME";    // <-- replace with your EmailJS service id
+      const EMAILJS_TEMPLATE_ID = "TEMPLATE_ID_REPLACE_ME";   // <-- replace with your EmailJS template id
+      // ===================================
+
+      // Initialize EmailJS if available
+      if (window.emailjs && typeof emailjs.init === 'function') {
+        try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e){ console.warn('emailjs.init failed', e); }
+      }
+
       const form = document.getElementById('contactForm');
+      const statusEl = document.getElementById('contactStatus');
       const submitBtn = document.getElementById('submitBtn');
-      const clearBtn = document.getElementById('clearBtn');
-      const THANKS_MODAL = document.getElementById('thanksModal');
 
-      // fallback target: explicit POST (avoid GET+body issue)
-      const FALLBACK_ACTION = 'https://formsubmit.co/snabbservise@hotmail.com';
-
-      clearBtn && clearBtn.addEventListener('click', ()=> form.reset());
-
-      function disableBtn(state){
-        if(submitBtn) submitBtn.disabled = state;
+      function showStatus(text, type='info', strong=false){
+        if(!statusEl) return;
+        statusEl.textContent = text || '';
+        statusEl.className = '';
+        if(type === 'ok') statusEl.classList.add('success');
+        else if(type === 'error') statusEl.classList.add(strong ? 'bigError' : 'error');
+        statusEl.style.display = text ? 'block' : 'none';
       }
 
       async function fallbackSend(formData){
-        // Use POST explicitly. Note: some hosts may block cross-origin requests (CORS).
+        // Use POST to formsubmit.co fallback (server may require CORS allowed)
+        const FALLBACK_ACTION = 'https://formsubmit.co/snabbservise@hotmail.com'; // change if you have a different endpoint
         try {
           const res = await fetch(FALLBACK_ACTION, {
             method: 'POST',
             headers: { 'Accept': 'application/json' },
             body: formData
           });
-          if(res.ok){
-            let msg = 'Tack! Ditt meddelande skickades via fallback.';
-            try { const j = await res.json().catch(()=>null); if(j && j.message) msg = j.message; } catch(_) {}
+          if (res.ok) {
+            let msg = 'Tack! Ditt meddelande har skickats via fallback. Vi återkommer så snart som möjligt.';
+            try { const j = await res.json().catch(()=>null); if (j && j.message) msg = j.message; } catch(_){}
             showStatus(msg, 'ok');
             form.reset();
-            if(THANKS_MODAL) THANKS_MODAL.classList.add('show');
+            document.getElementById('thanksModal')?.classList.add('show');
             return true;
           } else {
             const text = await res.text().catch(()=>null);
-            throw new Error(text || 'Fallback svar visar fel.');
+            throw new Error(text || 'Fallback sändning misslyckades.');
           }
-        } catch(err){
-          // Could be network or CORS; present strong error so user sees it (like screenshot)
+        } catch (err) {
+          console.error('Fallback send error:', err);
           showStatus('Fel vid fallback-sändning: ' + (err.message || 'Nätverksfel eller CORS'), 'error', true);
-          console.error('Fallback error:', err);
           return false;
         }
       }
 
-      form.addEventListener('submit', async function(e){
+      form?.addEventListener('submit', async function(e){
         e.preventDefault();
-        clearStatus();
-        if(!form.checkValidity()){ form.reportValidity(); return; }
+        showStatus('', null);
+        if (!form.checkValidity()) { form.reportValidity(); return; }
 
-        disableBtn(true);
-        submitBtn && (submitBtn.textContent = 'Skickar...');
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Skickar...'; }
 
-        const useEmailjs = (window.emailjs && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID);
+        const useEmailjs = (window.emailjs && EMAILJS_SERVICE_ID !== "SERVICE_ID_REPLACE_ME" && EMAILJS_TEMPLATE_ID !== "TEMPLATE_ID_REPLACE_ME");
 
-        const formData = new FormData(form);
+        const data = new FormData(form);
 
-        if(useEmailjs){
+        if (useEmailjs) {
           try {
-            // sendForm handles serialization; avoids GET-body problems
+            // emailjs.sendForm reads fields from the form element directly (avoids fetch GET/body errors)
             await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
-            showStatus('Tack! Ditt meddelande har skickats.', 'ok');
+            showStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
             form.reset();
-            THANKS_MODAL && THANKS_MODAL.classList.add('show');
-          } catch(err){
-            console.error('EmailJS fel:', err);
+            document.getElementById('thanksModal')?.classList.add('show');
+          } catch (err) {
+            console.error('EmailJS error:', err);
+            // show strong error and attempt fallback
             showStatus('EmailJS misslyckades: ' + (err.text || err.message || 'okänt fel') + '. Försöker fallback...', 'error', true);
-            // short pause so user can read error
-            await new Promise(r => setTimeout(r, 900));
-            await fallbackSend(formData);
+            await new Promise(r => setTimeout(r, 700));
+            await fallbackSend(data);
           } finally {
-            disableBtn(false);
-            submitBtn && (submitBtn.textContent = 'Skicka meddelande');
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Skicka meddelande'; }
           }
         } else {
-          // no emailjs configured -> fallback
-          const ok = await fallbackSend(formData);
-          disableBtn(false);
-          submitBtn && (submitBtn.textContent = 'Skicka meddelande');
+          // EmailJS not configured -> fallback
+          await fallbackSend(data);
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Skicka meddelande'; }
         }
       });
+
     })();
 
-    /* ---------- set min date to today ---------- */
-    document.addEventListener('DOMContentLoaded', function(){
-      const dateInput = document.getElementById('date');
-      if(dateInput){
-        const d = new Date(); const y = d.getFullYear(); const m = String(d.getMonth()+1).padStart(2,'0'); const day = String(d.getDate()).padStart(2,'0');
-        dateInput.min = `${y}-${m}-${day}`;
-      }
-    });
-
-    /* ---------- small helpers: show/hide status, modals close with Escape ---------- */
+    /* ================= Misc: keyboard close modals ================= */
     document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){
-        document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show'));
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal.show').forEach(m => { m.classList.remove('show'); m.setAttribute('aria-hidden','true'); });
+        document.body.classList.remove('scroll-lock');
       }
     });
 
-    // showStatus wrapper accessible outside closures:
-    function showStatus(text, type='info', strong=false){
-      const status = document.getElementById('contactStatus');
-      if(!status) return;
-      status.textContent = text || '';
-      status.className = '';
-      if(type === 'ok') status.classList.add('success');
-      else if(type === 'error') status.classList.add(strong ? 'bigError' : 'error');
-      status.style.display = 'block';
-      if(type === 'ok') setTimeout(()=>{ status.style.display = 'none'; }, 6000);
-    }
-    window.showStatus = showStatus; // in case you want to call from console
-
-    // close handlers for thanks and creator modals
-    document.getElementById('thanksClose')?.addEventListener('click', ()=> document.getElementById('thanksModal')?.classList.remove('show'));
-    document.getElementById('closeCreator')?.addEventListener('click', ()=> document.getElementById('creatorModal')?.classList.remove('show'));
-    // chooser close
-    document.getElementById('chooserClose')?.addEventListener('click', ()=> document.getElementById('chooserModal')?.classList.remove('show'));
   })();
   </script>
 </body>
