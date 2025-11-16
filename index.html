@@ -1,253 +1,485 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Utby Snabb Bilservice — Boka tid</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta name="color-scheme" content="dark only"/>
+  <title>Utby Snabb Bilservice — Pålitlig bilservice i Göteborg</title>
+  <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer. Drop-in, vardagar 09:00–18:00, däckhotell."/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
 
-  <!-- EmailJS -->
+  <!-- EmailJS library -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <style>
-    /* ---------- Fonts (system) ---------- */
     :root{
-      --bg:#0f0f10;
-      --card:#131314;
-      --input:#1b1b1c;
-      --muted:#bdbdbd;
-      --text:#f4f4f4;
-      --accent:#e7c85a; /* زر أصفر */
-      --accent-dark:#d6b84a;
-      --radius:12px;
-      --gap:16px;
-      font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --bg:#0b0c10; --card:#121214; --muted:#bfc7d3; --text:#f4f6f8;
+      --accent:#DABD66; --accent-dark:#d4b848; --input:#161618; --radius:14px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.6);
+      font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
     }
-    html,body{
-      height:100%;
-      margin:0;
-      background:linear-gradient(180deg,#0a0a0a 0%, #0f0f10 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#070708,#0b0c10);color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1100px,100%);margin:0 auto;padding:0 18px}
 
-    /* container center */
-    .wrap{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-      box-sizing:border-box;
-    }
+    /* Header */
+    .header{position:sticky;top:0;z-index:30;background:rgba(12,13,18,.55);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{width:56px;height:56px;border-radius:12px;object-fit:contain;filter:drop-shadow(0 8px 30px rgba(218,189,102,.25))}
+    .brand-name{font-family:Space Grotesk,Inter;font-weight:800;color:#fff;font-size:18px}
+    .nav{display:flex;gap:8px;align-items:center}
+    .nav a{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.08)}
+    .nav a.primary{background:var(--accent);color:#111;border:none}
+    .nav a.ghost{background:rgba(255,255,255,.04);color:#fff}
 
-    /* card like screenshot narrow mobile */
-    .card{
-      width:380px;                /* approximate mobile width */
-      max-width:96%;
-      background:var(--card);
-      border-radius:16px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-      padding:22px;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
+    /* Hero */
+    .hero{text-align:center;padding:28px 0}
+    h1{font-family:Space Grotesk,Inter;font-weight:800;font-size:clamp(26px,6vw,40px);background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent;margin:.3em 0}
+    .lead{color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
+    .cta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+    .hero-logo{width:min(300px,60vw);margin:20px auto 0;filter:drop-shadow(0 10px 30px rgba(218,189,102,.35))}
 
-    h1.title{
-      text-align:center;
-      margin:0 0 18px 0;
-      font-size:24px;
-      font-weight:700;
-    }
+    /* Sections */
+    .section{padding:35px 0}
+    .section h2{text-align:center;font:800 22px/1.3 Space Grotesk;margin:0 0 10px}
+    .section p.muted{text-align:center;color:#C9D2DE;margin:0 0 18px}
 
-    label{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:8px;
-      margin-top:10px;
-    }
+    /* Services */
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card-box{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:14px}
+    .card-box h3{margin:.1em 0 .2em;font:700 17px/1.2 Inter}
+    .card-box p{margin:0 0 6px}
+    .card-box img{width:100%;height:140px;object-fit:cover;border-radius:10px;margin-top:8px}
 
-    input[type="text"],
-    input[type="email"],
-    input[type="date"],
-    input[type="time"],
-    textarea,
-    select {
-      width:100%;
-      background:var(--input);
-      border:1px solid rgba(255,255,255,0.03);
-      color:var(--text);
-      padding:14px 14px;
-      border-radius:12px;
-      box-sizing:border-box;
-      font-size:15px;
-      outline:none;
-      transition: box-shadow .12s, border-color .12s;
+    /* Booking & Contact Forms */
+    .booking-wrap{display:flex;justify-content:center;padding:20px 0 80px}
+    .booking-card{
+      width:420px; max-width:96%; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;padding:20px;border:1px solid rgba(255,255,255,.04);box-shadow:var(--shadow);
+      position:relative;
     }
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(255,255,255,0.35);
+    .booking-card h2{text-align:center;margin:0 0 12px;font-family:Space Grotesk;font-size:22px}
+    label{display:block;font-weight:700;font-size:13px;color:#e6e8ef;margin-top:10px;margin-bottom:8px}
+    input[type="text"], input[type="email"], input[type="date"], input[type="time"], textarea, select {
+      width:100%; background:var(--input); border:1px solid rgba(255,255,255,0.04); color:var(--text);
+      padding:12px 14px;border-radius:12px;font-size:15px;outline:none;transition:.12s;margin-bottom:4px;
     }
-    input:focus,
-    textarea:focus,
-    select:focus{
-      box-shadow: 0 0 0 4px rgba(231,200,90,0.06);
-      border-color: rgba(231,200,90,0.22);
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.34) }
+    input:focus, textarea:focus, select:focus {
+      box-shadow: 0 0 0 6px rgba(218,189,102,0.06);
+      border-color: rgba(218,189,102,0.22);
     }
+    textarea{min-height:120px;resize:vertical}
+    .inline-dt{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+    .inline-dt input{height:40px;padding:8px 10px;font-size:14px;border-radius:10px}
 
-    textarea {
-      min-height:110px;
-      resize:vertical;
-    }
+    /* dropdown */
+    .custom-dropdown{position:relative;margin-bottom:8px}
+    .dropdown-list{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#0f0f11;border:1px solid rgba(255,255,255,0.06);border-radius:10px;max-height:220px;overflow:auto;display:none;z-index:60}
+    .dropdown-list li{padding:10px 12px;color:#e6e8ef;cursor:pointer}
+    .dropdown-list li:hover{background:rgba(218,189,102,0.08);color:#fff}
 
-    /* big yellow button */
+    /* submit */
+    .actions{display:flex;align-items:center;gap:12px;margin-top:14px;justify-content:flex-start}
     .btn{
-      display:inline-block;
-      background: linear-gradient(180deg,var(--accent) 0%, var(--accent-dark) 100%);
-      color:#111;
-      padding:14px 22px;
-      border-radius:28px;
-      font-weight:700;
-      font-size:16px;
-      border:none;
-      cursor:pointer;
-      margin-top:18px;
-      width:220px;
-      box-shadow: 0 6px 16px rgba(214,184,74,0.18);
+      background:linear-gradient(180deg,var(--accent),var(--accent-dark)); color:#111; padding:12px 18px;border-radius:28px;border:none;font-weight:800;
+      box-shadow: 0 6px 18px rgba(212,184,72,0.18); cursor:pointer; font-size:15px;
+      display:inline-flex;align-items:center;gap:10px;
     }
-    .btn:active{ transform: translateY(1px); }
+    .btn[disabled]{opacity:.6;cursor:not-allowed}
+    .spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(0,0,0,0.12);border-top-color:rgba(0,0,0,0.3);animation:rot .8s linear infinite;display:inline-block}
+    @keyframes rot{to{transform:rotate(360deg)}}
+    #status{font-size:13px;color:var(--muted);margin-left:6px}
 
-    /* left aligned container for button like screenshot (with margin) */
-    .actions{
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      gap:12px;
-      margin-top:12px;
-    }
+    /* map and footer */
+    .map-container{text-align:center;margin-top:18px}
+    iframe{width:100%;height:240px;border:0;border-radius:12px}
 
-    /* small status text */
-    #status{
-      margin-left:10px;
-      font-size:14px;
-      color:var(--muted);
-    }
+    .site-footer{margin-top:32px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border-top:1px solid rgba(255,255,255,.06);padding:18px 0}
+    .footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;max-width:1100px;margin:0 auto;padding:0 18px}
+    .site-footer h4{font:800 16px/1.2 Inter;color:#fff;margin:.2em 0 .5em}
+    .site-footer p,.site-footer a,.site-footer li{color:#C9D2DE;font-size:14px;line-height:1.6}
 
-    /* floating chat icon bottom-right */
-    .chat-fab{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      width:56px;
-      height:56px;
-      border-radius:50%;
-      background:var(--accent);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-      border: 4px solid rgba(0,0,0,0.15);
-      cursor:pointer;
-    }
-    .chat-fab svg{ width:22px; height:22px; }
+    .footer-divider{height:2px;background:linear-gradient(90deg,transparent,rgba(218,189,102,.7),transparent);margin:8px 0 12px}
+    .copyright-bar{text-align:center;padding:10px 0 16px;font-size:13px;color:#BFC7D4;border-top:1px solid rgba(255,255,255,.06)}
 
-    /* responsive: smaller screens */
-    @media (max-width:420px){
-      .card{ width:92%; padding:18px; border-radius:12px; }
-      .btn{ width:180px; }
-    }
+    /* fab */
+    .sms-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(180deg,var(--accent),var(--accent-dark));display:flex;align-items:center;justify-content:center;z-index:120;box-shadow:0 12px 40px rgba(0,0,0,.45);cursor:pointer;border:4px solid rgba(0,0,0,.12)}
+    .sms-fab svg{width:24px;height:24px}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(8,10,14,.6);backdrop-filter:blur(8px);z-index:220}
+    .modal.show{display:grid}
+    .modal-card{width:min(540px,94vw);background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,.06)}
+    .modal-card h3{margin:0 0 8px}
+    .modal-card p{color:#c9d2de;margin:0 0 12px}
+
+    @media(max-width:820px){ .footer-grid{grid-template-columns:1fr} }
+    @media(max-width:520px){ .booking-card{width:92%} .inline-dt{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
 
-  <div class="wrap">
-    <div class="card" role="region" aria-label="Boka tid">
-      <h1 class="title">Boka tid</h1>
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#start"><img src="assets/logo.png" alt="logo"><span class="brand-name">Utby Snabb Bilservice</span></a>
+      <nav class="nav" aria-label="Huvudnavigering">
+        <a class="ghost" href="#tjanster">Tjänster</a>
+        <a class="ghost" href="#kontakt">Kontakt</a>
+        <a class="primary" href="#boka">Boka tid</a>
+      </nav>
+    </div>
+  </header>
 
-      <form id="bookingForm" autocomplete="on">
-        <label for="from_name">Namn</label>
-        <input id="from_name" name="from_name" type="text" placeholder="För- och efternamn" required>
+  <!-- Hero -->
+  <section class="hero" id="start">
+    <div class="container">
+      <h1>Professionell bilservice i Göteborg</h1>
+      <p class="lead">Komplett service, reparation och diagnos för alla bilmärken. Drop-in välkommen — vardagar 09:00–18:00. Vi erbjuder däckhotell och full bilservice.</p>
+      <div class="cta">
+        <a class="btn primary" href="#boka">Boka tid</a>
+        <a class="btn ghost" href="tel:+46720040936">Ring 072-004 09 36</a>
+      </div>
+      <img class="hero-logo" src="assets/logo.png" alt="Utby Snabb Bilservice logotyp">
+    </div>
+  </section>
 
-        <label for="phone">Telefon (valfritt)</label>
-        <input id="phone" name="phone" type="text" placeholder="072-123 45 67">
+  <!-- Services -->
+  <section class="section" id="tjanster">
+    <div class="container">
+      <h2>Våra tjänster</h2>
+      <p class="muted">Vi hanterar allt från motor och växellåda till minsta komponent. Du får alltid prisförslag innan åtgärd och tydlig återkoppling när arbetet är klart.</p>
 
-        <label for="email">E-post</label>
-        <input id="email" name="email" type="email" placeholder="din@epost.se" required>
-
-        <label for="regnr">Bil/Regnr</label>
-        <input id="regnr" name="regnr" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
-
-        <label for="problem">Problem / Tjänst</label>
-        <select id="problem" name="problem">
-          <option value="" disabled selected>Välj eller sök tjänst...</option>
-          <option value="Service">Service</option>
-          <option value="Däckbyte">Däckbyte</option>
-          <option value="Motorproblem">Motorproblem</option>
-          <option value="Besiktning">Besiktning</option>
-        </select>
-
-        <label for="date">Önskat datum *</label>
-        <input id="date" name="date" type="date" required>
-
-        <label for="time">Önskad tid</label>
-        <input id="time" name="time" type="time">
-
-        <label for="message">Meddelande</label>
-        <textarea id="message" name="message" placeholder="Berätta vad du behöver hjälp med..."></textarea>
-
-        <div class="actions">
-          <button class="btn" type="submit" id="sendBtn">Skicka meddelande</button>
-          <div id="status" aria-live="polite"></div>
+      <div class="services">
+        <div class="card-box">
+          <h3>Service</h3>
+          <p>Planerad service enligt tillverkarens intervall: byte av motorolja och filter, kontroll av vätskor, bromsar, batteri, belysning och drivlina.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>30–40 punkters säkerhetskontroll</li>
+            <li>Provkörning och felkodsavläsning</li>
+            <li>Serviceunderlag & tydlig återkoppling</li>
+          </ul>
         </div>
-      </form>
+
+        <div class="card-box">
+          <h3>Däck & hjul</h3>
+          <p>Skifte sommar/vinter, balansering och kontroll av mönsterdjup och lufttryck. Vi programmerar och kalibrerar även TPMS vid behov.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>Däckhotell: torrt, säkert och försäkrat</li>
+            <li>Snabbt skifte med momentkontroll</li>
+            <li>Rådgivning om rätt dimension och lastindex</li>
+          </ul>
+        </div>
+
+        <div class="card-box">
+          <h3>Kompletta reparationer</h3>
+          <p>Från bromsar, avgassystem och fjädring till motor, koppling/växellåda och el. Vi felsöker systematiskt med moderna diagnosverktyg.</p>
+          <ul style="margin:6px 0 8px 18px">
+            <li>Kamrem/kedja, vattenpump och packningar</li>
+            <li>Bromsskivor/-belägg, ok & handbroms</li>
+            <li>AC-service: läcktest & påfyllning</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card-box" style="margin-top:14px">
+        <h3>Vanliga frågor (FAQ)</h3>
+        <p><strong>Behöver jag boka tid?</strong> Drop-in vardagar 09:00–18:00. För större jobb rekommenderar vi bokning.</p>
+        <p><strong>Uppdaterar ni servicehistorik?</strong> Ja, där digital bok finns uppdaterar vi den. Annars får du underlag/stämpel.</p>
+        <p><strong>Vilka delar använder ni?</strong> Original eller OEM-kvalitet enligt tillverkarens specifikationer.</p>
+        <p><strong>Garanti på arbete?</strong> Ja, vi lämnar garanti på både delar och arbete enligt branschpraxis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking (komplett, EmailJS) -->
+  <section class="section" id="boka">
+    <div class="container">
+      <div class="booking-wrap">
+        <div class="booking-card" role="region" aria-label="Boka tid">
+          <h2>Boka tid</h2>
+
+          <!-- FORM (EmailJS) -->
+          <form id="bookingForm" autocomplete="on" novalidate>
+            <!-- honeypot anti-bot -->
+            <input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off">
+
+            <label for="from_name">Namn</label>
+            <input id="from_name" name="from_name" type="text" placeholder="För- och efternamn" required>
+
+            <label for="phone">Telefon (valfritt)</label>
+            <input id="phone" name="phone" type="text" placeholder="072-123 45 67">
+
+            <label for="email">E-post</label>
+            <input id="email" name="email" type="email" placeholder="din@epost.se" required>
+
+            <label for="regnr">Bil/Regnr</label>
+            <input id="regnr" name="regnr" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
+
+            <label for="issueInput">Problem / Tjänst</label>
+            <div class="custom-dropdown" id="issueDropdown">
+              <input type="text" id="issueInput" name="problem" placeholder="Välj eller sök tjänst..." autocomplete="off" required>
+              <ul class="dropdown-list" role="listbox" aria-label="Tjänster">
+                <li>Annat – beskriv i meddelandet</li>
+                <li>Service & olja</li>
+                <li>Bromsar</li>
+                <li>Däck & hjul</li>
+                <li>AC / klimatanläggning</li>
+                <li>El / elektronik</li>
+                <li>Diagnos / OBD</li>
+                <li>Motor</li>
+                <li>Växellåda / koppling</li>
+                <li>Besiktning / kontroll</li>
+              </ul>
+            </div>
+
+            <div class="inline-dt" aria-hidden="false">
+              <div class="field">
+                <label for="date">Önskat datum *</label>
+                <input id="date" name="date" type="date" required>
+              </div>
+              <div class="field">
+                <label for="time">Önskad tid</label>
+                <input id="time" name="time" type="time">
+              </div>
+            </div>
+
+            <label for="message">Meddelande</label>
+            <textarea id="message" name="message" placeholder="Berätta vad du behöver hjälp med..." required></textarea>
+
+            <div class="actions">
+              <button class="btn" type="submit" id="sendBtn" aria-live="polite">
+                <span id="btnText">Skicka meddelande</span>
+                <span id="btnSpinner" style="display:none;margin-left:6px" class="spinner" aria-hidden="true"></span>
+              </button>
+              <div id="status" role="status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="map-container" id="kontakt" style="margin-top:18px;max-width:920px;margin-left:auto;margin-right:auto">
+        <h3 style="text-align:center;margin-bottom:6px">Här hittar du oss</h3>
+        <p style="text-align:center;margin-top:0;margin-bottom:8px">Vagnmakaregatan 2, 415 72 Göteborg · Telefon: <a href="tel:+46720040936">072-004 09 36</a></p>
+        <iframe src="https://www.google.com/maps?q=57.74025,12.07864&hl=sv&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer" aria-label="Sidfot">
+    <div class="footer-grid">
+      <div>
+        <h4>Kontakt</h4>
+        <p><strong>Utby Snabb Bilservice</strong></p>
+        <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
+        <p>Telefon: <a href="tel:+46720040936">072-004 09 36</a></p>
+        <p>E-post: <a href="mailto:info@utbysnabbbilservice.se">info@utbysnabbbilservice.se</a></p>
+      </div>
+      <div>
+        <h4>Öppettider</h4>
+        <ul style="padding-left:18px;margin:0">
+          <li><strong>Vardagar:</strong> 09:00 – 18:00</li>
+          <li><strong>Lördag:</strong> enligt överenskommelse</li>
+        </ul>
+        <p style="margin-top:8px">Drop-in välkommen · <strong>Däckhotell</strong></p>
+      </div>
+      <div>
+        <h4>Om verkstaden</h4>
+        <ul style="padding-left:18px;margin:0">
+          <li>Service, diagnos, bromsar, däck, AC och el</li>
+          <li>Kompletta reparationer — motor & växellåda</li>
+          <li>Tydliga besked och arbete som håller över tid</li>
+        </ul>
+        <p style="margin-top:8px"><a href="https://maps.google.com/?q=57.74025,12.07864" target="_blank" rel="noopener">Hitta oss på Google Maps</a></p>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="container copyright-bar">
+      <span>© 2023 Utby Snabb Bilservice</span> |
+      <span>Design by <a href="#" id="openCreator">Hussein</a></span>
+    </div>
+  </footer>
+
+  <!-- Floating SMS/chat button -->
+  <a class="sms-fab" id="smsFab" href="#" aria-label="Skicka SMS eller ring">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 01-2-2zM6 9h8v2H6V9zm0-4h12v2H6V5z"/>
+    </svg>
+  </a>
+
+  <!-- Thanks Modal -->
+  <div class="modal" id="thanksModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
+      <h3 id="thanksTitle">Tack! 🎉</h3>
+      <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
+      <div style="text-align:center;margin-top:12px">
+        <button class="btn" id="closeThanks">Stäng</button>
+      </div>
     </div>
   </div>
 
-  <!-- chat floating button (samma look) -->
-  <div class="chat-fab" title="Chatta med oss" onclick="openChat()">
-    <!-- small chat icon -->
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" fill="#111"/>
-      <path d="M7 9h10M7 13h6" stroke="#111" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <!-- Creator Modal -->
+  <div class="modal" id="creatorModal" aria-hidden="true">
+    <div class="modal-card">
+      <div style="display:flex;gap:12px;align-items:center">
+        <img src="assets/logo.png" alt="logo" style="width:54px;height:54px;border-radius:10px;object-fit:cover;filter:drop-shadow(0 6px 18px rgba(218,189,102,.25))">
+        <div>
+          <h3 style="margin:0 0 6px">Kontakta Hussein</h3>
+          <p style="margin:0;color:#c9d2de">Jag bygger snabba, säkra och mobilanpassade webbplatser. Kontakta mig för hjälp.</p>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:10px">
+        <a class="btn" href="mailto:hussein.alsamli02@gmail.com">Skicka e-post</a>
+        <a class="btn" href="tel:+46790574975">Ring: 0790-574975</a>
+      </div>
+      <div style="text-align:center;margin-top:10px"><button class="btn" id="closeCreator">Stäng</button></div>
+    </div>
   </div>
 
   <script>
-    // ------------ EmailJS init: (استبدل القيم) ------------
-    emailjs.init("vt_iAWB9MVGz6iT_X"); // مثال: user_xxx
+  /* ---------------- SEARCHABLE DROPDOWN ---------------- */
+  (function(){
+    const dropdown = document.getElementById("issueDropdown");
+    if (!dropdown) return;
+    const input = dropdown.querySelector("input");
+    const list = dropdown.querySelector(".dropdown-list");
+    const items = Array.from(list.querySelectorAll("li"));
+    function show(){ list.style.display = 'block' }
+    function hide(){ list.style.display = 'none' }
+
+    input.addEventListener('focus', show);
+    input.addEventListener('input', () => {
+      const v = input.value.toLowerCase().trim();
+      let any=false;
+      items.forEach(li => {
+        const ok = li.textContent.toLowerCase().includes(v);
+        li.style.display = ok ? 'block' : 'none';
+        if (ok) any=true;
+      });
+      list.style.display = any ? 'block' : 'none';
+    });
+    items.forEach(li => li.addEventListener('click', () => { input.value = li.textContent; hide(); }));
+    document.addEventListener('click', (e) => { if (!dropdown.contains(e.target)) hide(); });
+  })();
+
+  /* ---------------- DATE MIN ---------------- */
+  (function(){
+    const dateInput = document.getElementById('date');
+    if (!dateInput) return;
+    const t = new Date();
+    const y = t.getFullYear(), m = String(t.getMonth()+1).padStart(2,'0'), d = String(t.getDate()).padStart(2,'0');
+    dateInput.min = `${y}-${m}-${d}`;
+  })();
+
+  /* ---------------- MODALS ---------------- */
+  (function(){
+    const creatorModal = document.getElementById('creatorModal');
+    const openCreator = document.getElementById('openCreator');
+    const closeCreator = document.getElementById('closeCreator');
+    const thanksModal = document.getElementById('thanksModal');
+    const closeThanks = document.getElementById('closeThanks');
+
+    function openModal(m){ if(!m) return; m.classList.add('show'); m.setAttribute('aria-hidden','false'); document.body.classList.add('scroll-lock'); }
+    function closeModal(m){ if(!m) return; m.classList.remove('show'); m.setAttribute('aria-hidden','true'); document.body.classList.remove('scroll-lock'); }
+
+    if (openCreator) openCreator.addEventListener('click', e => { e.preventDefault(); openModal(creatorModal); });
+    if (closeCreator) closeCreator.addEventListener('click', e => { e.preventDefault(); closeModal(creatorModal); });
+    if (creatorModal) creatorModal.addEventListener('click', e => { if (e.target === creatorModal) closeModal(creatorModal); });
+
+    if (closeThanks) closeThanks.addEventListener('click', () => closeModal(thanksModal));
+    if (thanksModal) thanksModal.addEventListener('click', e => { if (e.target === thanksModal) closeModal(thanksModal); });
+
+    window.openThanks = function(){ openModal(thanksModal); };
+    window.closeThanks = function(){ closeModal(thanksModal); };
+  })();
+
+  /* ---------------- SMS FAB ---------------- */
+  (function(){
+    const fab = document.getElementById('smsFab');
+    if (!fab) return;
+    fab.addEventListener('click', (e) => {
+      e.preventDefault();
+      const body = encodeURIComponent('Hej! Jag skulle vilja boka tid för min bil. Kan ni hjälpa mig?');
+      const ua = navigator.userAgent.toLowerCase();
+      const href = (ua.includes('iphone') || ua.includes('ipad')) ? `sms:+46720040936&body=${body}` : `sms:+46720040936?body=${body}`;
+      window.location.href = href;
+    });
+  })();
+
+  /* ---------------- EMAILJS FORM SENDING ---------------- */
+  (function(){
+    // *** REPLACE with your EmailJS values BEFORE TESTING ***
+    const PUBLIC_KEY = "YOUR_PUBLIC_KEY";      // exempel: user_xxx
+    const SERVICE_ID = "YOUR_SERVICE_ID";      // exempel: service_xxx
+    const TEMPLATE_ID = "YOUR_TEMPLATE_ID";    // exempel: template_xxx
+    // ------------------------------------------------------
+
+    try { emailjs.init(PUBLIC_KEY); } catch(e){ console.warn('EmailJS init failed:', e); }
 
     const form = document.getElementById('bookingForm');
-    const statusEl = document.getElementById('status');
     const sendBtn = document.getElementById('sendBtn');
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const statusEl = document.getElementById('status');
 
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-
-      sendBtn.disabled = true;
-      sendBtn.textContent = 'Skickar...';
-      statusEl.style.color = 'var(--muted)';
-      statusEl.textContent = '';
-
-      emailjs.sendForm('service_6fai64h', 'template_7tccbsi', this)
-        .then(function(resp){
-          sendBtn.disabled = false;
-          sendBtn.textContent = 'Skicka meddelande';
-          statusEl.style.color = 'lightgreen';
-          statusEl.textContent = 'Meddelandet skickades! Tack.';
-          form.reset();
-        }, function(err){
-          sendBtn.disabled = false;
-          sendBtn.textContent = 'Skicka meddelande';
-          statusEl.style.color = 'salmon';
-          statusEl.textContent = 'Fel: Kunde inte skicka. Försök igen.';
-          console.error('EmailJS error', err);
-        });
-    });
-
-    function openChat(){
-      // سلوك افتراضي لزر الدردشة: يمكنك تغييره لفتح نافذة دردشة، واتساب، إلخ.
-      alert('Öppna chat — här kan du koppla till din livechatt eller WhatsApp.');
+    function setLoading(on){
+      if (on){
+        sendBtn.setAttribute('disabled','true');
+        btnSpinner.style.display = 'inline-block';
+        btnText.textContent = 'Skickar...';
+      } else {
+        sendBtn.removeAttribute('disabled');
+        btnSpinner.style.display = 'none';
+        btnText.textContent = 'Skicka meddelande';
+      }
     }
+    function showStatus(msg, ok){
+      statusEl.textContent = msg;
+      statusEl.style.color = ok ? 'lightgreen' : 'salmon';
+    }
+
+    if (form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+
+        // honeypot anti-bot
+        const hp = form.querySelector('input[name="_hp"]');
+        if (hp && hp.value.trim() !== '') {
+          // likely bot -> ignore
+          return;
+        }
+
+        if (!form.checkValidity()){
+          form.reportValidity();
+          return;
+        }
+
+        setLoading(true);
+        showStatus('', true);
+
+        // send via EmailJS
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
+          .then(function(response){
+            setLoading(false);
+            showStatus('Meddelandet skickades! Tack.', true);
+            form.reset();
+            window.openThanks && window.openThanks();
+          }, function(error){
+            setLoading(false);
+            console.error('EmailJS error:', error);
+            showStatus('Fel vid sändning. Försök igen eller ring oss.', false);
+          });
+      });
+    }
+  })();
   </script>
 </body>
 </html>
