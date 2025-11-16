@@ -1,58 +1,102 @@
-<!-- EmailJS library -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <title>EmailJS Test</title>
 
-<script>
-(function(){
-  // EmailJS configuration — ändra om du har andra värden
-  const EMAILJS_PUBLIC_KEY = "vt_iAWB9MVGz6iT_X";
-  const EMAILJS_SERVICE_ID = "service_6fai64h";
-  const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
+  <style>
+    body {
+      background:#0b0c10; color:white; font-family:Arial; 
+      padding:20px; max-width:500px; margin:auto;
+    }
+    label { display:block; margin-top:12px; }
+    input, textarea {
+      width:100%; padding:10px; margin-top:4px;
+      border-radius:8px; border:1px solid #444;
+      background:#111; color:white;
+    }
+    button {
+      margin-top:14px; padding:12px; width:100%;
+      background:#dabd66; border:0; color:#111;
+      font-weight:bold; border-radius:10px; cursor:pointer;
+    }
+    #contactStatus {
+      margin-top:14px; padding:12px; border-radius:8px; display:none;
+      text-align:center; font-weight:bold;
+    }
+    #contactStatus.success {
+      background:rgba(34,197,94,0.15); color:#4ade80;
+    }
+    #contactStatus.error {
+      background:rgba(239,68,68,0.15); color:#f87171;
+    }
+  </style>
+</head>
+<body>
 
-  // init
-  if (window.emailjs && typeof emailjs.init === 'function') {
-    try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch (e) { console.warn('emailjs.init failed', e); }
-  }
+  <h2>Testa EmailJS</h2>
 
-  // helper för status
-  function setStatus(text, state) {
-    const el = document.getElementById('contactStatus_emailjs') || document.getElementById('contactStatus');
-    if (!el) return;
-    el.textContent = text;
-    el.className = state === 'ok' ? 'success' : (state === 'error' ? 'error' : '');
-    el.style.display = 'block';
-  }
+  <!-- FORM -->
+  <form id="contactForm_emailjs">
+    <input type="text" name="_honey" style="display:none">
 
-  // submit handler för EmailJS-formuläret (form id: contactForm_emailjs)
-  document.addEventListener('DOMContentLoaded', function(){
-    const form = document.getElementById('contactForm_emailjs');
-    if (!form) return;
+    <label for="name">Namn</label>
+    <input id="name" name="name" required>
 
-    form.addEventListener('submit', async function(e){
+    <label for="email">E-post</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="message">Meddelande</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Skicka</button>
+
+    <div id="contactStatus"></div>
+  </form>
+
+  <!-- EmailJS lib -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <script>
+  (function(){
+    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
+    const EMAILJS_SERVICE_ID  = "service_6fai64h";
+    const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
+
+    // init
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+
+    function setStatus(text, type){
+      const el = document.getElementById("contactStatus");
+      el.textContent = text;
+      el.className = type;
+      el.style.display = "block";
+    }
+
+    document.getElementById("contactForm_emailjs").addEventListener("submit", async function(e){
       e.preventDefault();
-      // validity
-      if (!form.checkValidity()) { form.reportValidity(); return; }
 
-      const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
-      const originalText = submitBtn ? (submitBtn.textContent || submitBtn.value) : null;
-      if (submitBtn) { submitBtn.disabled = true; if (submitBtn.tagName.toLowerCase()==='button') submitBtn.textContent = 'Skickar...'; }
-
-      setStatus('', null);
+      let form = this;
+      let btn  = form.querySelector("button");
+      let prev = btn.textContent;
+      btn.textContent = "Skickar..."; 
+      btn.disabled = true;
 
       try {
         await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
-        setStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
+        setStatus("Tack! Ditt meddelande är skickat.", "success");
         form.reset();
-        // show thanks modal if present
-        const thanksModal = document.getElementById('thanksModal');
-        if (thanksModal) { thanksModal.classList.add('show'); document.body.classList.add('scroll-lock'); }
-      } catch (err) {
-        const msg = (err && (err.text || err.message)) ? (err.text || err.message) : 'E-post kunde inte skickas via EmailJS.';
-        setStatus(msg, 'error');
-        console.error('EmailJS error:', err);
-      } finally {
-        if (submitBtn) { submitBtn.disabled = false; if (submitBtn.tagName.toLowerCase()==='button') submitBtn.textContent = originalText; }
+      } 
+      catch (err) {
+        console.error(err);
+        setStatus("Fel: kunde inte skicka e-post.", "error");
       }
+
+      btn.textContent = prev;
+      btn.disabled = false;
     });
-  });
-})();
-</script>
+  })();
+  </script>
+
+</body>
+</html>
