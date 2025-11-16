@@ -1,420 +1,70 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="color-scheme" content="dark only"/>
-  <title>Utby Snabb Bilservice — Pålitlig bilservice i Göteborg</title>
-  <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer. Drop-in, vardagar 09:00–18:00.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#DABD66">
-  <style>
-    /* --- Kortat in för läsbarhet; behåll ditt fulla CSS från tidigare --- */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{margin:0;padding:0;height:100%;background:#0b0c10;color:#f6f7fb;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
-    img{max-width:100%;display:block}
-    a{color:#DABD66;text-decoration:none}
-    .container{width:min(1100px,100%);margin:auto;padding:0 18px}
-    /* --- (Behåll resten av din tidigare CSS exakt som du vill) --- */
-    /* ... kopiera över resten av CSS från tidigare fil om du vill ha allt identiskt ... */
-    .header{position:sticky;top:0;z-index:10;background:rgba(12,13,18,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1)}
-    .header-inner{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{width:64px;height:64px;border-radius:12px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(218,189,102,.3))}
-    .brand-name{font:800 18px/1 Space Grotesk;color:#fff}
-    .nav{display:flex;gap:8px}
-    .nav a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.12);line-height:1}
-    .nav a.secondary{background:rgba(255,255,255,.06);color:#fff}
-    .nav a:not(.secondary){background:#DABD66;color:#111}
-    .hero{text-align:center;padding:30px 0}
-    h1{font-family:Space Grotesk,Inter;font-weight:800;font-size:clamp(26px,6vw,40px);background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent;margin:.3em 0}
-    .lead{color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
-    .cta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
-    .btn{padding:9px 14px;border-radius:12px;font-weight:800;font-size:14px;border:1px solid rgba(255,255,255,.1);transition:.2s}
-    .btn.primary{background:#DABD66;color:#111}
-    .btn.ghost{background:rgba(255,255,255,.06);color:#fff}
-    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px}
-    .contact-form{padding:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;max-width:560px;margin:20px auto}
-    #contactStatus{margin-top:10px;padding:10px;border-radius:8px;text-align:center;display:none}
-    #contactStatus.success{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-    #contactStatus.error{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.3)}
-    .sms-fab{position:fixed;right:14px;bottom:14px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;border:1px solid rgba(0,0,0,.2);z-index:100}
-    .modal{position:fixed;inset:0;display:none;place-items:center;z-index:20;background:rgba(8,10,14,.55);backdrop-filter:blur(14px)}
-    .modal.show{display:grid}
-    .modal-card{width:min(620px,92vw);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;box-shadow:0 32px 90px rgba(0,0,0,.52)}
-    .modal-close{display:block;margin:14px auto 2px;text-align:center;color:#9fb0c0;cursor:pointer}
-  </style>
+  <meta charset="UTF-8">
+  <title>EmailJS Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="container header-inner">
-      <a class="brand" href="#start"><img src="assets/logo.png" alt="logo"/><span class="brand-name">Utby Snabb Bilservice</span></a>
-      <nav class="nav">
-        <a class="secondary" href="#tjanster">Tjänster</a>
-        <a class="secondary" href="#kontakt">Kontakt</a>
-        <a href="#boka">Boka tid</a>
-      </nav>
-    </div>
-  </header>
+  <h2>Testa EmailJS</h2>
 
-  <!-- Hero -->
-  <section class="hero" id="start">
-    <div class="container">
-      <h1>Professionell bilservice i Göteborg</h1>
-      <p class="lead">Komplett service, reparation och diagnos för alla bilmärken. Drop-in välkommen — vardagar 09:00–18:00. Vi erbjuder däckhotell och full bilservice.</p>
-      <div class="cta">
-        <a class="btn primary" href="#boka">Boka tid</a>
-        <a class="btn ghost" href="tel:+46720040936">Ring 072-004 09 36</a>
-      </div>
-      <img class="hero-logo" src="assets/logo.png" alt="Utby Snabb Bilservice logotyp" style="max-width:260px;margin-top:18px;">
-    </div>
-  </section>
+  <form id="testForm">
+    <label>Namn:</label><br>
+    <input type="text" name="from_name" required><br><br>
 
-  <!-- Tjänster (kortade) -->
-  <section class="section" id="tjanster">
-    <div class="container">
-      <h2>Våra tjänster</h2>
-      <p class="muted">Vi hanterar allt från motor och växellåda till minsta komponent. Du får alltid prisförslag innan åtgärd och tydlig återkoppling när arbetet är klart.</p>
-      <div class="services" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
-        <div class="card"><h3>Service</h3><p>Byte av motorolja, filter, kontroll av bromsar och mer.</p></div>
-        <div class="card"><h3>Däck & hjul</h3><p>Skifte sommar/vinter, balansering och däckhotell.</p></div>
-        <div class="card"><h3>Reparationer</h3><p>Motor, växellåda, bromsar och el.</p></div>
-      </div>
-    </div>
-  </section>
+    <label>Telefon:</label><br>
+    <input type="text" name="phone"><br><br>
 
-  <!-- Boka -->
-  <section class="section" id="boka">
-    <div class="container">
-      <h2>Kontakt & Boka tid</h2>
+    <label>E-post:</label><br>
+    <input type="email" name="email" required><br><br>
 
-      <div class="contact-form" aria-labelledby="boka-heading">
-        <h3 id="boka-heading">Boka tid</h3>
+    <label>Bil/Regnr:</label><br>
+    <input type="text" name="regnr"><br><br>
 
-        <!-- Form: använder EmailJS (ingen action) -->
-        <form id="contactForm" novalidate autocomplete="on">
-          <label for="name">Namn</label>
-          <input id="name" name="name" autocomplete="name" placeholder="För- och efternamn" required>
+    <label>Problem/Tjänst:</label><br>
+    <input type="text" name="problem"><br><br>
 
-          <label for="contactPhone">Telefon (valfritt)</label>
-          <input id="contactPhone" name="phone" type="tel" autocomplete="tel" placeholder="072-123 45 67">
+    <label>Önskat datum:</label><br>
+    <input type="date" name="date"><br><br>
 
-          <label for="email">E-post</label>
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="din@epost.se" required>
+    <label>Önskad tid:</label><br>
+    <input type="time" name="time"><br><br>
 
-          <label for="car">Bil / Regnr</label>
-          <input id="car" name="car" autocomplete="organization" placeholder="Ex: ABC123 eller Volvo V60 2017" required>
+    <label>Meddelande:</label><br>
+    <textarea name="message"></textarea><br><br>
 
-          <label for="issueInput">Problem / Tjänst</label>
-          <div class="custom-dropdown" id="issueDropdown" style="position:relative;margin-bottom:14px;">
-            <input type="text" id="issueInput" name="issue" autocomplete="off" placeholder="Välj eller sök tjänst..." required style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#eee;">
-            <ul class="dropdown-list" style="position:absolute;top:100%;left:0;right:0;max-height:220px;overflow:auto;background:#111;border-radius:10px;padding:6px 0;display:none;z-index:99;">
-              <li style="padding:10px 14px;cursor:pointer">Annat – beskriv i meddelandet</li>
-              <li style="padding:10px 14px;cursor:pointer">Service & olja</li>
-              <li style="padding:10px 14px;cursor:pointer">Bromsar</li>
-              <li style="padding:10px 14px;cursor:pointer">Däck & hjul</li>
-              <li style="padding:10px 14px;cursor:pointer">AC / klimatanläggning</li>
-              <li style="padding:10px 14px;cursor:pointer">El / elektronik</li>
-              <li style="padding:10px 14px;cursor:pointer">Diagnos / OBD</li>
-              <li style="padding:10px 14px;cursor:pointer">Motor</li>
-              <li style="padding:10px 14px;cursor:pointer">Växellåda / koppling</li>
-              <li style="padding:10px 14px;cursor:pointer">Besiktning / kontroll</li>
-            </ul>
-          </div>
+    <button type="submit">Skicka</button>
+  </form>
 
-          <div class="inline-dt" style="display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:8px;align-items:end;margin-top:4px;">
-            <div class="field">
-              <label for="date">Önskat datum *</label>
-              <input id="date" name="date" type="date" autocomplete="bday" required>
-            </div>
-            <div class="field">
-              <label for="time">Önskad tid</label>
-              <input id="time" name="time" type="time" autocomplete="off" required>
-            </div>
-          </div>
+  <p id="status"></p>
 
-          <label for="contactMessage">Meddelande</label>
-          <textarea id="contactMessage" name="message" autocomplete="off" placeholder="Berätta vad du behöver hjälp med..." required style="min-height:100px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#fff;"></textarea>
-
-          <button type="submit" style="margin-top:10px;padding:12px 14px;border-radius:999px;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;font-weight:800;border:none;cursor:pointer;">Skicka meddelande</button>
-
-          <div id="contactStatus" role="status" aria-live="polite"></div>
-        </form>
-      </div>
-
-      <div class="map-container" id="kontakt" style="text-align:center;margin-top:22px">
-        <h3>Här hittar du oss</h3>
-        <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
-        <iframe src="https://www.google.com/maps?q=57.74025,12.07864&hl=sv&z=15&output=embed" loading="lazy" style="width:100%;height:240px;border:0;border-radius:12px;"></iframe>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="site-footer" style="margin-top:32px;">
-    <div class="container footer-top" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;padding:22px 0 12px">
-      <div>
-        <h4>Kontakt</h4>
-        <p><strong>Utby Snabb Bilservice</strong></p>
-        <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
-        <p>Telefon: <a href="tel:+46720040936">072-004 09 36</a></p>
-        <p>E-post: <a href="mailto:info@utbysnabbbilservice.se">info@utbysnabbbilservice.se</a></p>
-      </div>
-      <div>
-        <h4>Öppettider</h4>
-        <ul><li><strong>Vardagar:</strong> 09:00 – 18:00</li><li>Lördag: enligt överenskommelse</li></ul>
-      </div>
-      <div>
-        <h4>Om verkstaden</h4>
-        <ul><li>Service, diagnos, bromsar, däck, AC och el</li><li>Kompletta reparationer — motor & växellåda</li></ul>
-        <p style="margin-top:6px"><a href="https://maps.google.com/?q=57.74025,12.07864" target="_blank" rel="noopener">Hitta oss på Google Maps</a></p>
-      </div>
-    </div>
-
-    <div style="height:2px;background:linear-gradient(90deg,transparent,rgba(218,189,102,.7),transparent);margin:8px 0 12px"></div>
-
-    <div class="container copyright-bar" style="text-align:center;padding:10px 0 16px;font-size:13px;color:#BFC7D4;">
-      <span>© 2023 Utby Snabb Bilservice</span> |
-      <span>Design by <a href="#" id="openCreator">Hussein</a></span>
-    </div>
-  </footer>
-
-  <!-- Modals -->
-  <div class="modal" id="thanksModal">
-    <div class="modal-card">
-      <div style="display:flex;align-items:center;gap:12px">
-        <img src="assets/logo.png" alt="Logotyp" style="width:44px;height:44px;border-radius:8px"/>
-        <div>
-          <h3>Tack!</h3>
-          <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
-        </div>
-      </div>
-      <span class="modal-close" id="thanksClose">Stäng</span>
-    </div>
-  </div>
-
-  <!-- SMS FAB -->
-  <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post"><svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px"><path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 01-2-2zM6 9h8v2H6V9zm0-4h12v2H6V5z"/></svg></a>
-
-  <!-- --- EmailJS SDK: primär CDN + fallback (jsDelivr) --- -->
   <script>
-    (function loadEmailJSSDK(){
-      var primary = 'https://cdn.emailjs.com/sdk/3.2.0/email.min.js';
-      var fallback = 'https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js';
-      function insertScript(src, onload, onerror) {
-        var s = document.createElement('script');
-        s.src = src;
-        s.crossOrigin = 'anonymous';
-        s.onload = onload;
-        s.onerror = onerror;
-        document.head.appendChild(s);
-      }
-      // Försök primär CDN → om fel, försök fallback
-      insertScript(primary, function(){
-        console.info('EmailJS SDK laddad från primary CDN.');
-        initEmailJS();
-      }, function(){
-        console.warn('Primary EmailJS CDN misslyckades — försöker fallback.');
-        insertScript(fallback, function(){
-          console.info('EmailJS SDK laddad från fallback (jsDelivr).');
-          initEmailJS();
-        }, function(){
-          console.error('Båda EmailJS CDNs misslyckades. SDK kunde inte laddas.');
-        });
-      });
-    })();
+    // ⚠️ ضع ال PUBLIC KEY الذي حصلت عليه من EmailJS
+    emailjs.init("vt_iAWB9MVGz6iT_X");
 
-    // EmailJS-konfiguration — byt om dina värden skiljer sig
-    const EMAILJS_SERVICE_ID  = "service_cbq2m9y";
-    const EMAILJS_TEMPLATE_ID = "template_b23yfqu";
-    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
+    document.getElementById("testForm").addEventListener("submit", function(event){
+      event.preventDefault();
 
-    // Initiera EmailJS (körs efter SDK är laddad)
-    function initEmailJS(){
-      try {
-        if (!window.emailjs) {
-          console.error('emailjs SDK inte tillgänglig trots laddning.');
-          return;
-        }
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-        console.info('EmailJS initierad med public key.');
-      } catch (e) {
-        console.error('Kunde inte initiera EmailJS:', e);
-      }
-    }
-  </script>
+      const status = document.getElementById("status");
 
-  <!-- --- Huvudskript: dropdown, draggable FAB, form submit med debug/fallback --- -->
-  <script>
-  (function(){
-    // UI-helpers
-    function showStatus(text, isError) {
-      const el = document.getElementById('contactStatus');
-      if (!el) return;
-      el.textContent = text;
-      el.className = isError ? 'error' : 'success';
-      el.style.display = 'block';
-    }
-    function clearStatus() {
-      const el = document.getElementById('contactStatus');
-      if (!el) return;
-      el.style.display = 'none';
-      el.textContent = '';
-      el.className = '';
-    }
-
-    // Build params (mappa till template-variabler)
-    function buildParams(form) {
-      const get = id => (form.querySelector('#' + id) ? form.querySelector('#' + id).value.trim() : '');
-      const params = {
-        from_name: get('name'),
-        from_email: get('email'),
-        phone: get('contactPhone'),
-        car: get('car'),
-        issue: get('issueInput'),
-        date: get('date'),
-        time: get('time'),
-        message: get('contactMessage'),
-        marketing_block: '' // fylls nedan
-      };
-
-      params.marketing_block = `
-        <div style="margin-top:18px;padding-top:18px;border-top:1px solid #e6e6e6;font-family:Arial,Helvetica,sans-serif;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;">
-            <tr><td style="vertical-align:top;padding:8px 0;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td style="width:72px;vertical-align:middle;padding-right:12px;">
-                    <img src='https://utbysnabbbilservice.se/assets/logo.png' alt='Utby Snabb Bilservice' width='64' style='display:block;border-radius:8px;'/>
-                  </td>
-                  <td style='vertical-align:middle;'>
-                    <div style='font-weight:700;color:#111;font-size:16px;'>Utby Snabb Bilservice</div>
-                    <div style='color:#666;font-size:13px;margin-top:4px;'>Snabb service · Däckhotell · Diagnos</div>
-                  </td>
-                </tr>
-              </table>
-            </td></tr>
-            <tr><td style='padding:12px 0;'>
-              <p style='margin:0 0 10px;color:#333;font-size:14px;line-height:1.4;'>
-                Behöver du snabbsupport eller offert? Boka en tid enkelt via vår webbplats eller svara på detta mejl — vi hjälper dig direkt.
-              </p>
-              <table role='presentation' cellpadding='0' cellspacing='0' style='margin-top:8px;'>
-                <tr><td align='left'>
-                  <a href='https://utbysnabbbilservice.se/?utm_source=emailjs&utm_medium=email&utm_campaign=contact_form' style='background:#DABD66;border-radius:8px;padding:10px 16px;text-decoration:none;font-weight:700;color:#111;display:inline-block;'>Boka tid / Läs mer</a>
-                </td></tr>
-              </table>
-            </td></tr>
-            <tr><td style='padding-top:12px;border-top:1px solid #f1f1f1;'>
-              <div style='font-size:13px;color:#666;margin-top:10px;'>
-                <a href='https://maps.google.com/?q=57.74025,12.07864' style='color:#666;text-decoration:none;margin-right:12px;'>📍 Hitta oss</a>
-                <a href='https://wa.me/46720040936' style='color:#666;text-decoration:none;margin-right:12px;'>💬 Chatta (WhatsApp)</a>
-                <a href='tel:+46720040936' style='color:#666;text-decoration:none;'>📞 Ring 072-004 09 36</a>
-              </div>
-            </td></tr>
-          </table>
-        </div>
-      `;
-      return params;
-    }
-
-    // Robust EmailJS-send med debug och mailto-fallback
-    async function submitFormViaEmailJS(form, ev) {
-      ev.preventDefault();
-      clearStatus();
-
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
-      const origText = submitBtn ? (submitBtn.textContent || submitBtn.value) : null;
-      if (submitBtn) { submitBtn.disabled = true; if (submitBtn.tagName.toLowerCase()==='button') submitBtn.textContent = 'Skickar...'; }
-
-      const params = buildParams(form);
-
-      // Kontroll: emailjs SDK klar?
-      if (!window.emailjs || typeof window.emailjs.send !== 'function') {
-        console.warn('EmailJS SDK inte redo — öppnar mailto som fallback.');
-        showStatus('EmailJS ej tillgängligt. Öppnar e-postklient som fallback.', true);
-        fallbackMailto(params);
-        if (submitBtn) { submitBtn.disabled = false; if (submitBtn.tagName.toLowerCase()==='button') submitBtn.textContent = origText; }
-        return;
-      }
-
-      try {
-        console.info('Skickar till EmailJS...', { service: EMAILJS_SERVICE_ID, template: EMAILJS_TEMPLATE_ID, params });
-        const resp = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
-        console.info('EmailJS respons:', resp);
-        showStatus('Tack! Ditt meddelande har skickats. Vi återkommer snart.', false);
-        const thanks = document.getElementById('thanksModal');
-        if (thanks) { thanks.classList.add('show'); document.body.classList.add('scroll-lock'); }
-        form.reset();
-      } catch (err) {
-        console.error('EmailJS fel:', err);
-        showStatus('Misslyckades att skicka via EmailJS. Öppnar e-postklient som fallback.', true);
-        fallbackMailto(params);
-      } finally {
-        if (submitBtn) { submitBtn.disabled = false; if (submitBtn.tagName.toLowerCase()==='button') submitBtn.textContent = origText; }
-      }
-    }
-
-    function fallbackMailto(params) {
-      const subject = encodeURIComponent('Bokningsförfrågan från webbplatsen');
-      const body = encodeURIComponent(
-        `Namn: ${params.from_name || ''}\nE-post: ${params.from_email || ''}\nTelefon: ${params.phone || ''}\nBil: ${params.car || ''}\nProblem: ${params.issue || ''}\nDatum: ${params.date || ''}\nTid: ${params.time || ''}\n\nMeddelande:\n${params.message || ''}`
-      );
-      setTimeout(()=> { window.location.href = `mailto:info@utbysnabbbilservice.se?subject=${subject}&body=${body}`; }, 700);
-    }
-
-    // Init: DOMContentLoaded events
-    document.addEventListener('DOMContentLoaded', function(){
-      // Datum min
-      const dateInput = document.getElementById('date');
-      if (dateInput) {
-        const t = new Date(); dateInput.min = `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
-      }
-
-      // Dropdown funktionalitet
-      (function(){
-        const dropdown = document.getElementById("issueDropdown");
-        if (!dropdown) return;
-        const input = dropdown.querySelector("input");
-        const list = dropdown.querySelector(".dropdown-list");
-        input.addEventListener("focus", ()=> list.style.display = "block");
-        input.addEventListener("input", ()=>{
-          const filter = input.value.toLowerCase();
-          list.querySelectorAll("li").forEach(li=> li.style.display = li.textContent.toLowerCase().includes(filter) ? 'block' : 'none');
-        });
-        list.querySelectorAll("li").forEach(li=>{
-          li.addEventListener("click", ()=> { input.value = li.textContent; list.style.display = "none"; });
-        });
-        document.addEventListener("click", e=> { if (!dropdown.contains(e.target)) list.style.display = "none"; });
-      })();
-
-      // SMS FAB
-      (function initSms(){
-        const smsFab = document.getElementById('smsFab');
-        const chooser = document.getElementById('chooserModal');
-        // enkel: öppna SMS/Email modal direkt
-        if (!smsFab) return;
-        smsFab.addEventListener('click', function(e){
-          e.preventDefault();
-          const ua = navigator.userAgent.toLowerCase();
-          const base = (ua.includes('iphone')||ua.includes('ipad')) ? 'sms:+46720040936&body=' : 'sms:+46720040936?body=';
-          const body = encodeURIComponent('Hej! Jag skulle vilja be om hjälp med min bil.');
-          window.location.href = base + body;
-        });
-      })();
-
-      // Form submit
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) contactForm.addEventListener('submit', function(e){ submitFormViaEmailJS(contactForm, e); });
-
-      // Modal stäng
-      document.querySelectorAll('.modal .modal-close').forEach(btn=>{
-        btn.addEventListener('click', function(ev){ ev.preventDefault(); const modal = btn.closest('.modal'); if (modal){ modal.classList.remove('show'); document.body.classList.remove('scroll-lock'); } });
+      emailjs.sendForm(
+        "service_6fai64h",   // مثال: service_xxxx
+        "template_7tccbsi",  // مثال: template_yyyy
+        this
+      )
+      .then(() => {
+        status.style.color = "green";
+        status.textContent = "تم الإرسال بنجاح!";
+        this.reset();
+      })
+      .catch((error) => {
+        status.style.color = "red";
+        status.textContent = "خطأ أثناء الإرسال.";
+        console.error(error);
       });
     });
-  })();
   </script>
+
 </body>
 </html>
