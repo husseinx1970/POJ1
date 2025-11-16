@@ -2,12 +2,12 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8">
-  <title>EmailJS Test</title>
+  <title>EmailJS Test – Full Fields</title>
 
   <style>
     body {
-      background:#0b0c10; color:white; font-family:Arial; 
-      padding:20px; max-width:500px; margin:auto;
+      background:#0b0c10; color:white; font-family:Arial;
+      padding:20px; max-width:550px; margin:auto;
     }
     label { display:block; margin-top:12px; }
     input, textarea {
@@ -16,42 +16,52 @@
       background:#111; color:white;
     }
     button {
-      margin-top:14px; padding:12px; width:100%;
+      margin-top:16px; padding:12px; width:100%;
       background:#dabd66; border:0; color:#111;
       font-weight:bold; border-radius:10px; cursor:pointer;
     }
-    #contactStatus {
-      margin-top:14px; padding:12px; border-radius:8px; display:none;
-      text-align:center; font-weight:bold;
+    #status {
+      margin-top:16px; padding:12px; display:none;
+      border-radius:10px; text-align:center; font-weight:bold;
     }
-    #contactStatus.success {
-      background:rgba(34,197,94,0.15); color:#4ade80;
-    }
-    #contactStatus.error {
-      background:rgba(239,68,68,0.15); color:#f87171;
-    }
+    #status.success { background:rgba(34,197,94,0.15); color:#4ade80; }
+    #status.error   { background:rgba(239,68,68,0.15); color:#f87171; }
   </style>
 </head>
 <body>
 
-  <h2>Testa EmailJS</h2>
+  <h2>Testa EmailJS – Fullt formulär</h2>
 
-  <!-- FORM -->
-  <form id="contactForm_emailjs">
+  <form id="emailForm">
     <input type="text" name="_honey" style="display:none">
 
-    <label for="name">Namn</label>
-    <input id="name" name="name" required>
+    <label>Namn</label>
+    <input type="text" name="name" required>
 
-    <label for="email">E-post</label>
-    <input id="email" name="email" type="email" required>
+    <label>Telefon</label>
+    <input type="text" name="phone">
 
-    <label for="message">Meddelande</label>
-    <textarea id="message" name="message" required></textarea>
+    <label>E-post</label>
+    <input type="email" name="email" required>
 
-    <button type="submit">Skicka</button>
+    <label>Bil / Regnr</label>
+    <input type="text" name="car" required>
 
-    <div id="contactStatus"></div>
+    <label>Problem / Tjänst</label>
+    <input type="text" name="issue" required>
+
+    <label>Önskat datum</label>
+    <input type="date" name="date" required>
+
+    <label>Önskad tid</label>
+    <input type="time" name="time" required>
+
+    <label>Meddelande</label>
+    <textarea name="message" required></textarea>
+
+    <button type="submit">Skicka meddelande</button>
+
+    <div id="status"></div>
   </form>
 
   <!-- EmailJS lib -->
@@ -59,42 +69,43 @@
 
   <script>
   (function(){
-    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
-    const EMAILJS_SERVICE_ID  = "service_6fai64h";
-    const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
 
-    // init
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+    const PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
+    const SERVICE_ID  = "service_6fai64h";
+    const TEMPLATE_ID = "template_7tccbsi";
 
-    function setStatus(text, type){
-      const el = document.getElementById("contactStatus");
-      el.textContent = text;
-      el.className = type;
-      el.style.display = "block";
+    emailjs.init(PUBLIC_KEY);
+
+    const form   = document.getElementById("emailForm");
+    const status = document.getElementById("status");
+
+    function show(msg, type){
+      status.textContent = msg;
+      status.className = type;
+      status.style.display = "block";
     }
 
-    document.getElementById("contactForm_emailjs").addEventListener("submit", async function(e){
+    form.addEventListener("submit", async function(e){
       e.preventDefault();
 
-      let form = this;
-      let btn  = form.querySelector("button");
-      let prev = btn.textContent;
-      btn.textContent = "Skickar..."; 
+      const btn = form.querySelector("button");
+      const old = btn.textContent;
+      btn.textContent = "Skickar...";
       btn.disabled = true;
 
       try {
-        await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
-        setStatus("Tack! Ditt meddelande är skickat.", "success");
+        await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
+        show("Tack! Meddelandet skickades.", "success");
         form.reset();
-      } 
-      catch (err) {
+      } catch (err) {
         console.error(err);
-        setStatus("Fel: kunde inte skicka e-post.", "error");
+        show("Fel: kunde inte skicka e-post.", "error");
       }
 
-      btn.textContent = prev;
+      btn.textContent = old;
       btn.disabled = false;
     });
+
   })();
   </script>
 
