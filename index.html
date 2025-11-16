@@ -7,14 +7,15 @@
   <title>Utby Snabb Bilservice — Pålitlig bilservice i Göteborg</title>
   <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer. Drop-in, vardagar 09:00–18:00, däckhotell."/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
-   <!-- Favicons / app icons -->
+  <!-- Favicons / app icons -->
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="shortcut icon" href="assets/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="assets/site.webmanifest">
   <meta name="theme-color" content="#DABD66">
-   <style>
+
+  <style>
     *,*::before,*::after{box-sizing:border-box}
     html,body{margin:0;padding:0;height:100%;background:#0b0c10;color:#f6f7fb;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
     html,body{overflow-x:hidden}
@@ -96,6 +97,16 @@
     .dropdown-list li { padding:10px 12px; color:#dbe6f1; cursor:pointer; border-radius:8px; font-size:14px; }
     .dropdown-list li:hover, .dropdown-list li:focus { background: rgba(218,189,102,0.12); color:#fff; outline:none }
 
+    /* SMS FAB */
+    .sms-fab{
+      position:fixed; right:14px; bottom:14px; width:54px; height:54px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#e9cf6e,#d4b848); color:#111;
+      border:1px solid rgba(0,0,0,.2); text-decoration:none; transition:.15s; box-shadow:0 8px 22px rgba(0,0,0,.45); touch-action:none;
+      z-index:1000; cursor:grab;
+    }
+    .sms-fab:active{cursor:grabbing}
+    .sms-fab svg{width:24px;height:24px}
+
     /* Map */
     .map-container{text-align:center;margin-top:22px}
     iframe{width:100%;height:240px;border:0;border-radius:12px}
@@ -123,6 +134,10 @@
     .inline-dt label{font-size:12px}
     .inline-dt input{height:32px;font-size:12px;padding:6px 8px;max-width:100%}
     @media(max-width:520px){.inline-dt{grid-template-columns:1fr}}
+    /* modal overrides (ensure visible when .show added) */
+    .modal{position:fixed;inset:0;display:none;place-items:center;z-index:1200;background:rgba(8,10,14,.55);backdrop-filter:blur(14px)}
+    .modal.show{display:grid}
+    .modal-card{width:min(620px,92vw);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;box-shadow:0 32px 90px rgba(0,0,0,.52)}
   </style>
 </head>
 <body>
@@ -212,8 +227,8 @@
     </div>
   </section>
 
-   <!-- Booking section with EmailJS-enabled form (merged) -->
-   <section class="section" id="boka">
+  <!-- Booking section with EmailJS-enabled form (merged) -->
+  <section class="section" id="boka">
     <div class="container">
       <h2>Kontakt oss & Boka tid</h2>
 
@@ -337,7 +352,7 @@
   </footer>
 
   <!-- Modal: Kontakta Hussein -->
-  <div class="modal" id="creatorModal">
+  <div class="modal" id="creatorModal" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-header">
         <img src="assets/logo.png" alt="Logotyp">
@@ -352,12 +367,12 @@
         <strong>Vill du ha en professionell hemsida?</strong>
         <p>Jag bygger snabba، säkra och mobilanpassade webbplatser för företag och privatpersoner. Från idé till färdig sida — enkelt، tydligt och snyggt.</p>
       </div>
-      <span class="modal-close" id="closeCreator">Stäng</span>
+      <span class="modal-close" id="closeCreator" style="display:block;margin:14px auto 2px;text-align:center;color:#9fb0c0;cursor:pointer">Stäng</span>
     </div>
   </div>
 
   <!-- Modal: Tack -->
-  <div class="modal" id="thanksModal">
+  <div class="modal" id="thanksModal" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-header">
         <img src="assets/logo.png" alt="Logotyp">
@@ -366,12 +381,12 @@
           <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
         </div>
       </div>
-      <span class="modal-close" id="thanksClose">Stäng</span>
+      <span class="modal-close" id="thanksClose" style="display:block;margin:14px auto 2px;text-align:center;color:#9fb0c0;cursor:pointer">Stäng</span>
     </div>
   </div>
 
   <!-- Modal: Kontaktväljare (SMS eller E-post) -->
-  <div class="modal" id="chooserModal">
+  <div class="modal" id="chooserModal" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-header">
         <img src="assets/logo.png" alt="Logotyp">
@@ -382,13 +397,13 @@
       </div>
       <a class="action call" id="chooserSms" href="#">Skicka SMS</a>
       <a class="action mail" id="chooserMail" href="mailto:info@utbysnabbbilservice.se?subject=Bokningsförfrågan">Skicka e-post</a>
-      <span class="modal-close" id="chooserClose">Stäng</span>
+      <span class="modal-close" id="chooserClose" style="display:block;margin:14px auto 2px;text-align:center;color:#9fb0c0;cursor:pointer">Stäng</span>
     </div>
   </div>
 
   <!-- SMS floating button -->
-  <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post">
-    <svg viewBox="0 0 24 24" fill="currentColor">
+  <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post" title="Skicka SMS eller e-post">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 01-2-2zM6 9h8v2H6V9zm0-4h12v2H6V5z"/>
     </svg>
   </a>
@@ -448,61 +463,62 @@
         dateInput.min = `${y}-${m}-${d}`;
       }
       initSmsFab();
+      wireModals();
     });
 
-    // Modal open/close for creator
-    const creatorModal = document.getElementById('creatorModal');
-    const openCreator = document.getElementById('openCreator');
-    const closeCreator = document.getElementById('closeCreator');
-    if (openCreator && creatorModal) {
-      openCreator.addEventListener('click', function(e) {
-        e.preventDefault();
-        creatorModal.classList.add('show');
-        document.body.classList.add('scroll-lock');
-      });
-    }
-    if (closeCreator && creatorModal) {
-      closeCreator.addEventListener('click', function(e) {
-        e.preventDefault();
-        creatorModal.classList.remove('show');
-        document.body.classList.remove('scroll-lock');
-      });
-    }
-    if (creatorModal) {
-      creatorModal.addEventListener('click', function(e) {
-        if (e.target === creatorModal) {
+    function wireModals(){
+      // creator modal open
+      const creatorModal = document.getElementById('creatorModal');
+      const openCreator = document.getElementById('openCreator');
+      const closeCreator = document.getElementById('closeCreator');
+      if (openCreator && creatorModal) {
+        openCreator.addEventListener('click', function(e) {
+          e.preventDefault();
+          creatorModal.classList.add('show');
+          creatorModal.setAttribute('aria-hidden','false');
+          document.body.classList.add('scroll-lock');
+        });
+      }
+      if (closeCreator && creatorModal) {
+        closeCreator.addEventListener('click', function(e) {
+          e.preventDefault();
           creatorModal.classList.remove('show');
+          creatorModal.setAttribute('aria-hidden','true');
           document.body.classList.remove('scroll-lock');
-        }
+        });
+      }
+      // generic modal close
+      document.querySelectorAll('.modal .modal-close').forEach(btn => {
+        btn.addEventListener('click', function (ev) {
+          ev.preventDefault();
+          const modal = btn.closest('.modal');
+          if (modal) {
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden','true');
+            document.body.classList.remove('scroll-lock');
+          }
+        });
+      });
+      // click outside to close
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function(ev) {
+          if (ev.target === modal) {
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden','true');
+            document.body.classList.remove('scroll-lock');
+          }
+        });
       });
     }
-
-    // Tiny modal close wiring (generic)
-    document.querySelectorAll('.modal .modal-close').forEach(btn => {
-      btn.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        const modal = btn.closest('.modal');
-        if (modal) {
-          modal.classList.remove('show');
-          document.body.classList.remove('scroll-lock');
-        }
-      });
-    });
-    document.querySelectorAll('.modal').forEach(modal => {
-      modal.addEventListener('click', function(ev) {
-        if (ev.target === modal) {
-          modal.classList.remove('show');
-          document.body.classList.remove('scroll-lock');
-        }
-      });
-    });
 
     // ---------------- SMS FAB ----------------
     function initSmsFab() {
       const smsFab = document.getElementById('smsFab');
       const chooserModal = document.getElementById('chooserModal');
       const chooserClose = document.getElementById('chooserClose');
-      if (!smsFab || !chooserModal) return;
+      const chooserSms = document.getElementById('chooserSms');
+
+      if (!smsFab) return;
 
       function getSmsHref() {
         const base = 'sms:+46720040936';
@@ -512,21 +528,28 @@
       }
 
       function openChooser(e) {
-        e.preventDefault();
-        chooserModal.classList.add('show');
-        document.body.classList.add('scroll-lock');
-        const chooserSmsEl = document.getElementById('chooserSms');
-        if (chooserSmsEl) chooserSmsEl.href = getSmsHref();
+        if (e) e.preventDefault();
+        if (chooserModal) {
+          chooserModal.classList.add('show');
+          chooserModal.setAttribute('aria-hidden','false');
+          document.body.classList.add('scroll-lock');
+          if (chooserSms) chooserSms.href = getSmsHref();
+        } else {
+          window.location.href = getSmsHref();
+        }
       }
       function closeChooser(e) {
-        e.preventDefault();
-        chooserModal.classList.remove('show');
-        document.body.classList.remove('scroll-lock');
+        if (e) e.preventDefault();
+        if (chooserModal) {
+          chooserModal.classList.remove('show');
+          chooserModal.setAttribute('aria-hidden','true');
+          document.body.classList.remove('scroll-lock');
+        }
       }
 
       smsFab.addEventListener('click', openChooser);
       if (chooserClose) chooserClose.addEventListener('click', closeChooser);
-      chooserModal.addEventListener('click', function(e) { if (e.target === chooserModal) closeChooser(e); });
+      if (chooserModal) chooserModal.addEventListener('click', function(e) { if (e.target === chooserModal) closeChooser(e); });
 
       makeSmsFabDraggable(smsFab);
     }
@@ -535,18 +558,20 @@
       const MARGIN_X = 14, MARGIN_Y = 8, CLICK_TOL = 6;
       let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0, pointerId = null;
 
-      function restorePosition() {
-        try {
-          const saved = JSON.parse(localStorage.getItem('smsFabPosition') || 'null');
-          if (saved && (saved.side === 'left' || saved.side === 'right') && Number.isFinite(saved.top)) {
-            el.style.top = Math.max(MARGIN_Y, saved.top) + 'px';
-            if (saved.side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
-            else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
-          }
-        } catch (_) {}
-      }
+      // restore saved
+      try {
+        const saved = JSON.parse(localStorage.getItem('smsFabPosition') || 'null');
+        if (saved && (saved.side === 'left' || saved.side === 'right') && Number.isFinite(saved.top)) {
+          el.style.position = 'fixed';
+          el.style.top = Math.max(MARGIN_Y, saved.top) + 'px';
+          if (saved.side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
+          else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
+        }
+      } catch (_) {}
+
       function ensureLeftTop() {
         const rect = el.getBoundingClientRect();
+        el.style.position = 'fixed';
         el.style.left = rect.left + 'px';
         el.style.top = rect.top + 'px';
         el.style.right = 'auto';
@@ -594,7 +619,6 @@
           el.addEventListener('click', function once(ev) { ev.stopImmediatePropagation(); ev.preventDefault(); }, { once: true, capture: true });
         }
       }
-      restorePosition();
       el.addEventListener('pointerdown', onPointerDown, { passive: false });
       window.addEventListener('pointermove', onPointerMove, { passive: false });
       window.addEventListener('pointerup', onPointerUp, { passive: false });
@@ -649,15 +673,6 @@
           statusEl.textContent = okMessage;
           statusEl.className = 'success';
           statusEl.style.display = 'block';
-
-          // if booking form present, show thanks modal
-          if (form.id === 'bookingForm') {
-            const thanksModal = document.getElementById('thanksModal');
-            if (thanksModal) {
-              thanksModal.classList.add('show');
-              document.body.classList.add('scroll-lock');
-            }
-          }
 
           form.reset();
         } else {
@@ -766,7 +781,7 @@
             setStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
             form.reset();
             const thanksModal = document.getElementById('thanksModal');
-            if (thanksModal) { thanksModal.classList.add('show'); document.body.classList.add('scroll-lock'); }
+            if (thanksModal) { thanksModal.classList.add('show'); thanksModal.setAttribute('aria-hidden','false'); document.body.classList.add('scroll-lock'); }
           } else {
             throw new Error('EmailJS är inte tillgängligt eller saknar konfiguration.');
           }
