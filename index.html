@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="color-scheme" content="dark only"/>
-  <title>Utby Snabb Bilservice — Boka (EmailJS test)</title>
-  <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer."/>
+  <title>Utby Snabb Bilservice — Boka / EmailJS (Förenad version)</title>
+  <meta name="description" content="Utby Snabb Bilservice i Göteborg: service, diagnos, bromsar, däck, AC och kompletta reparationer. Drop-in vardagar 09:00–18:00."/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#DABD66">
 
@@ -20,67 +20,65 @@
       --success-bg:rgba(34,197,94,0.12);
       --error-bg:rgba(239,68,68,0.12);
     }
-    html,body{height:100%;margin:0;background:var(--bg);color:#eef;font-family:Inter,Segoe UI,Arial,sans-serif;overflow-x:hidden}
+
+    /* Base */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;padding:0;background:var(--bg);color:#eef;font-family:Inter,Segoe UI,Arial,sans-serif;overflow-x:hidden}
     a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;display:block}
     .container{width:min(1100px,100%);margin:auto;padding:0 18px}
 
     /* Header */
-    .header{position:sticky;top:0;z-index:10;background:rgba(12,13,18,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .header{position:sticky;top:0;z-index:600;background:rgba(12,13,18,.75);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
     .header-inner{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
     .brand{display:flex;align-items:center;gap:10px}
     .brand img{width:56px;height:56px;border-radius:10px;object-fit:contain;filter:drop-shadow(0 0 12px rgba(218,189,102,.3))}
-    .brand-name{font:800 18px/1 Space Grotesk;color:#fff}
-    .nav{display:flex;gap:8px}
-    .nav a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.08)}
-    .nav a.secondary{background:rgba(255,255,255,.04);color:#fff}
-    .nav a.primary{background:var(--accent);color:#111}
+    .brand-name{font-weight:800;font-size:18px;line-height:1;font-family:Space Grotesk,Inter;color:#fff}
+    .nav{display:flex;gap:8px;align-items:center}
+    .nav a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#fff}
+    .nav a.primary{background:var(--accent);color:#111;border:none}
 
     /* Hero */
     .hero{text-align:center;padding:28px 0}
     .hero h1{font-family:Space Grotesk,Inter;font-weight:800;font-size:clamp(22px,6vw,36px);background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent;margin:.3em 0}
     .lead{color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
-    .cta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 
     /* Sections */
     .section{padding:28px 0}
-    .section h2{text-align:center;font:800 22px/1.3 Space Grotesk;margin:0 0 10px;color:#fff}
+    .section h2{text-align:center;font-weight:800;font-size:22px;color:#fff;margin:0 0 12px}
 
-    /* Card / contact */
-    .contact-form{max-width:860px;margin:18px auto;padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04)}
-    h3{margin:0 0 10px;font-weight:800;color:#fff}
+    /* Services */
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px}
+    .card h3{margin:.1em 0 .2em;font-weight:700}
+
+    /* Contact / booking */
+    .contact-form{max-width:920px;margin:18px auto;padding:20px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.04)}
+    .contact-form h3{margin:0 0 12px;font-weight:800;color:#fff}
     form{display:grid;gap:10px}
     label{font-weight:700;font-size:13px;color:#e6e8ef}
-    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea, select {
       width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--input-border);
       background:var(--input-bg); color:#fff; font-size:14px; box-sizing:border-box;
     }
     textarea{min-height:120px; resize:vertical}
     .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    button[type="submit"]{
-      background:linear-gradient(180deg,#e9cf6e,#d4b848); color:#111; border:none;padding:12px 14px;border-radius:999px;font-weight:900;cursor:pointer;font-size:15px;
-    }
+    button[type="submit"]{background:linear-gradient(180deg,#e9cf6e,#d4b848); color:#111; border:none;padding:12px 14px;border-radius:999px;font-weight:900;cursor:pointer;font-size:15px}
     #contactStatus{display:none;padding:12px;border-radius:8px;text-align:center;font-weight:700}
     #contactStatus.success{background:var(--success-bg);color:#4ade80;border:1px solid rgba(34,197,94,0.15);display:block}
     #contactStatus.error{background:var(--error-bg);color:#f87171;border:1px solid rgba(239,68,68,0.15);display:block}
 
-    /* dropdown styles */
+    /* Dropdown */
     .custom-dropdown { position: relative; width: 100%; margin-bottom: 12px; z-index: 999; }
-    .custom-dropdown input {
-      width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--input-border);
-      background: var(--input-bg); color: #fff; font-size: 15px; box-sizing: border-box;
-    }
-    .custom-dropdown input:focus { border-color: rgba(218,189,102,0.9); box-shadow:0 0 8px rgba(218,189,102,0.06); outline:none }
+    .custom-dropdown input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--input-border); background: var(--input-bg); color: #fff; font-size: 15px; box-sizing: border-box; }
+    .custom-dropdown input:focus { border-color: rgba(218,189,102,0.9); box-shadow:0 0 8px rgba(218,189,102,0.06); outline:none; }
     .custom-dropdown::after { content: "▾"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size:14px; }
-    .dropdown-list {
-      position: absolute; left: 0; right: 0; top: calc(100% + 8px); max-height: 240px; overflow-y: auto;
-      background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding:6px; display:none;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    }
+    .dropdown-list { position: absolute; left: 0; right: 0; top: calc(100% + 8px); max-height: 260px; overflow-y: auto; background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding:6px; display:none; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
     .dropdown-list li { padding:10px 12px; color:#dbe6f1; cursor:pointer; border-radius:8px; font-size:14px; }
     .dropdown-list li:hover, .dropdown-list li:focus { background: rgba(218,189,102,0.12); color:#fff; outline:none }
 
-    /* modal */
-    .modal{position:fixed;inset:0;display:none;place-items:center;z-index:120;background:rgba(8,10,14,.55);backdrop-filter:blur(14px)}
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;z-index:900;background:rgba(8,10,14,.55);backdrop-filter:blur(14px)}
     .modal.show{display:grid}
     .modal-card{width:min(640px,92vw);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px;box-shadow:0 32px 90px rgba(0,0,0,.52)}
     .modal-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
@@ -88,41 +86,70 @@
     .action{display:block;width:100%;text-align:center;font-weight:900;border-radius:12px;padding:12px;margin:10px 0}
     .action.call{background:#111;color:var(--accent);border:1px solid rgba(255,255,255,.06)}
     .action.mail{background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;border:none}
+    .modal .meta{color:#D7DEEA;font-size:14px;margin-top:10px}
+    .modal .meta strong{color:#fff}
+    .modal-close{display:block;margin:14px auto 2px;text-align:center;color:#9fb0c0;cursor:pointer}
 
     /* SMS FAB */
-    .sms-fab{
-      position:fixed; right:14px; bottom:14px; width:54px; height:54px; border-radius:50%;
-      display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;
-      border:1px solid rgba(0,0,0,.2);text-decoration:none;transition:.15s;box-shadow:0 8px 20px rgba(0,0,0,0.45); touch-action:none; z-index:140;
-    }
+    .sms-fab{position:fixed;right:14px;bottom:14px;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#e9cf6e,#d4b848);color:#111;border:1px solid rgba(0,0,0,.2);text-decoration:none;transition:.15s;box-shadow:0 8px 20px rgba(0,0,0,0.45);touch-action:none;z-index:1000}
     .sms-fab svg{width:22px;height:22px}
 
-    @media(max-width:720px){ .row{grid-template-columns:1fr} .contact-form{padding:14px} }
+    /* Footer */
+    .site-footer{margin-top:22px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));border-top:1px solid rgba(255,255,255,.12);padding:18px 0}
+    .copyright-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:#BFC7D4;font-size:13px}
+    .copyright-bar a{color:var(--accent);font-weight:700}
+
+    @media(max-width:720px){ .row{grid-template-columns:1fr} .brand img{width:48px;height:48px} .contact-form{padding:14px} .sms-fab{right:10px;bottom:10px} }
   </style>
 </head>
 <body>
 
   <!-- Header -->
-  <header class="header">
+  <header class="header" role="banner">
     <div class="container header-inner">
-      <a class="brand" href="#start"><img src="assets/logo.png" alt="logo"/><span class="brand-name">Utby Snabb Bilservice</span></a>
-      <nav class="nav">
-        <a class="secondary" href="#tjanster">Tjänster</a>
-        <a class="secondary" href="#kontakt">Kontakt</a>
-        <a class="primary" href="#boka">Boka tid</a>
+      <a class="brand" href="#start" aria-label="Utby Snabb Bilservice">
+        <img src="assets/logo.png" alt="Utby Snabb Bilservice logotyp"/>
+        <span class="brand-name">Utby Snabb Bilservice</span>
+      </a>
+
+      <nav class="nav" role="navigation" aria-label="Huvudmeny">
+        <a href="#tjanster" class="secondary">Tjänster</a>
+        <a href="#kontakt" class="secondary">Kontakt</a>
+        <a href="#boka" class="primary">Boka tid</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero" id="start">
+  <section class="hero" id="start" role="region" aria-label="Hero">
     <div class="container">
       <h1>Professionell bilservice i Göteborg</h1>
       <p class="lead">Komplett service, reparation och diagnos för alla bilmärken. Drop-in välkommen — vardagar 09:00–18:00.</p>
     </div>
   </section>
 
-  <!-- Booking / Contact (merged, EmailJS-enabled) -->
+  <!-- Services (example cards) -->
+  <section class="section" id="tjanster">
+    <div class="container">
+      <h2>Våra tjänster</h2>
+      <div class="services" aria-hidden="false">
+        <div class="card">
+          <h3>Service</h3>
+          <p>Byte av motorolja, filter, kontroll av vätskor och säkerhetskontroll.</p>
+        </div>
+        <div class="card">
+          <h3>Däck & hjul</h3>
+          <p>Skifte, balansering, däckhotell och TPMS-kalibrering.</p>
+        </div>
+        <div class="card">
+          <h3>Diagnos</h3>
+          <p>OBD-felkodsavläsning och systemdiagnos med moderna verktyg.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking / Contact (EmailJS-enabled) -->
   <section class="section" id="boka">
     <div class="container">
       <h2>Kontakt oss & Boka tid</h2>
@@ -130,8 +157,9 @@
       <div class="contact-form" aria-labelledby="bookingHeading">
         <h3 id="bookingHeading">Boka tid</h3>
 
-        <!-- EmailJS form: UNIQUE ID to avoid collisions with AJAX sender -->
+        <!-- EmailJS form: using emailjs.sendForm (no form action) -->
         <form id="contactForm_emailjs" autocomplete="on" novalidate>
+          <!-- honeypot anti-spam -->
           <input type="text" name="_honey" style="display:none" autocomplete="off">
 
           <label for="name">Namn</label>
@@ -146,7 +174,7 @@
           <label for="car">Bil / Regnr</label>
           <input id="car" name="car" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
 
-          <!-- Problem / Tjänst: long searchable dropdown -->
+          <!-- Problem / Tjänst dropdown -->
           <label for="issueInput">Problem / Tjänst</label>
           <div class="custom-dropdown" id="issueDropdown">
             <input type="text" id="issueInput" name="issue" placeholder="Välj eller sök tjänst..." required autocomplete="off" aria-haspopup="listbox" aria-expanded="false" />
@@ -201,20 +229,22 @@
         </form>
       </div>
 
-      <div style="text-align:center;margin-top:18px">
+      <div style="text-align:center;margin-top:18px" id="kontakt">
         <h3>Här hittar du oss</h3>
         <p>Vagnmakaregatan 2, 415 72 Göteborg</p>
-        <iframe src="https://www.google.com/maps?q=57.74025,12.07864&hl=sv&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:240px;border:0;border-radius:10px;"></iframe>
+        <iframe src="https://www.google.com/maps?q=57.74025,12.07864&hl=sv&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:240px;border:0;border-radius:10px"></iframe>
       </div>
     </div>
   </section>
 
-  <!-- Footer with "Hussein" link (opens creator modal) -->
-  <footer class="site-footer" style="margin-top:22px">
-    <div class="container" style="padding:18px">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="copyright-bar">
         <div>
-          <strong>Utby Snabb Bilservice</strong><br/>Vagnmakaregatan 2, 415 72 Göteborg<br/>Tel: <a href="tel:+46720040936">072-004 09 36</a>
+          <strong>Utby Snabb Bilservice</strong><br/>
+          Vagnmakaregatan 2, 415 72 Göteborg<br/>
+          Tel: <a href="tel:+46720040936">072-004 09 36</a>
         </div>
         <div style="text-align:right">
           <span>© 2023 Utby Snabb Bilservice</span><br/>
@@ -226,7 +256,7 @@
 
   <!-- Creator Modal -->
   <div class="modal" id="creatorModal" role="dialog" aria-modal="true" aria-labelledby="creatorTitle">
-    <div class="modal-card">
+    <div class="modal-card" role="document">
       <div class="modal-header">
         <img src="assets/logo.png" alt="Logotyp">
         <div>
@@ -234,103 +264,139 @@
           <p>Via denna hemsida kan du nå mig direkt — via e-post eller mobil. Jag återkommer så snart som möjligt.</p>
         </div>
       </div>
+
       <a class="action call" href="tel:+46790574975">Ring: 0790574975</a>
       <a class="action mail" href="mailto:hussein.alsamli02@gmail.com">Skicka e-post</a>
-      <div style="margin-top:8px;color:#d7deeA">
+
+      <div class="meta">
         <strong>Vill du ha en professionell hemsida?</strong>
-        <p style="margin:6px 0 0">Jag bygger snabba, säkra och mobilanpassade webbplatser för företag och privatpersoner. Från idé till färdig sida — enkelt, tydligt och snyggt.</p>
+        <p>Jag bygger snabba, säkra och mobilanpassade webbplatser för företag och privatpersoner. Från idé till färdig sida — enkelt, tydligt och snyggt.</p>
       </div>
-      <div style="text-align:center;margin-top:12px;color:#9fb0c0;cursor:pointer" class="modal-close" id="closeCreator">Stäng</div>
+
+      <div class="modal-close" id="closeCreator" role="button" tabindex="0">Stäng</div>
     </div>
   </div>
 
-  <!-- Chooser modal for SMS / Email -->
-  <div class="modal" id="chooserModal" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
+  <!-- Thanks modal -->
+  <div class="modal" id="thanksModal" aria-hidden="true">
     <div class="modal-card">
       <div class="modal-header">
         <img src="assets/logo.png" alt="Logotyp">
         <div>
-          <h3 id="chooserTitle">Välj kontaktmetod</h3>
+          <h3>Tack!</h3>
+          <p>Din förfrågan har skickats. Vi återkommer så snart som möjligt.</p>
+        </div>
+      </div>
+      <div class="modal-close" id="thanksClose" role="button" tabindex="0">Stäng</div>
+    </div>
+  </div>
+
+  <!-- Chooser modal for SMS / email -->
+  <div class="modal" id="chooserModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <img src="assets/logo.png" alt="Logotyp">
+        <div>
+          <h3>Välj kontaktmetod</h3>
           <p>Vill du skicka SMS eller E-post?</p>
         </div>
       </div>
       <a class="action call" id="chooserSms" href="#" target="_blank" rel="noopener">Skicka SMS</a>
       <a class="action mail" id="chooserMail" href="mailto:info@utbysnabbbilservice.se?subject=Bokningsförfrågan">Skicka e-post</a>
-      <div style="text-align:center;margin-top:8px;color:#9fb0c0;cursor:pointer" class="modal-close" id="chooserClose">Stäng</div>
+      <div class="modal-close" id="chooserClose" role="button" tabindex="0">Stäng</div>
     </div>
   </div>
 
-  <!-- SMS floating button (draggable) -->
+  <!-- SMS floating button -->
   <a id="smsFab" class="sms-fab" href="#" aria-label="Skicka SMS eller e-post" title="Skicka SMS eller e-post">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M20 2H4a2 2 0 00-2 2v16l4-4h14a2 2 0 002-2V4a2 2 0 01-2-2zM6 9h8v2H6V9zm0-4h12v2H6V5z"/>
     </svg>
   </a>
 
-  <!-- Shared dropdown script -->
-  <script>
-    (function(){
-      const dropdown = document.getElementById("issueDropdown");
-      if (!dropdown) return;
-      const input = dropdown.querySelector("input");
-      const list = dropdown.querySelector(".dropdown-list");
-      const items = Array.from(list.querySelectorAll('li'));
+  <!-- Scripts: dropdown, modals, sms fab draggable, EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-      function open(){ list.style.display='block'; input.setAttribute('aria-expanded','true'); position(); }
-      function close(){ list.style.display='none'; input.setAttribute('aria-expanded','false'); }
-      function position(){
-        list.style.top='calc(100% + 8px)'; list.style.bottom='auto';
-        const rect = list.getBoundingClientRect();
-        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        const bottom = dropdown.getBoundingClientRect().bottom + rect.height + 12;
-        if (bottom > vh) { list.style.top='auto'; list.style.bottom='calc(100% + 8px)'; }
-      }
-
-      input.addEventListener('focus', open);
-      input.addEventListener('input', ()=> {
-        const v = input.value.trim().toLowerCase();
-        items.forEach(li => li.style.display = li.textContent.toLowerCase().includes(v) ? 'block' : 'none');
-        open();
-      });
-
-      items.forEach(li=>{
-        li.tabIndex = 0;
-        li.addEventListener('click', ()=>{ input.value = li.textContent; close(); input.dispatchEvent(new Event('change',{bubbles:true})); });
-        li.addEventListener('keydown', e=> { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); } });
-      });
-
-      input.addEventListener('keydown', e=>{
-        const visible = items.filter(i=>i.style.display!=='none');
-        if (e.key === 'ArrowDown') { e.preventDefault(); if (visible[0]) visible[0].focus(); }
-        else if (e.key === 'Escape') { close(); input.blur(); }
-      });
-
-      document.addEventListener('click', e=> { if (!dropdown.contains(e.target)) close(); });
-      window.addEventListener('resize', position);
-      window.addEventListener('scroll', position, true);
-    })();
-  </script>
-
-  <!-- Main UI behaviours: modals, SMS FAB draggable, date min -->
   <script>
   (function(){
-    // set min date on date input
-    document.addEventListener('DOMContentLoaded', function(){
-      const dateInput = document.getElementById('date');
-      if (dateInput) {
-        const today = new Date();
-        const y = today.getFullYear();
-        const m = String(today.getMonth()+1).padStart(2,'0');
-        const d = String(today.getDate()).padStart(2,'0');
-        dateInput.min = `${y}-${m}-${d}`;
-      }
-      initSmsFab();
-    });
+    /* ===== Dropdown (searchable & accessible) ===== */
+    (function(){
+      const dropdown = document.getElementById('issueDropdown');
+      if (!dropdown) return;
+      const input = dropdown.querySelector('#issueInput');
+      const list  = dropdown.querySelector('.dropdown-list');
+      const items = Array.from(list.querySelectorAll('li'));
 
-    // Creator modal wiring
+      function openList(){
+        list.style.display = 'block';
+        input.setAttribute('aria-expanded','true');
+        positionList();
+      }
+      function closeList(){
+        list.style.display = 'none';
+        input.setAttribute('aria-expanded','false');
+      }
+      function positionList(){
+        list.style.top = 'calc(100% + 8px)';
+        list.style.bottom = 'auto';
+        const rect = list.getBoundingClientRect();
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const dropdownRect = dropdown.getBoundingClientRect();
+        if (dropdownRect.bottom + rect.height + 16 > vh) {
+          list.style.top = 'auto';
+          list.style.bottom = 'calc(100% + 8px)';
+        }
+      }
+
+      input.addEventListener('focus', openList);
+      input.addEventListener('input', () => {
+        const v = input.value.trim().toLowerCase();
+        items.forEach(li => {
+          const ok = li.textContent.toLowerCase().includes(v);
+          li.style.display = ok ? 'block' : 'none';
+        });
+        openList();
+      });
+
+      items.forEach(li => {
+        li.tabIndex = 0;
+        li.addEventListener('click', () => {
+          input.value = li.textContent;
+          closeList();
+          input.dispatchEvent(new Event('change',{bubbles:true}));
+        });
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); }
+        });
+      });
+
+      input.addEventListener('keydown', (e) => {
+        const visible = items.filter(i => i.style.display !== 'none');
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (visible[0]) visible[0].focus();
+        } else if (e.key === 'Escape') {
+          closeList();
+          input.blur();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) closeList();
+      });
+      window.addEventListener('resize', positionList);
+      window.addEventListener('scroll', positionList, true);
+    })();
+
+    /* ===== Modal & UI wiring (creator, chooser, thanks) ===== */
     const creatorModal = document.getElementById('creatorModal');
     const openCreator = document.getElementById('openCreator');
     const closeCreator = document.getElementById('closeCreator');
+    const chooserModal = document.getElementById('chooserModal');
+    const chooserClose = document.getElementById('chooserClose');
+    const thanksModal = document.getElementById('thanksModal');
+    const thanksClose = document.getElementById('thanksClose');
+
     if (openCreator && creatorModal) {
       openCreator.addEventListener('click', function(e){
         e.preventDefault();
@@ -338,196 +404,195 @@
         document.body.classList.add('scroll-lock');
       });
     }
-    if (closeCreator && creatorModal) {
-      closeCreator.addEventListener('click', function(e){
-        e.preventDefault();
-        creatorModal.classList.remove('show');
-        document.body.classList.remove('scroll-lock');
-      });
-    }
-    if (creatorModal) {
-      creatorModal.addEventListener('click', function(e){
-        if (e.target === creatorModal) { creatorModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); }
-      });
-    }
+    if (closeCreator) closeCreator.addEventListener('click', function(e){ e.preventDefault(); creatorModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); });
 
-    // generic modal close
-    document.querySelectorAll('.modal .modal-close').forEach(btn=>{
-      btn.addEventListener('click', function(ev){
-        ev.preventDefault();
-        const modal = btn.closest('.modal');
-        if (modal) { modal.classList.remove('show'); document.body.classList.remove('scroll-lock'); }
+    if (chooserClose) chooserClose.addEventListener('click', function(e){ e.preventDefault(); chooserModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); });
+
+    if (thanksClose) thanksClose.addEventListener('click', function(e){ e.preventDefault(); thanksModal.classList.remove('show'); document.body.classList.remove('scroll-lock'); });
+
+    // close modal on backdrop click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', function(ev){
+        if (ev.target === modal) {
+          modal.classList.remove('show');
+          document.body.classList.remove('scroll-lock');
+        }
       });
     });
 
-    // ---------------- SMS FAB (draggable + chooser) ----------------
-    function initSmsFab(){
+    /* ===== SMS FAB draggable + chooser ===== */
+    function initSmsFab() {
       const smsFab = document.getElementById('smsFab');
-      const chooserModal = document.getElementById('chooserModal');
+      const chooserModalEl = document.getElementById('chooserModal');
       const chooserSms = document.getElementById('chooserSms');
-      const chooserClose = document.getElementById('chooserClose');
-      if (!smsFab || !chooserModal) return;
+      if (!smsFab || !chooserModalEl) return;
 
-      function getSmsHref(){
+      function getSmsHref() {
         const base = 'sms:+46720040936';
         const body = encodeURIComponent('Hej! Jag skulle vilja be om hjälp med min bil, den verkar ha ett problem och jag behöver rådgivning.');
         const ua = navigator.userAgent.toLowerCase();
         return (ua.includes('iphone') || ua.includes('ipad')) ? `${base}&body=${body}` : `${base}?body=${body}`;
       }
-
-      function openChooser(e){
+      function openChooser(e) {
         e.preventDefault();
-        chooserModal.classList.add('show');
+        chooserModalEl.classList.add('show');
         document.body.classList.add('scroll-lock');
         if (chooserSms) chooserSms.href = getSmsHref();
       }
-      function closeChooser(e){
+      function closeChooser(e) {
         if (e) e.preventDefault();
-        chooserModal.classList.remove('show');
+        chooserModalEl.classList.remove('show');
         document.body.classList.remove('scroll-lock');
       }
 
       smsFab.addEventListener('click', openChooser);
-      if (chooserClose) chooserClose.addEventListener('click', closeChooser);
-      chooserModal.addEventListener('click', function(e){ if (e.target === chooserModal) closeChooser(e); });
+      // make chooser closeable by keyboard elements already attached above
+
+      // draggable implementation
+      function makeSmsFabDraggable(el) {
+        const MARGIN_X = 14, MARGIN_Y = 8, CLICK_TOL = 6;
+        let dragging = false, startX = 0, startY = 0, startLeft = 0, startTop = 0, pointerId = null;
+
+        function restorePosition() {
+          try {
+            const saved = JSON.parse(localStorage.getItem('smsFabPosition') || 'null');
+            if (saved && (saved.side === 'left' || saved.side === 'right') && Number.isFinite(saved.top)) {
+              el.style.top = Math.max(MARGIN_Y, saved.top) + 'px';
+              if (saved.side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
+              else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
+            }
+          } catch(_) {}
+        }
+        function ensureLeftTop() {
+          const rect = el.getBoundingClientRect();
+          el.style.left = rect.left + 'px';
+          el.style.top = rect.top + 'px';
+          el.style.right = 'auto';
+          el.style.bottom = 'auto';
+        }
+        function clampTop(top) {
+          const rect = el.getBoundingClientRect();
+          const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+          return Math.min(vh - rect.height - MARGIN_Y, Math.max(MARGIN_Y, top));
+        }
+
+        function onPointerDown(e) {
+          if (pointerId !== null && e.pointerId !== pointerId) return;
+          pointerId = e.pointerId;
+          try { e.target.setPointerCapture(pointerId); } catch(_) {}
+          dragging = true;
+          startX = e.clientX; startY = e.clientY;
+          ensureLeftTop();
+          startLeft = parseFloat(el.style.left || el.getBoundingClientRect().left);
+          startTop = parseFloat(el.style.top || el.getBoundingClientRect().top);
+          el.style.transition = 'none';
+          e.preventDefault();
+        }
+        function onPointerMove(e) {
+          if (!dragging || e.pointerId !== pointerId) return;
+          const dx = e.clientX - startX, dy = e.clientY - startY;
+          el.style.left = Math.round(startLeft + dx) + 'px';
+          el.style.top = Math.round(startTop + dy) + 'px';
+          e.preventDefault();
+        }
+        function onPointerUp(e) {
+          if (e.pointerId !== pointerId) return;
+          try { e.target.releasePointerCapture(pointerId); } catch(_) {}
+          const dx = e.clientX - startX, dy = e.clientY - startY;
+          const moved = Math.hypot(dx, dy);
+          dragging = false; pointerId = null;
+          const rect = el.getBoundingClientRect();
+          const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+          const side = (rect.left + rect.width/2 < vw/2) ? 'left' : 'right';
+          const top = clampTop(parseFloat(el.style.top || rect.top));
+          el.style.top = Math.round(top) + 'px';
+          if (side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
+          else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
+          try { localStorage.setItem('smsFabPosition', JSON.stringify({ side, top })); } catch(_) {}
+          if (moved > CLICK_TOL) {
+            el.addEventListener('click', function once(ev) { ev.stopImmediatePropagation(); ev.preventDefault(); }, { once: true, capture: true });
+          }
+        }
+
+        restorePosition();
+        el.addEventListener('pointerdown', onPointerDown, { passive: false });
+        window.addEventListener('pointermove', onPointerMove, { passive: false });
+        window.addEventListener('pointerup', onPointerUp, { passive: false });
+        window.addEventListener('pointercancel', onPointerUp, { passive: false });
+      }
 
       makeSmsFabDraggable(smsFab);
     }
 
-    function makeSmsFabDraggable(el){
-      const MARGIN_X = 14, MARGIN_Y = 8, CLICK_TOL = 6;
-      let dragging=false, startX=0, startY=0, startLeft=0, startTop=0, pointerId=null;
-
-      function restorePosition(){
-        try {
-          const saved = JSON.parse(localStorage.getItem('smsFabPosition') || 'null');
-          if (saved && (saved.side === 'left' || saved.side === 'right') && Number.isFinite(saved.top)){
-            el.style.top = Math.max(MARGIN_Y, saved.top) + 'px';
-            if (saved.side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
-            else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
-          }
-        } catch(_) {}
-      }
-      function ensureLeftTop(){
-        const rect = el.getBoundingClientRect();
-        el.style.left = rect.left + 'px';
-        el.style.top = rect.top + 'px';
-        el.style.right = 'auto'; el.style.bottom = 'auto';
-      }
-      function clampTop(top){
-        const rect = el.getBoundingClientRect();
-        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-        return Math.min(vh - rect.height - MARGIN_Y, Math.max(MARGIN_Y, top));
-      }
-
-      function onPointerDown(e){
-        if (pointerId !== null && e.pointerId !== pointerId) return;
-        pointerId = e.pointerId;
-        try { e.target.setPointerCapture(pointerId); } catch(_) {}
-        dragging = true;
-        startX = e.clientX; startY = e.clientY;
-        ensureLeftTop();
-        startLeft = parseFloat(el.style.left || el.getBoundingClientRect().left);
-        startTop = parseFloat(el.style.top || el.getBoundingClientRect().top);
-        el.style.transition = 'none';
-        e.preventDefault();
-      }
-      function onPointerMove(e){
-        if (!dragging || e.pointerId !== pointerId) return;
-        const dx = e.clientX - startX, dy = e.clientY - startY;
-        el.style.left = Math.round(startLeft + dx) + 'px';
-        el.style.top = Math.round(startTop + dy) + 'px';
-        e.preventDefault();
-      }
-      function onPointerUp(e){
-        if (e.pointerId !== pointerId) return;
-        try { e.target.releasePointerCapture(pointerId); } catch(_) {}
-        const dx = e.clientX - startX, dy = e.clientY - startY;
-        const moved = Math.hypot(dx, dy);
-        dragging = false; pointerId = null;
-        const rect = el.getBoundingClientRect();
-        const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        const side = (rect.left + rect.width/2 < vw/2) ? 'left' : 'right';
-        const top = clampTop(parseFloat(el.style.top || rect.top));
-        el.style.top = Math.round(top) + 'px';
-        if (side === 'left') { el.style.left = MARGIN_X + 'px'; el.style.right = 'auto'; }
-        else { el.style.right = MARGIN_X + 'px'; el.style.left = 'auto'; }
-        try { localStorage.setItem('smsFabPosition', JSON.stringify({ side, top })); } catch(_) {}
-        if (moved > CLICK_TOL) {
-          el.addEventListener('click', function once(ev){ ev.stopImmediatePropagation(); ev.preventDefault(); }, { once:true, capture:true });
-        }
-      }
-
-      restorePosition();
-      el.addEventListener('pointerdown', onPointerDown, { passive:false });
-      window.addEventListener('pointermove', onPointerMove, { passive:false });
-      window.addEventListener('pointerup', onPointerUp, { passive:false });
-      window.addEventListener('pointercancel', onPointerUp, { passive:false });
-    }
-
-  })();
-  </script>
-
-  <!-- EmailJS library + EmailJS submit handler (for contactForm_emailjs) -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-  (function(){
-    // CONFIG - replace with your own keys/templates when ready
-    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
-    const EMAILJS_SERVICE_ID  = "service_6fai64h";
-    const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
-
-    if (window.emailjs && typeof emailjs.init === 'function') {
-      try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch (e) { console.warn('emailjs.init failed', e); }
-    }
-
-    function setStatus(text, state){
-      const el = document.getElementById('contactStatus');
-      if (!el) return;
-      el.textContent = text || '';
-      el.className = state === 'ok' ? 'success' : (state === 'error' ? 'error' : '');
-      el.style.display = text ? 'block' : 'none';
-    }
-
+    // init after DOM ready
     document.addEventListener('DOMContentLoaded', function(){
-      const form = document.getElementById('contactForm_emailjs');
-      if (!form) return;
-
-      form.addEventListener('submit', async function(e){
-        e.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn ? submitBtn.textContent : '';
-        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Skickar...'; }
-        setStatus('', null);
-
-        try {
-          if (window.emailjs && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID) {
-            // use sendForm - does not require a form.action and avoids fetch conflicts
-            await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
-            setStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
-            form.reset();
-            const thanksModal = document.getElementById('thanksModal');
-            if (thanksModal) { thanksModal.classList.add('show'); document.body.classList.add('scroll-lock'); }
-          } else {
-            throw new Error('EmailJS är inte tillgängligt eller saknar konfiguration.');
-          }
-        } catch (err) {
-          console.error('EmailJS send error:', err);
-          const msg = (err && (err.text || err.message)) ? (err.text || err.message) : 'Fel: kunde inte skicka e-post.';
-          setStatus(msg, 'error');
-        } finally {
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
-        }
-      });
+      // set min date
+      const dateInput = document.getElementById('date');
+      if (dateInput) {
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2,'0');
+        const d = String(today.getDate()).padStart(2,'0');
+        dateInput.min = `${y}-${m}-${d}`;
+      }
+      initSmsFab();
     });
-  })();
-  </script>
 
-  <!-- Optional: robust AJAX sender kept separate (will NOT attach to the EmailJS form).
-       Use only on forms with attribute data-ajax="true" or id ending with "_ajax". -->
-  <script>
+    /* ===== EmailJS form submit (contactForm_emailjs) ===== */
+    (function(){
+      const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
+      const EMAILJS_SERVICE_ID  = "service_6fai64h";
+      const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
+
+      // init emailjs if available
+      if (window.emailjs && typeof emailjs.init === 'function') {
+        try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch (e) { console.warn('emailjs.init failed', e); }
+      }
+
+      function setStatus(text, state){
+        const el = document.getElementById('contactStatus');
+        if (!el) return;
+        el.textContent = text || '';
+        el.className = state === 'ok' ? 'success' : (state === 'error' ? 'error' : '');
+        el.style.display = text ? 'block' : 'none';
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        const form = document.getElementById('contactForm_emailjs');
+        if (!form) return;
+
+        form.addEventListener('submit', async function(e){
+          e.preventDefault();
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalText = submitBtn ? submitBtn.textContent : '';
+          if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Skickar...'; }
+          setStatus('', null);
+
+          try {
+            if (window.emailjs && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID) {
+              // sendForm uses the form element directly (no body fetch), so avoids "GET cannot have a body" issues
+              await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+              setStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
+              form.reset();
+              const thanks = document.getElementById('thanksModal');
+              if (thanks) { thanks.classList.add('show'); document.body.classList.add('scroll-lock'); }
+            } else {
+              throw new Error('EmailJS är inte tillgängligt eller saknar konfiguration.');
+            }
+          } catch (err) {
+            console.error('EmailJS send error:', err);
+            const msg = (err && (err.text || err.message)) ? (err.text || err.message) : 'Fel: kunde inte skicka e-post.';
+            setStatus(msg, 'error');
+          } finally {
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+          }
+        });
+      });
+    })();
+
+    /* ===== Optional: robust AJAX sender kept separate and only used for forms that set data-ajax="true" or have id suffix "_ajax" ===== */
     (function(){
       function ensureStatusElement(form, preferredId){
         let el = document.getElementById(preferredId);
@@ -551,8 +616,13 @@
         statusEl.style.display = 'none'; statusEl.className = '';
 
         try {
+          // ensure form.method is POST for body
+          const method = (form.method || 'POST').toUpperCase();
+          if (method !== 'POST' && method !== 'PUT') {
+            throw new Error('Formuläret måste använda POST eller PUT för AJAX-sändning.');
+          }
           const data = new FormData(form);
-          const resp = await fetch(form.action, { method: form.method || 'POST', headers: { 'Accept': 'application/json' }, body: data });
+          const resp = await fetch(form.action, { method: method, headers: { 'Accept': 'application/json' }, body: data });
           if (resp.ok) {
             statusEl.textContent = 'Tack! Ditt meddelande har skickats.';
             statusEl.className = 'success';
@@ -572,11 +642,10 @@
         }
       }
 
-      // Attach only to forms explicitly marked data-ajax="true" or with id suffix "_ajax"
+      // Attach to explicit ajax forms only
       document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll('form[data-ajax="true"], form[id$="_ajax"]').forEach(f=>{
-          // skip EmailJS-specific form
-          if (f.id === 'contactForm_emailjs') return;
+          if (f.id === 'contactForm_emailjs') return; // skip EmailJS form
           f.addEventListener('submit', function(e){
             e.preventDefault();
             if (!f.checkValidity()) { f.reportValidity(); return; }
@@ -585,7 +654,8 @@
         });
       });
     })();
-  </script>
 
+  })();
+  </script>
 </body>
 </html>
