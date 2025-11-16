@@ -1,113 +1,281 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-  <meta charset="utf-8">
-  <title>EmailJS Test – Full Fields</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EmailJS — Kontakt / Boka tid (Test)</title>
 
   <style>
-    body {
-      background:#0b0c10; color:white; font-family:Arial;
-      padding:20px; max-width:550px; margin:auto;
+    :root{
+      --bg:#0b0c10;
+      --card:#0d0e11;
+      --muted:rgba(255,255,255,0.45);
+      --accent:#DABD66;
+      --input-bg:rgba(255,255,255,0.03);
+      --input-border:rgba(255,255,255,0.08);
+      --success-bg:rgba(34,197,94,0.12);
+      --error-bg:rgba(239,68,68,0.12);
     }
-    label { display:block; margin-top:12px; }
-    input, textarea {
-      width:100%; padding:10px; margin-top:4px;
-      border-radius:8px; border:1px solid #444;
-      background:#111; color:white;
+    html,body{height:100%;margin:0;background:var(--bg);color:#eef;font-family:Inter,Segoe UI,Arial,sans-serif}
+    .wrap{max-width:700px;margin:28px auto;padding:20px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+    h1{margin:0 0 12px;font-size:20px;font-weight:800;letter-spacing:0.2px;color:#fff}
+    form{display:grid;gap:10px}
+    label{font-weight:700;font-size:13px;color:#e6e8ef}
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="time"], textarea {
+      width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--input-border);
+      background:var(--input-bg); color:#fff; font-size:14px; box-sizing:border-box;
     }
-    button {
-      margin-top:16px; padding:12px; width:100%;
-      background:#dabd66; border:0; color:#111;
-      font-weight:bold; border-radius:10px; cursor:pointer;
+    textarea{min-height:120px; resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .full{grid-column:1/-1}
+    button[type="submit"]{
+      background:linear-gradient(180deg,#e9cf6e,#d4b848); color:#111; border:none;padding:12px 14px;border-radius:999px;font-weight:900;
+      cursor:pointer;font-size:15px;
     }
-    #status {
-      margin-top:16px; padding:12px; display:none;
-      border-radius:10px; text-align:center; font-weight:bold;
+    #contactStatus{display:none;padding:12px;border-radius:8px;text-align:center;font-weight:700}
+    #contactStatus.success{background:var(--success-bg);color:#4ade80;border:1px solid rgba(34,197,94,0.15);display:block}
+    #contactStatus.error{background:var(--error-bg);color:#f87171;border:1px solid rgba(239,68,68,0.15);display:block}
+
+    /* dropdown styles (as provided) */
+    .custom-dropdown { position: relative; width: 100%; margin-bottom: 6px; z-index: 999; }
+    .custom-dropdown input {
+      width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--input-border);
+      background: var(--input-bg); color: #fff; font-size: 15px; box-sizing: border-box;
     }
-    #status.success { background:rgba(34,197,94,0.15); color:#4ade80; }
-    #status.error   { background:rgba(239,68,68,0.15); color:#f87171; }
+    .custom-dropdown input:focus { border-color: rgba(218,189,102,0.9); box-shadow:0 0 8px rgba(218,189,102,0.06); outline:none }
+    .custom-dropdown::after {
+      content: "▾"; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size:14px;
+    }
+    .dropdown-list {
+      position: absolute; left: 0; right: 0; top: calc(100% + 8px); max-height: 220px; overflow-y: auto;
+      background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding:6px; display:none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .dropdown-list li { padding:10px 12px; color:#dbe6f1; cursor:pointer; border-radius:8px; font-size:14px; }
+    .dropdown-list li:hover, .dropdown-list li:focus { background: rgba(218,189,102,0.12); color:#fff; outline:none }
+
+    @media(max-width:640px){ .row{grid-template-columns:1fr} .wrap{padding:12px} }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Kontakt / Boka tid">
+      <h1>Kontakt & Boka tid — EmailJS test</h1>
 
-  <h2>Testa EmailJS – Fullt formulär</h2>
+      <form id="contactForm_emailjs" autocomplete="on" novalidate>
+        <!-- honeypot -->
+        <input type="text" name="_honey" style="display:none" autocomplete="off">
 
-  <form id="emailForm">
-    <input type="text" name="_honey" style="display:none">
+        <label for="name">Namn</label>
+        <input id="name" name="name" type="text" placeholder="För- och efternamn" required>
 
-    <label>Namn</label>
-    <input type="text" name="name" required>
+        <label for="phone">Telefon</label>
+        <input id="phone" name="phone" type="tel" placeholder="072-123 45 67">
 
-    <label>Telefon</label>
-    <input type="text" name="phone">
+        <label for="email">E-post</label>
+        <input id="email" name="email" type="email" placeholder="din@epost.se" required>
 
-    <label>E-post</label>
-    <input type="email" name="email" required>
+        <label for="car">Bil / Regnr</label>
+        <input id="car" name="car" type="text" placeholder="Ex: ABC123 eller Volvo V60 2017">
 
-    <label>Bil / Regnr</label>
-    <input type="text" name="car" required>
+        <!-- Problem / Tjänst: dropdown -->
+        <label for="issueInput">Problem / Tjänst</label>
+        <div class="custom-dropdown" id="issueDropdown">
+          <input type="text" id="issueInput" name="issue" placeholder="Välj eller sök tjänst..." required autocomplete="off" aria-haspopup="listbox" aria-expanded="false" />
+          <ul class="dropdown-list" role="listbox" aria-labelledby="issueInput">
+            <li role="option">Annat – beskriv i meddelandet</li>
+            <li role="option">Service & olja</li>
+            <li role="option">Bromsar och bromsbelägg</li>
+            <li role="option">Däck & hjul</li>
+            <li role="option">TPMS – sensor / kalibrering</li>
+            <li role="option">AC / klimatanläggning</li>
+            <li role="option">El / elektronik</li>
+            <li role="option">Diagnos / OBD – felkoder</li>
+            <li role="option">Motor</li>
+            <li role="option">Avgassystem</li>
+            <li role="option">Fjädring & stötdämpare</li>
+            <li role="option">Växellåda / koppling</li>
+            <li role="option">Besiktning / kontroll</li>
+            <li role="option">Batteri / laddningssystem</li>
+            <li role="option">Kylsystem – vattenpump / slangar</li>
+            <li role="option">Kamrem / kedja</li>
+            <li role="option">Startproblem</li>
+            <li role="option">Bil drar snett</li>
+            <li role="option">Vibrationer i bilen</li>
+            <li role="option">Service-reset / nollställning</li>
+            <li role="option">Ratt / styrning problem</li>
+            <li role="option">Ljus / strålkastare</li>
+            <li role="option">Fönster / elhiss</li>
+            <li role="option">Ljud / stereo</li>
+            <li role="option">Lukter / bränsleläckage</li>
+            <li role="option">AC lukt / mögel</li>
+            <li role="option">Inspektion efter krock / rostskydd</li>
+          </ul>
+        </div>
 
-    <label>Problem / Tjänst</label>
-    <input type="text" name="issue" required>
+        <div class="row">
+          <div>
+            <label for="date">Önskat datum</label>
+            <input id="date" name="date" type="date">
+          </div>
+          <div>
+            <label for="time">Önskad tid</label>
+            <input id="time" name="time" type="time">
+          </div>
+        </div>
 
-    <label>Önskat datum</label>
-    <input type="date" name="date" required>
+        <label for="message">Meddelande</label>
+        <textarea id="message" name="message" placeholder="Berätta vad du behöver hjälp med..." required></textarea>
 
-    <label>Önskad tid</label>
-    <input type="time" name="time" required>
+        <button type="submit">Skicka meddelande</button>
 
-    <label>Meddelande</label>
-    <textarea name="message" required></textarea>
-
-    <button type="submit">Skicka meddelande</button>
-
-    <div id="status"></div>
-  </form>
+        <div id="contactStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
 
   <!-- EmailJS lib -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
   <script>
   (function(){
+    // --- EmailJS configuration (ändra vid behov) ---
+    const EMAILJS_PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
+    const EMAILJS_SERVICE_ID  = "service_6fai64h";
+    const EMAILJS_TEMPLATE_ID = "template_7tccbsi";
 
-    const PUBLIC_KEY  = "vt_iAWB9MVGz6iT_X";
-    const SERVICE_ID  = "service_6fai64h";
-    const TEMPLATE_ID = "template_7tccbsi";
-
-    emailjs.init(PUBLIC_KEY);
-
-    const form   = document.getElementById("emailForm");
-    const status = document.getElementById("status");
-
-    function show(msg, type){
-      status.textContent = msg;
-      status.className = type;
-      status.style.display = "block";
+    // init EmailJS
+    if (window.emailjs && typeof emailjs.init === 'function') {
+      try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch (e) { console.warn('emailjs.init failed', e); }
     }
 
-    form.addEventListener("submit", async function(e){
-      e.preventDefault();
+    // set min date for the date input
+    (function setMinDate(){
+      const el = document.getElementById('date');
+      if (!el) return;
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth()+1).padStart(2,'0');
+      const d = String(today.getDate()).padStart(2,'0');
+      el.min = `${y}-${m}-${d}`;
+    })();
 
-      const btn = form.querySelector("button");
-      const old = btn.textContent;
-      btn.textContent = "Skickar...";
-      btn.disabled = true;
+    // ---------------- Dropdown behaviour (searchable & accessible) ----------------
+    (function(){
+      const dropdown = document.getElementById('issueDropdown');
+      if (!dropdown) return;
+      const input = dropdown.querySelector('#issueInput');
+      const list  = dropdown.querySelector('.dropdown-list');
+      const items = Array.from(list.querySelectorAll('li'));
 
-      try {
-        await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
-        show("Tack! Meddelandet skickades.", "success");
-        form.reset();
-      } catch (err) {
-        console.error(err);
-        show("Fel: kunde inte skicka e-post.", "error");
+      function openList(){
+        list.style.display = 'block';
+        input.setAttribute('aria-expanded','true');
+        positionList();
+      }
+      function closeList(){
+        list.style.display = 'none';
+        input.setAttribute('aria-expanded','false');
+      }
+      function positionList(){
+        list.style.top = 'calc(100% + 8px)';
+        list.style.bottom = 'auto';
+        const rect = list.getBoundingClientRect();
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const dropdownRect = dropdown.getBoundingClientRect();
+        if (dropdownRect.bottom + rect.height + 16 > vh) {
+          list.style.top = 'auto';
+          list.style.bottom = 'calc(100% + 8px)';
+        }
       }
 
-      btn.textContent = old;
-      btn.disabled = false;
-    });
+      input.addEventListener('focus', () => openList());
+      input.addEventListener('input', () => {
+        const v = input.value.trim().toLowerCase();
+        items.forEach(li => {
+          const ok = li.textContent.toLowerCase().includes(v);
+          li.style.display = ok ? 'block' : 'none';
+        });
+        openList();
+      });
+
+      items.forEach(li => {
+        li.tabIndex = 0;
+        li.addEventListener('click', () => {
+          input.value = li.textContent;
+          closeList();
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); }
+        });
+      });
+
+      input.addEventListener('keydown', (e) => {
+        const visible = items.filter(i => i.style.display !== 'none');
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (visible[0]) visible[0].focus();
+        } else if (e.key === 'Escape') {
+          closeList();
+          input.blur();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) closeList();
+      });
+      window.addEventListener('resize', positionList);
+      window.addEventListener('scroll', positionList, true);
+    })();
+
+    // ---------------- EmailJS form submit ----------------
+    (function(){
+      const form = document.getElementById('contactForm_emailjs');
+      const statusEl = document.getElementById('contactStatus');
+
+      function setStatus(text, state){
+        statusEl.textContent = text || '';
+        statusEl.className = state === 'ok' ? 'success' : (state === 'error' ? 'error' : '');
+        statusEl.style.display = text ? 'block' : 'none';
+      }
+
+      if (!form) return;
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        // simple validity
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Skickar...'; }
+
+        setStatus('', null);
+
+        try {
+          // If emailjs available and template/service ids set, use sendForm
+          if (window.emailjs && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID) {
+            await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form);
+            setStatus('Tack! Ditt meddelande har skickats. Vi återkommer så snart som möjligt.', 'ok');
+            form.reset();
+            // show modal if exists
+            const thanks = document.getElementById('thanksModal');
+            if (thanks) { thanks.classList.add('show'); document.body.classList.add('scroll-lock'); }
+          } else {
+            throw new Error('EmailJS är inte tillgängligt eller saknar konfiguration.');
+          }
+        } catch (err) {
+          console.error('Send error:', err);
+          const msg = (err && (err.text || err.message)) ? (err.text || err.message) : 'Fel: kunde inte skicka e-post.';
+          setStatus(msg, 'error');
+        } finally {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText; }
+        }
+      });
+    })();
 
   })();
   </script>
-
 </body>
 </html>
