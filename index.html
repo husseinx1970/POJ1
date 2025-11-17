@@ -36,7 +36,7 @@
     /* Hero */
     .hero{text-align:center;padding:28px 0}
     h1{font-family:"Space Grotesk",Inter;font-weight:800;font-size:clamp(26px,6vw,40px);background:linear-gradient(90deg,#fff,#DABD66);-webkit-background-clip:text;color:transparent;margin:.3em 0}
-    .lead{color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
+    .lead{Color:#C9D2DE;max-width:65ch;margin:0 auto 16px}
     .cta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
     .btn{padding:9px 14px;border-radius:12px;font-weight:800;font-size:14px;border:1px solid rgba(255,255,255,.08);transition:.18s}
     .btn.primary{background:#DABD66;color:#111}
@@ -594,5 +594,172 @@
 
   })();
   </script>
+
+  <!-- ========== FRONTEND: integration with Google Apps Script Web App ========== -->
+  <script>
+  /*
+    Frontend integration for Google Apps Script booking Web App.
+    - Put this <script> at the end of your HTML (before </body>).
+    - Replace GSHEET_WEBAPP_URL with your Apps Script "exec" URL.
+    - The script uses a capture submit listener so it runs before the existing EmailJS logic.
+  */
+
+  (function(){
+    // ==== CONFIG - ändra här ====
+    const GSHEET_WEBAPP_URL = "https://script.google.com/macros/s/REPLACE_WITH_YOUR_EXEC_URL/exec"; // <-- BYT UT här
+    const FALLBACK_FORMSUBMIT = "https://formsubmit.co/snabbservise@hotmail.com"; // fallback om webapp misslyckas
+    // =============================
+
+    const form = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('contactStatus');
+    const thanksModal = document.getElementById('thanksModal');
+
+    if (!form) return;
+
+    function showStatus(text, type='info') {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.className = '';
+      if (type === 'ok') statusEl.classList.add('success');
+      else if (type === 'error') statusEl.classList.add('error');
+      else if (type === 'bigError') statusEl.classList.add('bigError');
+      statusEl.style.display = text ? 'block' : 'none';
+    }
+
+    // Helper to fill and show the thanks modal with booking data
+    function showThanksModal(data) {
+      if (!thanksModal) {
+        alert("Tack! Vi har mottagit din förfrågan. (Booking ID: " + (data.bookingId || '') + ")");
+        return;
+      }
+      const modalCard = thanksModal.querySelector('.modal-card');
+      if (!modalCard) return;
+
+      // Build content: keep existing header but append booking info
+      const extraHtml = `
+        <div style="margin-top:10px;border-top:1px solid rgba(255,255,255,0.04);padding-top:12px;color:#c9d2de">
+          <p><strong>Boknings-ID:</strong> ${escapeHtml(data.bookingId || '')}</p>
+          ${ data.manageUrl ? `<p><strong>Hantera bokning:</strong> <a href="${data.manageUrl}" target="_blank" rel="noopener">${data.manageUrl}</a></p>` : '' }
+          ${ data.qr ? `<p><img src="${data.qr}" alt="QR-kod" width="180" style="display:block;margin:8px 0;border-radius:8px"/></p>` : '' }
+          <p style="margin-top:8px;font-size:13px;color:#e6e8ef">Vi har skickat en bekräftelse till din e-post med mer information.</p>
+        </div>
+      `;
+
+      // Append the extraHtml if not already appended (avoid duplicates)
+      if (!modalCard.querySelector('.booking-extra')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'booking-extra';
+        wrapper.innerHTML = extraHtml;
+        modalCard.appendChild(wrapper);
+      } else {
+        modalCard.querySelector('.booking-extra').innerHTML = extraHtml;
+      }
+
+      thanksModal.classList.add('show');
+      thanksModal.removeAttribute('aria-hidden');
+      document.body.classList.add('scroll-lock');
+    }
+
+    // basic HTML escape
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    // Capture submit so this handler runs before other submit listeners
+    form.addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      ev.stopImmediatePropagation(); // prevent other submit handlers (EmailJS fallback in page)
+      showStatus('', null);
+
+      if (!form.checkValidity()) {
+        // Let browser show native validation UI
+        form.reportValidity();
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Skickar...';
+      }
+
+      // gather form data
+      const fd = new FormData(form);
+
+      // Optional: add a marker so server can detect source
+      fd.append('source', 'website');
+
+      // Try sending to Google Apps Script Web App
+      try {
+        const resp = await fetch(GSHEET_WEBAPP_URL, { method: 'POST', body: fd, cache: 'no-store' });
+        // Some Apps Script deployments return text; try parse safely
+        const text = await resp.text();
+        let json = null;
+        try { json = JSON.parse(text); } catch(e) { json = null; }
+        if (resp.ok && json && json.ok) {
+          showStatus('Tack! Din bokning mottogs.', 'ok');
+          // show modal with bookingId/manage link/qr if provided
+          showThanksModal(json);
+          form.reset();
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Skicka meddelande'; }
+          return;
+        } else {
+          // server returned error or invalid JSON
+          console.warn('WebApp returned non-OK or invalid JSON', resp.status, text);
+          throw new Error('WebApp error eller ogiltigt svar.');
+        }
+      } catch (err) {
+        console.error('Fel vid skickning till WebApp:', err);
+        showStatus('Problem att kontakta servern. Försöker fallback...', 'error');
+
+        // fallback: try sending to formsubmit.co (so message still reaches you)
+        try {
+          const res2 = await fetch(FALLBACK_FORMSUBMIT, { method: 'POST', body: fd });
+          if (res2.ok) {
+            showStatus('Tack! Ditt meddelande skickades via fallback.', 'ok');
+            // show simple thanks modal (no bookingId from fallback)
+            showThanksModal({ bookingId: 'Ej tillgängligt (fallback)', qr: null, manageUrl: null });
+            form.reset();
+          } else {
+            const t = await res2.text().catch(()=> '');
+            console.error('Fallback failed:', res2.status, t);
+            showStatus('Fel: kunde inte skicka varken till servern eller fallback.', 'bigError');
+            alert('Kunde inte skicka meddelandet. Försök igen senare eller ring 072-004 09 36.');
+          }
+        } catch (err2) {
+          console.error('Fallback exception:', err2);
+          showStatus('Fel vid fallback-sändning.', 'bigError');
+          alert('Kunde inte skicka meddelandet. Försök igen senare eller ring 072-004 09 36.');
+        } finally {
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Skicka meddelande'; }
+        }
+      }
+    }, true); // capture = true
+
+    // Close thanks modal handlers (reuse existing modal close logic if present)
+    (function initModalClose(){
+      const closeEls = thanksModal ? thanksModal.querySelectorAll('.modal-close') : [];
+      closeEls.forEach(el => el.addEventListener('click', function(e){
+        e.preventDefault();
+        thanksModal.classList.remove('show');
+        thanksModal.setAttribute('aria-hidden','true');
+        document.body.classList.remove('scroll-lock');
+      }));
+      // also allow clicking outside to close (already present in page but make sure)
+      if (thanksModal) {
+        thanksModal.addEventListener('click', function(ev){
+          if (ev.target === thanksModal) {
+            thanksModal.classList.remove('show');
+            thanksModal.setAttribute('aria-hidden','true');
+            document.body.classList.remove('scroll-lock');
+          }
+        });
+      }
+    })();
+
+  })();
+  </script>
+
 </body>
 </html>
