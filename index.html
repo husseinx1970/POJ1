@@ -30,18 +30,6 @@ body::after{content:'';position:fixed;inset:0;z-index:2;pointer-events:none;opac
 .cur-d{width:5px;height:5px;background:var(--acc)}
 .cur-r{width:26px;height:26px;border:1.5px solid rgba(232,98,10,.55);transition:width .18s,height .18s,opacity .25s}
 @media(pointer:coarse){.cur-d,.cur-r{display:none}}
-/* LOADER */
-#loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}
-#loader.out{opacity:0;visibility:hidden}
-.ld-spin{width:48px;height:48px;border:2px solid var(--bd2);border-top-color:var(--acc);border-radius:50%;animation:ldspin 1s linear infinite;margin-bottom:28px}
-@keyframes ldspin{to{transform:rotate(360deg)}}
-.ld-logo{font-family:var(--fd);font-size:clamp(26px,5vw,52px);letter-spacing:4px;margin-bottom:4px}
-.ld-logo span{color:var(--acc)}
-.ld-tag{font-family:var(--fc);font-size:11px;font-weight:700;letter-spacing:5px;color:var(--txt3);text-transform:uppercase;margin-bottom:30px}
-.ld-bar{width:200px;height:2px;background:var(--s3);border-radius:2px;overflow:hidden;margin-bottom:12px}
-.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));animation:ldf 2.2s cubic-bezier(.4,0,.2,1) forwards}
-@keyframes ldf{to{width:100%}}
-.ld-txt{font-family:var(--fc);font-size:10px;letter-spacing:3px;color:var(--txt3);text-transform:uppercase}
 /* CANVAS & SMOKE */
 canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .smk{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;animation:sd 22s ease-in-out infinite}
@@ -80,7 +68,7 @@ nav.sc{background:rgba(7,7,11,.94);backdrop-filter:blur(20px);-webkit-backdrop-f
 #hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(20px,7vw,96px);position:relative;z-index:1;overflow:hidden;padding-top:68px}
 .hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(232,98,10,.025)1px,transparent 1px),linear-gradient(90deg,rgba(232,98,10,.025)1px,transparent 1px);background-size:88px 88px;pointer-events:none}
 /* Hero elements start hidden — JS reveals them after loader */
-.hani{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.hani{opacity:1;transform:translateY(0)}
 .heb{font-family:var(--fc);font-size:12px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--acc);margin-bottom:16px}
 .hh1{font-family:var(--fd);font-size:clamp(68px,13vw,196px);line-height:.88;letter-spacing:2px;margin-bottom:8px}
 .hh1 .acc{color:var(--acc);display:block}
@@ -89,7 +77,7 @@ nav.sc{background:rgba(7,7,11,.94);backdrop-filter:blur(20px);-webkit-backdrop-f
 .hl{flex:1;max-width:56px;height:1px;background:var(--bd2)}
 .htag{font-family:var(--fc);font-size:clamp(11px,1.3vw,14px);font-weight:600;letter-spacing:4px;color:var(--txt3);text-transform:uppercase}
 .hdesc{font-size:clamp(14px,1.5vw,17px);font-weight:300;color:var(--txt2);max-width:500px;margin-bottom:42px;line-height:1.75}
-.hdesc em{color:var(--txt);font-style:normål;font-weight:500}
+.hdesc em{color:var(--txt);font-style:normal;font-weight:500}
 .hctas{display:flex;gap:14px;flex-wrap:wrap}
 .hctas .btn{font-size:14px;padding:14px 30px}
 .hsr{display:flex;flex-wrap:wrap;gap:28px;margin-top:52px;padding-top:38px;border-top:1px solid var(--bd)}
@@ -281,7 +269,7 @@ nav.sc{background:rgba(7,7,11,.94);backdrop-filter:blur(20px);-webkit-backdrop-f
 .fndtl{font-family:var(--fd);font-size:clamp(34px,4vw,54px);letter-spacing:1px;margin-bottom:7px}
 .fndrl{font-family:var(--fc);font-size:12px;font-weight:600;letter-spacing:3px;color:var(--txt3);text-transform:uppercase;margin-bottom:24px}
 .fndq{font-size:clamp(14px,1.6vw,17px);font-weight:300;color:var(--txt2);line-height:1.8;margin-bottom:24px;padding-left:18px;border-left:2px solid var(--acc);font-style:italic}
-.fndq strong{color:var(--txt);font-style:normål;font-weight:600}
+.fndq strong{color:var(--txt);font-style:normal;font-weight:600}
 .fndtgs{display:flex;gap:9px;flex-wrap:wrap}
 .fndtg{font-family:var(--fc);font-size:11px;font-weight:700;letter-spacing:1.5px;padding:6px 13px;border-radius:20px;background:var(--s3);border:1px solid var(--bd);color:var(--txt2);text-transform:uppercase}
 /* WHY US */
@@ -310,87 +298,84 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
 .ftadm{font-size:11px;color:transparent;cursor:pointer;user-select:none;transition:color .3s}
 .ftadm:hover{color:var(--txt3)}
 /* FLOAT & BACK TOP */
-#fcall{position:fixed;bottom:26px;right:22px;z-index:400;display:flex;flex-direction:column;align-items:flex-end;gap:9px}
-.fcbtn{width:50px;height:50px;border-radius:50%;background:var(--acc);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--fc);font-size:18px;font-weight:800;color:#fff;box-shadow:0 4px 18px rgba(232,98,10,.5);transition:all var(--tr);position:relative}
-.fcbtn:hover{transform:scale(1.1);box-shadow:0 6px 26px rgba(232,98,10,.7)}
-.fcbtn::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(232,98,10,.3);animation:fcp 2.5s ease infinite}
-@keyframes fcp{0%,100%{transform:scale(1);opacity:1}70%{transform:scale(1.4);opacity:0}}
-.fctt{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:7px 12px;font-family:var(--fc);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--txt);white-space:nowrap;opacity:0;transform:translateX(10px);transition:all .2s;pointer-events:none}
-#fcall:hover .fctt{opacity:1;transform:translateX(0)}
-#btop{position:fixed;bottom:88px;right:22px;z-index:400;width:42px;height:42px;border-radius:50%;background:var(--s2);border:1px solid var(--bd);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:15px;color:var(--txt2);transition:all var(--tr)}
-#btop:hover{border-color:var(--acc);color:var(--acc)}
+
+70%{transform:scale(1.4);opacity:0}}
+
+#fcall:hover
+#btop{position:fixed;bottom:88px;right:22px;z-index:400;width:42px;height:42px;border-radius:50%;background:var(–s2);border:1px solid var(–bd);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:15px;color:var(–txt2);transition:all var(–tr)}
+#btop:hover{border-color:var(–acc);color:var(–acc)}
 #btop.v{display:flex}
 /* TOAST */
 #toastc{position:fixed;bottom:96px;right:22px;z-index:2000;display:flex;flex-direction:column;gap:9px;pointer-events:none;max-width:280px}
-.toast{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:12px 15px;font-size:13px;color:var(--txt);box-shadow:0 8px 32px rgba(0,0,0,.7);transform:translateX(120%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:9px;pointer-events:all}
+.toast{background:var(–s2);border:1px solid var(–bd);border-radius:var(–r);padding:12px 15px;font-size:13px;color:var(–txt);box-shadow:0 8px 32px rgba(0,0,0,.7);transform:translateX(120%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:9px;pointer-events:all}
 .toast.sh{transform:translateX(0)}
-.toast.ok{border-left:3px solid var(--grn)}.toast.info{border-left:3px solid var(--acc)}.toast.err{border-left:3px solid var(--red)}
+.toast.ok{border-left:3px solid var(–grn)}.toast.info{border-left:3px solid var(–acc)}.toast.err{border-left:3px solid var(–red)}
 /* ADMIN */
-#admov{display:none;position:fixed;inset:0;background:var(--bg);z-index:1000;flex-direction:column;overflow:hidden}
+#admov{display:none;position:fixed;inset:0;background:var(–bg);z-index:1000;flex-direction:column;overflow:hidden}
 #admov.op{display:flex}
-.admn{display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:58px;background:var(--s1);border-bottom:1px solid var(--bd);flex-shrink:0}
-.admlog{font-family:var(--fd);font-size:17px;letter-spacing:2px}
-.admlog span{color:var(--acc)}
+.admn{display:flex;align-items:center;justify-content:space-between;padding:0 22px;height:58px;background:var(–s1);border-bottom:1px solid var(–bd);flex-shrink:0}
+.admlog{font-family:var(–fd);font-size:17px;letter-spacing:2px}
+.admlog span{color:var(–acc)}
 .admbody{display:flex;flex:1;overflow:hidden}
-.admsd{width:190px;background:var(--s1);border-right:1px solid var(--bd);padding:18px 13px;flex-shrink:0;overflow-y:auto}
-.admsi{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(--r);font-size:13px;font-weight:500;color:var(--txt2);cursor:pointer;transition:all var(--tr);margin-bottom:3px}
-.admsi:hover{background:var(--s2);color:var(--txt)}
-.admsi.act{background:var(--ags);color:var(--acc);border:1px solid rgba(232,98,10,.15)}
+.admsd{width:190px;background:var(–s1);border-right:1px solid var(–bd);padding:18px 13px;flex-shrink:0;overflow-y:auto}
+.admsi{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:var(–r);font-size:13px;font-weight:500;color:var(–txt2);cursor:pointer;transition:all var(–tr);margin-bottom:3px}
+.admsi:hover{background:var(–s2);color:var(–txt)}
+.admsi.act{background:var(–ags);color:var(–acc);border:1px solid rgba(232,98,10,.15)}
 .admm{flex:1;overflow-y:auto;padding:22px}
 .admsec{display:none}.admsec.act{display:block}
 .admhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.admhdr h2{font-family:var(--fd);font-size:28px;letter-spacing:1px}
+.admhdr h2{font-family:var(–fd);font-size:28px;letter-spacing:1px}
 .admf{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
-.admf input,.admf select{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:7px 11px;color:var(--txt);font-family:var(--fb);font-size:13px;outline:none;transition:border-color var(--tr)}
-.admf input:focus,.admf select:focus{border-color:var(--acc)}
+.admf input,.admf select{background:var(–s2);border:1px solid var(–bd);border-radius:var(–r);padding:7px 11px;color:var(–txt);font-family:var(–fb);font-size:13px;outline:none;transition:border-color var(–tr)}
+.admf input:focus,.admf select:focus{border-color:var(–acc)}
 .btbl{width:100%;border-collapse:collapse;font-size:13px}
-.btbl th{font-family:var(--fc);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--txt3);padding:9px 13px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
-.btbl td{padding:11px 13px;border-bottom:1px solid var(--bd);color:var(--txt2);vertical-align:top}
+.btbl th{font-family:var(–fc);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–txt3);padding:9px 13px;border-bottom:1px solid var(–bd);text-align:left;white-space:nowrap}
+.btbl td{padding:11px 13px;border-bottom:1px solid var(–bd);color:var(–txt2);vertical-align:top}
 .btbl tr:last-child td{border-bottom:none}
-.btbl tr:hover td{background:var(--s2)}
-.sbdg2{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-family:var(--fc);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-.sw{background:rgba(245,158,11,.15);color:var(--ylw);border:1px solid rgba(245,158,11,.2)}
+.btbl tr:hover td{background:var(–s2)}
+.sbdg2{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-family:var(–fc);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.sw{background:rgba(245,158,11,.15);color:var(–ylw);border:1px solid rgba(245,158,11,.2)}
 .sip{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
-.sf{background:rgba(34,197,94,.15);color:var(--grn);border:1px solid rgba(34,197,94,.2)}
-.sc3{background:rgba(168,85,247,.15);color:var(--purp);border:1px solid rgba(168,85,247,.2)}
-.adsel{background:var(--s2);border:1px solid var(--bd);border-radius:5px;padding:3px 7px;color:var(--txt);font-size:12px;cursor:pointer;outline:none;-webkit-appearance:none}
-.hin{background:var(--s2);border:1px solid var(--bd);border-radius:5px;padding:3px 7px;color:var(--txt);font-size:12px;width:52px;text-align:center;outline:none}
-.hin:focus{border-color:var(--acc)}
-.rg{font-family:var(--fc);font-weight:700;letter-spacing:2px;font-size:12px;color:var(--txt)}
+.sf{background:rgba(34,197,94,.15);color:var(–grn);border:1px solid rgba(34,197,94,.2)}
+.sc3{background:rgba(168,85,247,.15);color:var(–purp);border:1px solid rgba(168,85,247,.2)}
+.adsel{background:var(–s2);border:1px solid var(–bd);border-radius:5px;padding:3px 7px;color:var(–txt);font-size:12px;cursor:pointer;outline:none;-webkit-appearance:none}
+.hin{background:var(–s2);border:1px solid var(–bd);border-radius:5px;padding:3px 7px;color:var(–txt);font-size:12px;width:52px;text-align:center;outline:none}
+.hin:focus{border-color:var(–acc)}
+.rg{font-family:var(–fc);font-weight:700;letter-spacing:2px;font-size:12px;color:var(–txt)}
 .ovg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:13px;margin-bottom:26px}
-.ovc{background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center}
-.ovn{font-family:var(--fd);font-size:34px;margin-bottom:2px}
-.ovl{font-family:var(--fc);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--txt3);text-transform:uppercase}
+.ovc{background:var(–s2);border:1px solid var(–bd);border-radius:var(–r);padding:16px;text-align:center}
+.ovn{font-family:var(–fd);font-size:34px;margin-bottom:2px}
+.ovl{font-family:var(–fc);font-size:10px;font-weight:700;letter-spacing:2px;color:var(–txt3);text-transform:uppercase}
 .athgrd{display:flex;gap:4px;flex-wrap:wrap}
-.ath{width:34px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(--bd);cursor:pointer;transition:opacity var(--tr)}
+.ath{width:34px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(–bd);cursor:pointer;transition:opacity var(–tr)}
 .ath:hover{opacity:.75}
-.empty{text-align:center;padding:48px 18px;color:var(--txt3);font-size:14px}
+.empty{text-align:center;padding:48px 18px;color:var(–txt3);font-size:14px}
 .lbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;align-items:center;justify-content:center;cursor:pointer}
 .lbox.op{display:flex}
-.lbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:var(--r)}
+.lbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:var(–r)}
 .alw{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:14px;padding:22px}
-.alf{background:var(--s1);border:1px solid var(--bd);border-radius:var(--rl);padding:30px;width:100%;max-width:340px}
-.lerr{color:var(--red);font-size:12px;margin-top:5px;display:none}
+.alf{background:var(–s1);border:1px solid var(–bd);border-radius:var(–rl);padding:30px;width:100%;max-width:340px}
+.lerr{color:var(–red);font-size:12px;margin-top:5px;display:none}
 /* MOBILE */
 @media(max-width:900px){.ftgrid{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){
-  .nlnks{display:none}.hbg{display:flex}
-  .hh1{font-size:clamp(56px,14vw,92px)}
-  .hh1 .dim{font-size:clamp(18px,5vw,34px)}
-  .hctas{flex-direction:column;max-width:270px}.hctas .btn{width:100%}
-  .sg,.frow,.ccgrid,.wgrid,.hg2,.fndgrid{grid-template-columns:1fr}
-  .pgrid{grid-template-columns:repeat(2,1fr);gap:30px}
-  .pgrid::before{display:none}
-  .ftgrid{grid-template-columns:1fr}
-  .tcrd{flex:0 0 calc(100% - 8px)}
-  .bkbody{padding:22px 16px}
-  .bkstps{padding:14px 16px}
-  .sec{padding:70px clamp(18px,5vw,36px)}
-  .ovg{grid-template-columns:1fr 1fr}
-  .admsd{display:none}
-  .tgrid{grid-template-columns:repeat(2,1fr)}
-  .fndb{right:0;bottom:14px}
-  .hsr{gap:20px}
+.nlnks{display:none}.hbg{display:flex}
+.hh1{font-size:clamp(56px,14vw,92px)}
+.hh1 .dim{font-size:clamp(18px,5vw,34px)}
+.hctas{flex-direction:column;max-width:270px}.hctas .btn{width:100%}
+.sg,.frow,.ccgrid,.wgrid,.hg2,.fndgrid{grid-template-columns:1fr}
+.pgrid{grid-template-columns:repeat(2,1fr);gap:30px}
+.pgrid::before{display:none}
+.ftgrid{grid-template-columns:1fr}
+.tcrd{flex:0 0 calc(100% - 8px)}
+.bkbody{padding:22px 16px}
+.bkstps{padding:14px 16px}
+.sec{padding:70px clamp(18px,5vw,36px)}
+.ovg{grid-template-columns:1fr 1fr}
+.admsd{display:none}
+.tgrid{grid-template-columns:repeat(2,1fr)}
+.fndb{right:0;bottom:14px}
+.hsr{gap:20px}
 }
 @media(max-width:480px){.pgrid{grid-template-columns:1fr}.hh1{font-size:52px}}
 
@@ -405,21 +390,16 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
 .exp-stat{background:var(–s3);border-radius:var(–r);padding:14px 10px;text-align:center;border:1px solid var(–bd)}
 .exp-stat-n{font-family:var(–fd);font-size:22px;color:var(–acc);line-height:1;margin-bottom:4px}
 .exp-stat-l{font-family:var(–fc);font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(–txt3);text-transform:uppercase}
-</style>
+.hani{opacity:1!important;transform:none!important}</style>
 
 </head>
 <body>
 <div id="prog"></div>
 <div class="cur-d" id="cd"></div>
 <div class="cur-r" id="cr2"></div>
-<div id="loader">
-  <div class="ld-spin"></div>
-  <div class="ld-logo">KOM IN <span>BILSERVICE</span></div>
-  <div class="ld-tag">Precision · Kraft · Förtroende</div>
-  <div class="ld-bar"><div class="ld-fill"></div></div>
-  <div class="ld-txt">Startar system...</div>
-</div>
+
 <canvas id="bgc"></canvas>
+
 <div class="smk"></div><div class="smk"></div><div class="smk"></div>
 <nav id="nav">
   <a href="#" class="nlogo"><span class="ndot"></span>KOM IN BILSERVICE</a>
@@ -467,7 +447,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
   </div>
 </div>
 <section id="services" class="sec" style="background:var(--s1)">
-  <div class="shdr rv"><div class="seb">Vara Tjänster</div><h2 class="stl">VI FIXAR ALLT</h2><p class="ssub">Osaker på vad felet ar? Beskriv vad du hor eller känner &mdash; vi diagnostiserär det at dig.</p></div>
+  <div class="shdr rv"><div class="seb">Vara Tjänster</div><h2 class="stl">VI FIXAR ALLT</h2><p class="ssub">Osäker på vad felet ar? Beskriv vad du hor eller känner &mdash; vi diagnostiserar det at dig.</p></div>
   <div class="sg">
     <div class="scard scard-l rv" onclick="startBk('large')">
       <div class="sbdg sbo">Max 5 / dag</div>
@@ -477,10 +457,10 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
       <div class="sslot"><span style="width:7px;height:7px;border-radius:50%;background:var(--grn);animation:pulse 2s ease infinite;flex-shrink:0;display:inline-block"></span><span id="lsl">Kontrollerar...</span></div>
       <a class="btn ba" style="width:100%;justify-content:center">Boka Stor Reparation &rarr;</a>
     </div>
-    <div class="scard scard-s rv d1" onclick="startBk('småll')">
+    <div class="scard scard-s rv d1" onclick="startBk('small')">
       <div class="sbdg sbb">Max 10 / dag</div>
-      <h3>MINDRE SERVICE</h3><p class="sdsc">Snabb och palitlig service för din vardag.</p>
-      <ul class="sli"><li>Oljebyte &amp; filterservice</li><li>Däckbyte &amp; balansering</li><li>Bromsservice &amp; kontroll</li><li>Batteribyte &amp; start</li><li>Lampor, spolare &amp; underhall</li></ul>
+      <h3>MINDRE SERVICE</h3><p class="sdsc">Snabb och pålitlig service för din vardag.</p>
+      <ul class="sli"><li>Oljebyte &amp; filterservice</li><li>Däckbyte &amp; balansering</li><li>Bromsservice &amp; kontroll</li><li>Batteribyte &amp; start</li><li>Lampor, spolare &amp; underhåll</li></ul>
       <div class="smeta"><div class="smi"><div class="sml">Kapacitet</div><div class="smv">10 bilar / dag</div></div><div class="smi"><div class="sml">Tid</div><div class="smv">30 min &ndash; 2 tim</div></div></div>
       <div class="sslot"><span style="width:7px;height:7px;border-radius:50%;background:#60a5fa;animation:pulse 2s ease infinite;flex-shrink:0;display:inline-block"></span><span id="ssl">Kontrollerar...</span></div>
       <a class="btn bo" style="width:100%;justify-content:center;border-color:#3b82f6;color:#60a5fa">Boka Service &rarr;</a>
@@ -490,8 +470,8 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
 <section id="process" class="sec" style="padding-top:80px;padding-bottom:80px">
   <div class="shdr rv" style="text-align:center;max-width:100%"><div class="seb" style="text-align:center">Hur det fungerar</div><h2 class="stl">ENKELT FRÅN START TILL MÅL</h2></div>
   <div class="pgrid">
-    <div class="pstep rv"><div class="pnum">1</div><h4 class="ph">Boka Online</h4><p class="pp">Välj tjanst, datum och tid via vår enkla bokningsformular &mdash; dygnet runt.</p></div>
-    <div class="pstep rv d1"><div class="pnum">2</div><h4 class="ph">Lämna In</h4><p class="pp">Kom in på din tid. Vi tar emot bilen, lyssnär och granskar problemet.</p></div>
+    <div class="pstep rv"><div class="pnum">1</div><h4 class="ph">Boka Online</h4><p class="pp">Välj tjänst, datum och tid via vår enkla bokningsformulär &mdash; dygnet runt.</p></div>
+    <div class="pstep rv d1"><div class="pnum">2</div><h4 class="ph">Lämna In</h4><p class="pp">Kom in på din tid. Vi tar emot bilen, lyssnar och granskar problemet.</p></div>
     <div class="pstep rv d2"><div class="pnum">3</div><h4 class="ph">Vi Reparerar</h4><p class="pp">Erfaret team med precision. Vi kontaktar dig vid behov under arbetets gang.</p></div>
     <div class="pstep rv d3"><div class="pnum">4</div><h4 class="ph">Hämta &amp; Kor</h4><p class="pp">Transparent faktura. Garanti på allt arbete. Kör hem med ett leende.</p></div>
   </div>
@@ -512,7 +492,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
         <div class="hn"><strong>Vet du inte vad felet ar?</strong> Inget problem. Beskriv vad du hor, ser eller känner &mdash; vi diagnostiserar resten.</div>
         <div class="ccgrid">
           <div class="ccrd" id="ccl" onclick="selCat('large')"><div class="cbdg cbl">Max 5/dag</div><h4>Stor Reparation</h4><p>Motor, växellåda, kamrem, diagnostik, komplexa arbeten</p></div>
-          <div class="ccrd" id="ccs" onclick="selCat('småll')"><div class="cbdg cbs">Max 10/dag</div><h4>Mindre Service</h4><p>Oljebyte, däck, bromsar, batteri, underhall</p></div>
+          <div class="ccrd" id="ccs" onclick="selCat('small')"><div class="cbdg cbs">Max 10/dag</div><h4>Mindre Service</h4><p>Oljebyte, däck, bromsar, batteri, underhåll</p></div>
         </div>
         <div class="bknav"><div></div><button class="btn ba" onclick="goSt(2)">Välj Datum &rarr;</button></div>
       </div>
@@ -525,14 +505,14 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
         <div class="bknav"><button class="btn bg2" onclick="goSt(1)">&larr; Tillbaka</button><button class="btn ba" onclick="goSt(3)">Nästa &rarr;</button></div>
       </div>
       <div class="bkst" id="bst3">
-        <div class="bkt">DINA UPPGIFTER</div><p class="bksb">Berätta gärna om problemet &mdash; det hjälper oss forbereda rätt verktyg.</p>
+        <div class="bkt">DINA UPPGIFTER</div><p class="bksb">Berätta gärna om problemet &mdash; det hjälper oss förbereda rätt verktyg.</p>
         <div class="frow"><div class="fg"><label>Namn *</label><input type="text" id="fn" placeholder="Ditt fulla namn"></div><div class="fg"><label>Telefon *</label><input type="tel" id="fp" placeholder="07X XXX XX XX"></div></div>
         <div class="frow"><div class="fg"><label>E-post</label><input type="email" id="fe" placeholder="din@email.se"></div><div class="fg"><label>Regnummer *</label><input type="text" id="fr" placeholder="ABC 123" style="text-transform:uppercase" maxlength="7"></div></div>
         <div class="fg"><label>Beskriv problemet *</label><textarea id="fpr" placeholder="Exempel: Rycker vid acceleration, varningslampa lyser, konstigt ljud vid bromsning. Allt hjälper!"></textarea></div>
         <div class="bknav"><button class="btn bg2" onclick="goSt(2)">&larr; Tillbaka</button><button class="btn ba" onclick="goSt(4)">Nästa &rarr;</button></div>
       </div>
       <div class="bkst" id="bst4">
-        <div class="bkt">BILDER (VALFRITT)</div><p class="bksb">Ladda upp bilder på bilen eller problemet. Hjälper oss forbereda oss bättre.</p>
+        <div class="bkt">BILDER (VALFRITT)</div><p class="bksb">Ladda upp bilder på bilen eller problemet. Hjälper oss förbereda oss bättre.</p>
         <div class="uz" id="uz"><input type="file" id="phi" multiple accept="image/*" onchange="handlePh(event)"><div class="utl">Klicka eller dra bilder hit</div><div class="usl">JPG, PNG, HEIC &mdash; Max 5 bilder</div></div>
         <div class="pprev" id="pprev"></div>
         <div class="bknav"><button class="btn bg2" onclick="goSt(3)">&larr; Tillbaka</button><button class="btn ba" onclick="goSt(5)">Granska &rarr;</button></div>
@@ -564,7 +544,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
   </div>
   <div class="twrap rv"><div class="ttrk" id="ttrk">
     <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Mekanikern loste mitt transmissionsproblem på en dag! Tre andra verkstader hade gett mig dubbelt sa hoga offerter. Ärlighet och expertis i ett. Återkommer alltid hit.</p><div class="tauth"><div class="tav">AK</div><div><div class="tnm">Ahmed Karimi</div><div class="tdt">Volvo V70 &middot; Motorreparation</div></div></div></div>
-    <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Äntligen en verkstad som forklarar vad de gor och varfor. Inga dolda kostnader, inga overraskningår på fakturan. Rekommenderar Kom In till alla jag känner.</p><div class="tauth"><div class="tav">ML</div><div><div class="tnm">Maria Lindqvist</div><div class="tdt">BMW 3-serie &middot; Bromsservice</div></div></div></div>
+    <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Äntligen en verkstad som forklarar vad de gor och varfor. Inga dolda kostnader, inga överraskningar på fakturan. Rekommenderar Kom In till alla jag känner.</p><div class="tauth"><div class="tav">ML</div><div><div class="tnm">Maria Lindqvist</div><div class="tdt">BMW 3-serie &middot; Bromsservice</div></div></div></div>
     <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Kamremsbyte på min Saab 9-5. Gjort perfekt, i tid och till rätt pris. Mekanikern visste exakt vad han pratade om. Bilen är nu i bättre skick an på länge.</p><div class="tauth"><div class="tav">MJ</div><div><div class="tnm">Mikael Johansson</div><div class="tdt">Saab 9-5 &middot; Kamremsbyte</div></div></div></div>
     <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Jag visste inte vad problemet var &mdash; bara att något lat konstigt. Mekanikern diagnostiserade det på en timme och lagade det samma dag. Fantastisk service.</p><div class="tauth"><div class="tav">SN</div><div><div class="tnm">Sara Nilsson</div><div class="tdt">Toyota Yaris &middot; Diagnostik</div></div></div></div>
     <div class="tcrd"><div class="tstrs">5 / 5</div><p class="ttxt">Korde in bilen med ett mystiskt motorljud på morgonen. Fick tydlig forklaring, ärligt pris och bilen klar till lunch. Hit kor jag varje gang.</p><div class="tauth"><div class="tav">KH</div><div><div class="tnm">Karim Hassan</div><div class="tdt">Audi A4 &middot; Motorservice</div></div></div></div>
@@ -573,7 +553,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
 </section>
 <section id="urgent">
   <div class="ubdg">Akut Ärende</div>
-  <h2 class="utl">AKUT? RING DIREKT.</h2>
+  <h2 class="utl">AKUT? RING DIREKT..</h2>
   <p class="usb">Bilen startar inte, varningslampa lyser eller akut problem på vägen? Ring oss direkt &mdash; vi finns här för dig.</p>
   <a href="tel:0790574975" class="uph">0790 574 975</a>
   <div class="unm">Ring oss direkt &mdash; alltid tillgängliga</div>
@@ -616,14 +596,14 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
   </div>
 </section>
 <section id="faq" class="sec">
-  <div class="shdr rv"><div class="seb">Vanliga Frågor</div><h2 class="stl">FAQ</h2><p class="ssub">Svar på de vanligaste frågorna. Hittar du inte svaret? Ring oss direkt.</p></div>
+  <div class="shdr rv"><div class="seb">Vanliga Frågor</div><h2 class="stl">FAQ</h2><p class="ssub">Svar på de vanligaste frågorna. Hittär du inte svaret? Ring oss direkt.</p></div>
   <div class="fl2 rv">
     <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Kan jag boka tid samma dag?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Det beror på kapaciteten samma dag. Ring Oss Direkt på 0790 574 975 för akuta ärenden &mdash; vi gor alltid vart bästa för att hjälpa dig snabbt.</p></div></div>
     <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Jag vet inte vad felet ar &mdash; kan jag anda boka?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Absolut! Det är faktiskt vanligast att kunder inte vet exakt vad felet ar. Berätta vad du hor, ser eller känner &mdash; vi diagnostiserar och forklarar allt på plats.</p></div></div>
-    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Kostar diagnostiken extra?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">En grundlaggande genomgang ingår alltid. Djupare diagnostik med maskin kan tillkomma &mdash; men vi informerär alltid om detta i forvag. Inga overraskningar.</p></div></div>
-    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Hur lang tid tar reparationen?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Mindre service: 30 min&ndash;2 timmar. Stora reparationer kan ta en hel dag eller mer. Vi ger alltid en uppskattad tid när du lämnär in bilen.</p></div></div>
-    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Har ni garanti på arbetet?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Ja, vi här garanti på allt arbete vi utfor. Om något inte fungerar efter att du hämtat bilen &mdash; ring oss direkt och vi ordnär det utan extra kostnad.</p></div></div>
-    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Vilka bilmärken jobbar ni med?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Vi ärbetar med alla personbilsmarken &mdash; Volvo, Saab, BMW, Mercedes, Audi, VW, Toyota, Ford, Hyundai, Kia och många fler.</p></div></div>
+    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Kostar diagnostiken extra?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">En grundlaggande genomgang ingår alltid. Djupare diagnostik med maskin kan tillkomma &mdash; men vi informerar alltid om detta i forvag. Inga överraskningar.</p></div></div>
+    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Hur lang tid tar reparationen?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Mindre service: 30 min&ndash;2 timmar. Stora reparationer kan ta en hel dag eller mer. Vi ger alltid en uppskattad tid när du lämnar in bilen.</p></div></div>
+    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Har ni garanti på arbetet?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Ja, vi har garanti på allt arbete vi utfor. Om något inte fungerar efter att du hämtat bilen &mdash; ring oss direkt och vi ordnar det utan extra kostnad.</p></div></div>
+    <div class="fi"><div class="fq2" onclick="toggleFaq(this)"><span class="fqt">Vilka bilmärken jobbar ni med?</span><span class="ficon">+</span></div><div class="fa"><p class="fat">Vi arbetar med alla personbilsmarken &mdash; Volvo, Saab, BMW, Mercedes, Audi, VW, Toyota, Ford, Hyundai, Kia och många fler.</p></div></div>
   </div>
 </section>
 
@@ -638,7 +618,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
   <div class="ftci"><span class="ftci-dot"></span>Mån&ndash;Fre: 08:00 &ndash; 17:00</div>
 </div>
 <div><h5 class="fth5">Tjänster</h5><ul class="ftls"><li><a href="#services">Stora Reparationer</a></li><li><a href="#services">Mindre Service</a></li><li><a href="#booking">Boka Online</a></li><li><a href="#urgent">Akut Hjälp</a></li></ul></div>
-<div><h5 class="fth5">Om Oss</h5><ul class="ftls"><li><a href="#testimonials">Kundrecensioner</a></li><li><a href="#faq">Vanliga Frågor</a></li><li><a href="#why-us">Varfor Oss</a></li></ul></div>
+<div><h5 class="fth5">Om Oss</h5><ul class="ftls"><li><a href="#testimonials">Kundrecensioner</a></li><li><a href="#faq">Vanliga Frågor</a></li><li><a href="#why-us">Varför Oss</a></li></ul></div>
 <div><h5 class="fth5">Kontakt</h5><ul class="ftls"><li><a href="tel:0790574975">Ring Oss Nu</a></li><li><a href="#hours">Öppettider</a></li><li><a href="#booking">Boka Tid</a></li></ul></div>
 ```
 
@@ -648,7 +628,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
     <div class="ftadm" onclick="openAdm()">Admin</div>
   </div>
 </footer>
-<div id="fcall"><div class="fctt">Ring Oss Direkt</div><a href="tel:0790574975" class="fcbtn" title="Ring Nu">Tel</a></div>
+<a href="tel:0790574975" class="fcbtn" title="Ring Nu">Tel</a></div>
 <button id="btop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Tillbaka upp">&#8593;</button>
 <div id="toastc"></div>
 <div class="lbox" id="lbox" onclick="closeLb()"><img id="lbimg" src="" alt=""></div>
@@ -679,7 +659,7 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
           <div class="admhdr"><h2>ALLA BOKNINGAR</h2><button class="btn ba" style="font-size:12px;padding:8px 16px" onclick="expCSV()">Exportera CSV</button></div>
           <div class="admf">
             <input type="date" id="fld" oninput="renderBk()">
-            <select id="flc" onchange="renderBk()"><option value="">Alla kategorier</option><option value="large">Stora reparationer</option><option value="småll">Mindre service</option></select>
+            <select id="flc" onchange="renderBk()"><option value="">Alla kategorier</option><option value="large">Stora reparationer</option><option value="small">Mindre service</option></select>
             <select id="fls2" onchange="renderBk()"><option value="">Alla statusar</option><option value="waiting">Väntar</option><option value="in_progress">Pågår</option><option value="finished">Klar</option><option value="contacted">Kontaktad</option></select>
             <button class="btn bg2" style="font-size:12px;padding:8px 14px" onclick="clrFltr()">Rensa</button>
           </div>
@@ -690,22 +670,6 @@ footer{position:relative;z-index:1;background:var(--s1);border-top:1px solid var
   </div>
 </div>
 <script>
-// LOADER + HERO REVEAL — JS-driven (not CSS delays, works on all devices)
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var loader = document.getElementById('loader');
-    loader.classList.add('out');
-    setTimeout(function() { if(loader.parentNode) loader.parentNode.removeChild(loader); }, 900);
-    // Reveal hero elements one by one
-    var hels = document.querySelectorAll('.hani');
-    hels.forEach(function(el, i) {
-      setTimeout(function() {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, i * 140);
-    });
-  }, 2500);
-});
 
 // SCROLL
 window.addEventListener(‘scroll’, function() {
@@ -811,9 +775,9 @@ function toast(msg,type,icon){type=type||‘info’;var c=document.getElementByI
 
 // DATABASE
 var DB={k:‘kb_v3’,load:function(){try{return JSON.parse(localStorage.getItem(this.k)||’[]’)}catch(e){return[]}},save:function(a){localStorage.setItem(this.k,JSON.stringify(a))},all:function(){return this.load()},add:function(b){var a=this.load();b.id=Date.now().toString(36).toUpperCase()+Math.random().toString(36).substr(2,3).toUpperCase();b.createdAt=new Date().toISOString();b.status=‘waiting’;b.estimatedHours=’’;a.push(b);this.save(a);return b;},upd:function(id,u){var a=this.load(),i=a.findIndex(function(b){return b.id===id;});if(i!==-1){a[i]=Object.assign({},a[i],u);this.save(a);return a[i];}}};
-var LIM={large:5,småll:10},TIMES=[‘08:00’,‘09:00’,‘10:00’,‘11:00’,‘12:00’,‘13:00’,‘14:00’,‘15:00’,‘16:00’];
+var LIM={large:5,small:10},TIMES=[‘08:00’,‘09:00’,‘10:00’,‘11:00’,‘12:00’,‘13:00’,‘14:00’,‘15:00’,‘16:00’];
 
-function updSlots(){var td=new Date().toISOString().split(‘T’)[0];var lc=DB.all().filter(function(b){return b.date===td&&b.category===‘large’;}).length;var sc=DB.all().filter(function(b){return b.date===td&&b.category===‘småll’;}).length;document.getElementById(‘lsl’).textContent=lc>=LIM.large?‘Fullbokat idag’:LIM.large-lc+’ platser kvar idag’;document.getElementById(‘ssl’).textContent=sc>=LIM.småll?‘Fullbokat idag’:LIM.småll-sc+’ platser kvar idag’;}
+function updSlots(){var td=new Date().toISOString().split(‘T’)[0];var lc=DB.all().filter(function(b){return b.date===td&&b.category===‘large’;}).length;var sc=DB.all().filter(function(b){return b.date===td&&b.category===‘small’;}).length;document.getElementById(‘lsl’).textContent=lc>=LIM.large?‘Fullbokat idag’:LIM.large-lc+’ platser kvar idag’;document.getElementById(‘ssl’).textContent=sc>=LIM.small?‘Fullbokat idag’:LIM.small-sc+’ platser kvar idag’;}
 updSlots();
 
 var S={step:1,cat:null,date:’’,time:’’,name:’’,phone:’’,email:’’,reg:’’,prob:’’,photos:[]};
@@ -849,9 +813,9 @@ function logoutAdm(){auth=false;closeAdm();}
 function chkLogin(){if(document.getElementById(‘apw’).value===APW){auth=true;document.getElementById(‘admlgn’).style.display=‘none’;document.getElementById(‘admdash’).style.display=‘flex’;document.getElementById(‘apw’).value=’’;renderOv();renderBk();}else{document.getElementById(‘lerr’).style.display=‘block’;document.getElementById(‘apw’).value=’’;setTimeout(function(){document.getElementById(‘lerr’).style.display=‘none’;},3000);}}
 function showSec(id){document.querySelectorAll(’.admsec’).forEach(function(s){s.classList.remove(‘act’);});document.getElementById(‘as’+id).classList.add(‘act’);document.querySelectorAll(’.admsi’).forEach(function(s,i){s.classList.toggle(‘act’,(id===‘ov’&&i===0)||(id===‘bk’&&i===1));});if(id===‘ov’)renderOv();else renderBk();}
 var SL={waiting:‘Väntar’,in_progress:‘Pågår’,finished:‘Klar’,contacted:‘Kontaktad’};
-function renderOv(){var all=DB.all(),td=new Date().toISOString().split(‘T’)[0];document.getElementById(‘ovgs’).innerHTML=[[‘Totalt’,all.length,‘var(–acc)’],[‘Idag’,all.filter(function(b){return b.date===td;}).length,’#60a5fa’],[‘Väntar’,all.filter(function(b){return b.status===‘waiting’;}).length,‘var(–ylw)’],[‘Pågår’,all.filter(function(b){return b.status===‘in_progress’;}).length,’#60a5fa’],[‘Klara’,all.filter(function(b){return b.status===‘finished’;}).length,‘var(–grn)’]].map(function(x){return’<div class="ovc"><div class="ovn" style="color:'+x[2]+'">’+x[1]+’</div><div class="ovl">’+x[0]+’</div></div>’;}).join(’’);var rc=all.slice(-6).reverse();document.getElementById(‘ovrc’).innerHTML=rc.length?renderTbl(rc):’<div class="empty">Inga bokningår an.</div>’;}
+function renderOv(){var all=DB.all(),td=new Date().toISOString().split(‘T’)[0];document.getElementById(‘ovgs’).innerHTML=[[‘Totalt’,all.length,‘var(–acc)’],[‘Idag’,all.filter(function(b){return b.date===td;}).length,’#60a5fa’],[‘Väntar’,all.filter(function(b){return b.status===‘waiting’;}).length,‘var(–ylw)’],[‘Pågår’,all.filter(function(b){return b.status===‘in_progress’;}).length,’#60a5fa’],[‘Klara’,all.filter(function(b){return b.status===‘finished’;}).length,‘var(–grn)’]].map(function(x){return’<div class="ovc"><div class="ovn" style="color:'+x[2]+'">’+x[1]+’</div><div class="ovl">’+x[0]+’</div></div>’;}).join(’’);var rc=all.slice(-6).reverse();document.getElementById(‘ovrc’).innerHTML=rc.length?renderTbl(rc):’<div class="empty">Inga bokningar an.</div>’;}
 function clrFltr(){[‘fld’,‘flc’,‘fls2’].forEach(function(id){document.getElementById(id).value=’’;});renderBk();}
-function renderBk(){var all=DB.all(),fd=document.getElementById(‘fld’).value,fc=document.getElementById(‘flc’).value,fs=document.getElementById(‘fls2’).value;if(fd)all=all.filter(function(b){return b.date===fd;});if(fc)all=all.filter(function(b){return b.category===fc;});if(fs)all=all.filter(function(b){return b.status===fs;});all.sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt);});document.getElementById(‘bktbl’).innerHTML=all.length?renderTbl(all,true):’<div class="empty">Inga bokningår matchar filtret.</div>’;}
+function renderBk(){var all=DB.all(),fd=document.getElementById(‘fld’).value,fc=document.getElementById(‘flc’).value,fs=document.getElementById(‘fls2’).value;if(fd)all=all.filter(function(b){return b.date===fd;});if(fc)all=all.filter(function(b){return b.category===fc;});if(fs)all=all.filter(function(b){return b.status===fs;});all.sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt);});document.getElementById(‘bktbl’).innerHTML=all.length?renderTbl(all,true):’<div class="empty">Inga bokningar matchar filtret.</div>’;}
 function renderTbl(bks,edit){edit=edit||false;return’<table class="btbl"><thead><tr><th>Ref</th><th>Datum</th><th>Typ</th><th>Kund</th><th>Regnr</th><th>Problem</th><th>Status</th><th>Tim</th><th>Bilder</th></tr></thead><tbody>’+bks.map(function(b){var stCls=b.status===‘waiting’?‘sw’:b.status===‘in_progress’?‘sip’:b.status===‘finished’?‘sf’:‘sc3’;return’<tr><td style="color:var(--txt3);font-size:11px">#’+b.id+’</td><td>’+b.date+’<br><span style="color:var(--txt3);font-size:11px">’+b.time+’</span></td><td style="font-family:var(--fc);font-size:12px;font-weight:700;color:'+(b.category==='large'?'var(--acc)':'#60a5fa')+'">’+(b.category===‘large’?‘Stor’:‘Liten’)+’</td><td>’+b.name+’<br><a href="tel:'+b.phone+'" style="color:var(--acc);font-size:11px">’+b.phone+’</a></td><td><span class="rg">’+b.reg+’</span></td><td style="max-width:180px;font-size:12px">’+((b.problem||’’).substring(0,70))+((b.problem||’’).length>70?’…’:’’)+’</td><td>’+(edit?’<select class="adsel" onchange="DB.upd(\''+b.id+'\',{status:this.value})">’+Object.keys(SL).map(function(v){return’<option value=”’+v+’”’+(b.status===v?’ selected’:’’)+’>’+SL[v]+’</option>’;}).join(’’)+’</select>’:’<span class="sbdg2 '+stCls+'">’+SL[b.status]+’</span>’)+’</td><td>’+(edit?’<input class="hin" type="number" min=".5" max="48" step=".5" placeholder="h" value="'+(b.estimatedHours||'')+'" onchange="DB.upd(\''+b.id+'\',{estimatedHours:this.value})">’:b.estimatedHours?b.estimatedHours+‘h’:’–’)+’</td><td><div class="athgrd">’+((b.photos||[]).map(function(p){return’<img class="ath" src="'+p+'" onclick="openLb(\''+p+'\')">’;}).join(’’)||’–’)+’</div></td></tr>’;}).join(’’)+’</tbody></table>’;}
 function openLb(src){document.getElementById(‘lbimg’).src=src;document.getElementById(‘lbox’).classList.add(‘op’);}
 function closeLb(){document.getElementById(‘lbox’).classList.remove(‘op’);}
@@ -859,6 +823,17 @@ function expCSV(){var all=DB.all(),h=‘ID,Datum,Tid,Kategori,Namn,Telefon,E-pos
 // SMOOTH SCROLL
 document.querySelectorAll(‘a[href^=”#”]’).forEach(function(a){a.addEventListener(‘click’,function(e){var t=document.querySelector(a.getAttribute(‘href’));if(t){e.preventDefault();t.scrollIntoView({behavior:‘smooth’,block:‘start’});}});});
 if(location.search.indexOf(‘admin=1’)!==-1)openAdm();
+
+// Hero reveal on page load
+window.addEventListener(‘load’, function() {
+document.querySelectorAll(’.hani’).forEach(function(el, i) {
+el.style.transition = ‘opacity .6s ease, transform .6s ease’;
+setTimeout(function() {
+el.style.opacity = ‘1’;
+el.style.transform = ‘translateY(0)’;
+}, i * 100);
+});
+});
 </script>
 
 </body>
